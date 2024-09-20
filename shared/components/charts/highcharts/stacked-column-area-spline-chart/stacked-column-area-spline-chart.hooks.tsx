@@ -120,11 +120,12 @@ export function useStackedColumnAreaSplineChartOptions({
         positioner(labelWidth, labelHeight, point) {
           const chart = this.chart;
           const x = point.plotX + chart.plotLeft - labelWidth / 2; // Center the tooltip horizontally
-          let y = point.plotY - labelHeight;
+          const y = point.plotY - labelHeight;
 
-          if (point.negative) {
-            y = point.plotY - point.h - labelHeight;
-          }
+          // TODO @hayden
+          // if (point.negative) {
+          //   y = point.plotY - point.h - labelHeight;
+          // }
 
           return { x, y };
         },
