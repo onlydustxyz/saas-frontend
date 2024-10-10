@@ -1,5 +1,4 @@
-import { Accordion, AccordionItem } from "@nextui-org/react";
-import { ChevronLeft, CircleDollarSign, CircleDot, Clock } from "lucide-react";
+import { CircleDollarSign, Clock } from "lucide-react";
 import { ElementType } from "react";
 
 import { bootstrap } from "@/core/bootstrap";
@@ -13,6 +12,7 @@ import { CardContributionKanbanNextUiVariants } from "@/design-system/molecules/
 import { CardContributionKanbanPort } from "@/design-system/molecules/cards/card-contribution-kanban/card-contribution-kanban.types";
 import { ContributionBadge } from "@/design-system/molecules/contribution-badge";
 import { ContributionInline } from "@/design-system/molecules/contribution-inline";
+import { TimelineContribution } from "@/design-system/molecules/timeline-contribution";
 
 import { LabelPopover } from "@/shared/components/label-popover/label-popover";
 import { UserGroup } from "@/shared/features/user/user-group/user-group";
@@ -125,62 +125,26 @@ export function CardContributionKanbanNextUiAdapter<C extends ElementType = "div
         );
       }
 
-      if (linkedIssues) {
-        return (
-          <Accordion showDivider={false} className={"p-0"}>
-            <AccordionItem
-              startContent={
-                <Badge
-                  color={"brand"}
-                  size={"xxs"}
-                  shape={"squared"}
-                  icon={{ component: CircleDot, size: "xs" }}
-                  iconOnly
-                />
-              }
-              title={
-                <Typo
-                  size={"xs"}
-                  color={"secondary"}
-                  translate={{
-                    token: "cards:cardContributionKanban.linkedIssues",
-                    values: { count: linkedIssuesCount },
-                  }}
-                />
-              }
-              indicator={
-                <Icon component={ChevronLeft} classNames={{ base: "text-components-badge-brand-fg" }} size={"md"} />
-              }
-              classNames={{
-                base: "px-0",
-                trigger: "p-0 gap-xs",
-                title: "flex flex-col leading-none",
-                content: "py-0",
-              }}
-            >
-              <div className="relative pl-3xl pt-lg">
-                <div className="absolute -top-1 bottom-0 left-2.5 w-px bg-components-badge-brand-border" />
-                <ul className={"grid gap-sm"}>
-                  {linkedIssues.map(issue => {
-                    return (
-                      <ContributionInline
-                        key={issue.githubNumber}
-                        contributionBadgeProps={{
-                          type: issue.type,
-                          githubStatus: issue.githubStatus,
-                          number: issue.githubNumber,
-                        }}
-                        githubTitle={issue.githubTitle}
-                        truncate
-                      />
-                    );
-                  })}
-                </ul>
-              </div>
-            </AccordionItem>
-          </Accordion>
-        );
-      }
+      return (
+        <TimelineContribution
+          titleProps={{
+            translate: {
+              token: "cards:cardContributionKanban.linkedIssues",
+              values: { count: linkedIssuesCount },
+            },
+          }}
+          contributions={linkedIssues.map(issue => {
+            return {
+              githubTitle: issue.githubTitle,
+              contributionBadgeProps: {
+                type: issue.type,
+                githubStatus: issue.githubStatus,
+                number: issue.githubNumber,
+              },
+            };
+          })}
+        />
+      );
     }
 
     return null;
