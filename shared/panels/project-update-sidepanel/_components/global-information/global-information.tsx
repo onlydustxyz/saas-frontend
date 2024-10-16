@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
+import { DatePicker } from "@/design-system/atoms/date-picker";
 import { FieldContainer } from "@/design-system/atoms/field-container";
 import { Input } from "@/design-system/atoms/input";
 import { Switch } from "@/design-system/atoms/switch";
@@ -156,6 +157,7 @@ export function GlobalInformation({ project }: GlobalInformationProps) {
               )}
             />
             <Typo size={"xs"} translate={{ token: "panels:projectUpdate.globalInformation.rewardsSettings.since" }} />
+            <DatePicker value={new Date()} onChange={() => {}} />
           </div>
         </FieldContainer>
         <FieldContainer
