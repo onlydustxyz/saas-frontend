@@ -29,4 +29,6 @@ export class ProjectClientAdapterMock implements ProjectStoragePort {
   getProjectContributorLabels = mockHttpStorageResponse<ProjectStoragePort["getProjectContributorLabels"]>;
 
   updateProjectContributorLabels = mockHttpStorageResponse<ProjectStoragePort["updateProjectContributorLabels"]>;
+
+  unassignProjectContribution = mockHttpStorageResponse<ProjectStoragePort["unassignProjectContribution"]>;
 }

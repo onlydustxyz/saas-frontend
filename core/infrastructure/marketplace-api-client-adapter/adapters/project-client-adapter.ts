@@ -14,10 +14,10 @@ import {
   GetProjectFinancialDetailsBySlugResponse,
   GetProjectStatsResponse,
   GetProjectTransactionsResponse,
+  GetProjectsResponse,
   UpdateProjectContributorLabelsBody,
   UploadProjectLogoResponse,
 } from "@/core/domain/project/project-contract.types";
-import { GetProjectsResponse } from "@/core/domain/project/project-contract.types";
 import { HttpClient } from "@/core/infrastructure/marketplace-api-client-adapter/http/http-client/http-client";
 import { FirstParameter } from "@/core/kernel/types";
 
@@ -37,6 +37,7 @@ export class ProjectClientAdapter implements ProjectStoragePort {
     getProjectBySlug: "projects/slug/:slug",
     getProjectContributorLabels: "projects/:projectIdOrSlug/contributor-labels",
     updateProjectContributorLabels: "projects/:projectId/contributors",
+    unassignProjectContribution: "projects/:projectId/contributions/:contributionId/unassign",
   } as const;
 
   getProjectById = ({ queryParams, pathParams }: FirstParameter<ProjectStoragePort["getProjectById"]>) => {
@@ -312,6 +313,25 @@ export class ProjectClientAdapter implements ProjectStoragePort {
         tag,
         pathParams,
         body: JSON.stringify(body),
+      });
+
+    return {
+      request,
+      tag,
+    };
+  };
+
+  unassignProjectContribution = ({ pathParams }: FirstParameter<ProjectStoragePort["unassignProjectContribution"]>) => {
+    const path = this.routes["unassignProjectContribution"];
+    const method = "POST";
+    const tag = HttpClient.buildTag({ path, pathParams });
+
+    const request = async () =>
+      this.client.request<never>({
+        path,
+        method,
+        tag,
+        pathParams,
       });
 
     return {

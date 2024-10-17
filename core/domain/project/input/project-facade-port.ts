@@ -18,6 +18,8 @@ import {
   GetProjectTransactionsPortResponse,
   GetProjectsPortParams,
   GetProjectsPortResponse,
+  UnassignProjectContributionPortParams,
+  UnassignProjectContributionPortResponse,
   UpdateProjectContributorLabelsPortParams,
   UpdateProjectContributorLabelsPortResponse,
   UploadProjectLogoPortParams,
@@ -43,4 +45,5 @@ export interface ProjectFacadePort {
   updateProjectContributorLabels(
     p: UpdateProjectContributorLabelsPortParams
   ): UpdateProjectContributorLabelsPortResponse;
+  unassignProjectContribution(p: UnassignProjectContributionPortParams): UnassignProjectContributionPortResponse;
 }

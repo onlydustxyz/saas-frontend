@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { ContributionReactQueryAdapter } from "@/core/application/react-query-adapter/contribution";
+import { ProjectReactQueryAdapter } from "@/core/application/react-query-adapter/project";
 
 import { Button } from "@/design-system/atoms/button/variants/button-default";
 
@@ -9,15 +9,32 @@ import { TranslateProps } from "@/shared/translation/components/translate/transl
 
 import { AssigneesProps } from "./assignees.types";
 
-export function Assignees({ contributors, contributionId, showRemove, type }: AssigneesProps) {
-  const { mutate, isPending } = ContributionReactQueryAdapter.client.usePatchContribution({
-    pathParams: { contributionId },
+export function Assignees({
+  contributors,
+  projectId = "",
+  contributionId,
+  contributionGithubId,
+  showRemove,
+  type,
+}: AssigneesProps) {
+  const { mutate, isPending } = ProjectReactQueryAdapter.client.useUnassignProjectContribution({
+    pathParams: {
+      projectId: "",
+      contributionId,
+    },
+    invalidateTagParams: {
+      contribution: {
+        pathParams: {
+          contributionGithubId: 0,
+        },
+      },
+    },
   });
 
   function removeContributorButton(githubUserId: number) {
-    if (!showRemove) {
-      return null;
-    }
+    // if (!showRemove) {
+    //   return null;
+    // }
 
     function onClick() {
       mutate({

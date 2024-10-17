@@ -8,6 +8,7 @@ import { LinkedIssues } from "@/shared/panels/contribution-sidepanel/_features/l
 import { Timeline } from "@/shared/panels/contribution-sidepanel/_features/timeline/timeline";
 import { ContributionsPanelData } from "@/shared/panels/contribution-sidepanel/contributions-sidepanel.types";
 
+import { useRewardFlow } from "../_flows/reward-flow/reward-flow.context";
 import { Helper } from "./_features/helper/helper";
 import { RewardedCardWrapper } from "./_features/rewarded-card-wrapper/rewarded-card-wrapper";
 
@@ -24,6 +25,8 @@ interface UseContributionBlocks {
 }
 
 export function useContributionBlocks({ contribution, helperState }: UseContributionBlocks) {
+  const { projectId } = useRewardFlow();
+
   if (!contribution) {
     return null;
   }
@@ -49,7 +52,9 @@ export function useContributionBlocks({ contribution, helperState }: UseContribu
         <Assignees
           showRemove={true}
           contributors={contribution.assignees}
+          projectId={projectId}
           contributionId={contribution.id}
+          contributionGithubId={contribution.githubId}
           type={"assignees"}
         />
         <Timeline id={contribution.id} />
@@ -67,7 +72,13 @@ export function useContributionBlocks({ contribution, helperState }: UseContribu
         />
         <IssueOverview contribution={contribution} />
         <LinkedIssues issues={contribution.linkedIssues} id={contribution.id} />
-        <Assignees contributionId={contribution.id} contributors={contribution.contributors} type={"contributors"} />
+        <Assignees
+          projectId={projectId}
+          contributionId={contribution.id}
+          contributionGithubId={contribution.githubId}
+          contributors={contribution.contributors}
+          type={"contributors"}
+        />
         <Timeline id={contribution.id} />
       </>
     );
@@ -78,7 +89,13 @@ export function useContributionBlocks({ contribution, helperState }: UseContribu
       <>
         <IssueOverview contribution={contribution} showLinkedIssues={true} />
         <RewardedCardWrapper contribution={contribution} />
-        <Assignees contributionId={contribution.id} contributors={contribution.contributors} type={"contributors"} />
+        <Assignees
+          projectId={projectId}
+          contributionId={contribution.id}
+          contributionGithubId={contribution.githubId}
+          contributors={contribution.contributors}
+          type={"contributors"}
+        />
         <Timeline id={contribution.id} />
       </>
     );
