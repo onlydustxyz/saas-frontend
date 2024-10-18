@@ -32,7 +32,7 @@ function Content() {
   const selectedContributions = getSelectedContributions(selectedGithubUserId);
   const { amount, budget } = getAmount(selectedGithubUserId);
   const amountNumber = Number(amount);
-  const isRewardingDisabled = isCreatingRewards || amountNumber <= 0 || (budget && amountNumber > budget.amount);
+  const isRewardingDisabled = amountNumber <= 0 || (budget && amountNumber > budget.amount);
   const contributionStoragePort = bootstrap.getContributionStoragePortForClient();
 
   // TODO replace with /contributions with contribution ids once implemented
@@ -133,6 +133,7 @@ function Content() {
             token: "common:reward",
           }}
           isDisabled={isRewardingDisabled}
+          isLoading={isCreatingRewards}
           onClick={() => handleCreateRewards()}
         />
       </SidePanelFooter>

@@ -47,7 +47,7 @@ function Content() {
           translate={{
             token: "common:reward",
           }}
-          isDisabled={isCreatingRewards}
+          isLoading={isCreatingRewards}
           onClick={() => handleCreateRewards()}
         />
       </SidePanelFooter>
