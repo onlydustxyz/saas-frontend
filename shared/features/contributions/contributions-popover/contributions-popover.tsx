@@ -22,8 +22,8 @@ export function ContributionsPopover({
     ContributionReactQueryAdapter.client.useGetContributions({
       queryParams: {
         projectIds: [projectId],
-        // TODO activate this filter once backend ready
-        // rewardId: [rewardId],
+        rewardId: [rewardId],
+        hasBeenRewarded: true,
       },
       options: {
         enabled: Boolean(isPopoverOpen && rewardId && projectId),
@@ -59,7 +59,7 @@ export function ContributionsPopover({
         {() => (
           <div>
             <ScrollView>
-              <div className={"flex flex-col gap-3"}>
+              <div className={"flex max-h-lg w-lg flex-col gap-3"}>
                 {contributions?.map(contribution => (
                   <CardContributionKanban contribution={contribution} key={contribution.id} showActions={false} />
                 ))}
