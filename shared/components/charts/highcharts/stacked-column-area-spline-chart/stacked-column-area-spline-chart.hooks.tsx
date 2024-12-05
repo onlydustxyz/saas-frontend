@@ -15,6 +15,7 @@ import {
 import {
   HighchartsOptionsParams,
   HighchartsOptionsReturn,
+  HighchartsSerieData,
   handleChartClickParams,
 } from "@/shared/components/charts/highcharts/highcharts.types";
 import { getPlotPeriod } from "@/shared/components/charts/highcharts/highcharts.utils";
@@ -195,7 +196,7 @@ export function useStackedColumnAreaSplineChartOptions({
       series: series.map<SeriesColumnOptions | SeriesAreasplineOptions>((s, index) => ({
         type: s.type ?? "column",
         name: s.name,
-        data: s.data,
+        data: s.data as HighchartsSerieData,
         color: s.type === "areaspline" ? "#C434FF" : colors[index % colors.length],
         yAxis: s.type === "areaspline" ? 1 : undefined,
         fillColor: "transparent",

@@ -1,4 +1,4 @@
-import { Options } from "highcharts";
+import { Options, SeriesSankeyNodesOptionsObject, SeriesSankeyPointOptionsObject } from "highcharts";
 
 import { DateRangeType, TimeGroupingType } from "@/core/kernel/date/date-facade-port";
 
@@ -40,8 +40,9 @@ export interface HighchartsOptionsParams {
   title?: string;
   categories?: string[];
   series: Array<{
-    name: string;
-    data: HighchartsSerieData;
+    name?: string;
+    data: HighchartsSerieData | SeriesSankeyPointOptionsObject[] | (string | number)[][];
+    nodes?: SeriesSankeyNodesOptionsObject[];
     type?: "column" | "areaspline";
     lineWidth?: number;
     marker?: Marker;
@@ -49,6 +50,7 @@ export interface HighchartsOptionsParams {
     yAxis?: number;
     color?: string;
   }>;
+
   xAxisTitle?: string;
   colors?: string[];
   legend?: Options["legend"];
@@ -56,6 +58,7 @@ export interface HighchartsOptionsParams {
   min?: number;
   height?: number;
   yAxis?: YAxis;
+  onAction?: (dataSourceId: string) => void;
 }
 
 export interface HighchartsOptionsReturn {
