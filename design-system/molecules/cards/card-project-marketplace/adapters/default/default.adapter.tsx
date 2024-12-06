@@ -62,7 +62,7 @@ export function CardProjectMarketplaceDefaultAdapter<C extends ElementType = "di
   name,
   contributorCount,
   starCount,
-  forkCount,
+  pullRequestCount,
   issueCount,
   goodFirstIssueCount,
   description,
@@ -130,7 +130,7 @@ export function CardProjectMarketplaceDefaultAdapter<C extends ElementType = "di
         <div className="flex items-center gap-md">
           <Metric icon={UserRound} count={contributorCount} />
           <Metric icon={Star} count={starCount} />
-          <Metric icon={GitFork} count={forkCount} />
+          <Metric icon={GitFork} count={pullRequestCount} />
           <Badge
             color="grey"
             shape="rounded"
@@ -154,7 +154,7 @@ export function CardProjectMarketplaceDefaultAdapter<C extends ElementType = "di
           </Typo>
         </div>
 
-        {categories ? (
+        {categories?.length ? (
           <ul className="flex flex-wrap gap-xs">
             {categories.map(category => (
               <li key={category.name}>
@@ -166,34 +166,37 @@ export function CardProjectMarketplaceDefaultAdapter<C extends ElementType = "di
           </ul>
         ) : null}
 
-        <div className="flex flex-col gap-2md pt-md">
-          <div className="flex h-1.5 w-full overflow-hidden rounded-full">
-            {languages.map(language => (
-              <div
-                key={language.id}
-                className="h-full"
-                style={{
-                  width: `${language.percentage}%`,
-                  backgroundColor: getLanguageColor(language.id),
-                }}
-              >
-                <Tooltip
-                  content={<Language {...language} nameClassNames="text-inherit" />}
-                  classNames={{ wrapper: "size-full" }}
-                />
-              </div>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap gap-lg">
-            {languages
-              .sort((a, b) => b.percentage - a.percentage)
-              .slice(0, 3)
-              .map(language => (
-                <Language key={language.id} {...language} />
+        {/* TODO: handle overflowing languages */}
+        {languages?.length ? (
+          <div className="flex flex-col gap-2md pt-md">
+            <div className="flex h-1.5 w-full overflow-hidden rounded-full">
+              {languages.map(language => (
+                <div
+                  key={language.id}
+                  className="h-full"
+                  style={{
+                    width: `${language.percentage}%`,
+                    backgroundColor: getLanguageColor(language.id),
+                  }}
+                >
+                  <Tooltip
+                    content={<Language {...language} nameClassNames="text-inherit" />}
+                    classNames={{ wrapper: "size-full" }}
+                  />
+                </div>
               ))}
+            </div>
+
+            <div className="flex max-w-full gap-lg">
+              {languages
+                .sort((a, b) => b.percentage - a.percentage)
+                .slice(0, 3)
+                .map(language => (
+                  <Language key={language.id} {...language} nameClassNames="truncate" />
+                ))}
+            </div>
           </div>
-        </div>
+        ) : null}
       </div>
     </Paper>
   );
