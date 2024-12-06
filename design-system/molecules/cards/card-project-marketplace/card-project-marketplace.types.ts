@@ -14,7 +14,7 @@ export interface CardProjectMarketplacePort<C extends ElementType> {
   name: string;
   contributorCount: number;
   starCount: number;
-  forkCount: number;
+  pullRequestCount: number;
   issueCount: number;
   goodFirstIssueCount: number;
   description?: string;
@@ -22,7 +22,7 @@ export interface CardProjectMarketplacePort<C extends ElementType> {
     id: string;
     name: string;
   }[];
-  languages: {
+  languages?: {
     id: string;
     name: string;
     percentage: number;

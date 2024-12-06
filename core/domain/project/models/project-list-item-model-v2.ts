@@ -5,7 +5,7 @@ import { ProjectCategory, ProjectCategoryInterface } from "../../project-categor
 export type ProjectListItemResponseV2 = components["schemas"]["ProjectShortResponseV2"];
 
 export interface ProjectListItemInterfaceV2 extends ProjectListItemResponseV2 {
-  categories?: ProjectCategoryInterface[];
+  categories: ProjectCategoryInterface[];
 }
 
 export class ProjectListItemV2 implements ProjectListItemInterfaceV2 {
@@ -18,8 +18,8 @@ export class ProjectListItemV2 implements ProjectListItemInterfaceV2 {
   pullRequestCount!: ProjectListItemResponseV2["pullRequestCount"];
   issueCount!: ProjectListItemResponseV2["issueCount"];
   goodFirstIssueCount!: ProjectListItemResponseV2["goodFirstIssueCount"];
-  categories?: ProjectCategoryInterface[];
-  languages?: ProjectListItemResponseV2["languages"];
+  categories!: ProjectCategoryInterface[];
+  languages!: ProjectListItemResponseV2["languages"];
 
   constructor(props: ProjectListItemResponseV2) {
     Object.assign(this, props);
