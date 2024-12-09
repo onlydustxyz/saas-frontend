@@ -12,6 +12,12 @@ import { Tabs } from "@/design-system/molecules/tabs/tabs";
 
 import { ErrorState } from "@/shared/components/error-state/error-state";
 
+import { BrowseProjectsFilters } from "../browse-projects-filters/browse-projects-filters";
+import {
+  BrowseProjectsContextProvider,
+  useBrowseProjectsContext,
+} from "../browse-projects-filters/browse-projects-filters.context";
+
 /* TODO @hayden define the tabs */
 const tabs = [
   {
@@ -44,9 +50,18 @@ const tabs = [
   },
 ];
 
-export function BrowseProjects() {
+function Safe() {
+  const {
+    filters: { values: filters },
+  } = useBrowseProjectsContext();
+
   const { data, isLoading, isError } = ProjectReactQueryAdapter.client.useGetProjectsV2({
-    queryParams: {},
+    queryParams: {
+      // TODO @hayden convert slugs to ids
+      languageSlugs: filters.languageIds,
+      ecosystemSlugs: filters.ecosystemIds,
+      categorySlugs: filters.categories,
+    },
   });
 
   const renderProjects = useCallback(() => {
@@ -89,11 +104,21 @@ export function BrowseProjects() {
     <div className="flex flex-col gap-3xl">
       <header className="flex justify-between gap-3xl">
         <Tabs variant={"flat"} searchParams={"data-view"} tabs={tabs} selectedId={"issues-available"} />
+
+        <BrowseProjectsFilters />
       </header>
 
       <div className="grid grid-cols-1 gap-3xl mobile:grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-4">
         {renderProjects()}
       </div>
     </div>
+  );
+}
+
+export function BrowseProjects() {
+  return (
+    <BrowseProjectsContextProvider>
+      <Safe />
+    </BrowseProjectsContextProvider>
   );
 }
