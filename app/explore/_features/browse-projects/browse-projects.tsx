@@ -8,19 +8,50 @@ import {
   CardProjectMarketplace,
   CardProjectMarketplaceLoading,
 } from "@/design-system/molecules/cards/card-project-marketplace";
+import { Tabs } from "@/design-system/molecules/tabs/tabs";
 
 import { ErrorState } from "@/shared/components/error-state/error-state";
 
-export function TrendingProjects() {
+/* TODO @hayden define the tabs */
+const tabs = [
+  {
+    id: "issues-available",
+    children: "Issues available",
+  },
+  {
+    id: "hot-community",
+    children: "Hot community",
+  },
+  {
+    id: "newbies-welcome",
+    children: "Newbies welcome",
+  },
+  {
+    id: "big-whale",
+    children: "Big whale",
+  },
+  {
+    id: "likely-to-reward",
+    children: "Likely to reward",
+  },
+  {
+    id: "work-in-progress",
+    children: "Work in progress",
+  },
+  {
+    id: "fast-and-furious",
+    children: "Fast and furious",
+  },
+];
+
+export function BrowseProjects() {
   const { data, isLoading, isError } = ProjectReactQueryAdapter.client.useGetProjectsV2({
-    queryParams: {
-      pageSize: 4,
-    },
+    queryParams: {},
   });
 
   const renderProjects = useCallback(() => {
     if (isLoading) {
-      return Array.from({ length: 4 }).map((_, index) => <CardProjectMarketplaceLoading key={index} />);
+      return Array.from({ length: 8 }).map((_, index) => <CardProjectMarketplaceLoading key={index} />);
     }
 
     if (isError) {
@@ -54,5 +85,15 @@ export function TrendingProjects() {
     );
   }, [data, isError, isLoading]);
 
-  return <div className="grid grid-cols-1 gap-3xl mobile:grid-cols-2 laptop:grid-cols-4">{renderProjects()}</div>;
+  return (
+    <div className="flex flex-col gap-3xl">
+      <header className="flex justify-between gap-3xl">
+        <Tabs variant={"flat"} searchParams={"data-view"} tabs={tabs} selectedId={"issues-available"} />
+      </header>
+
+      <div className="grid grid-cols-1 gap-3xl mobile:grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-4">
+        {renderProjects()}
+      </div>
+    </div>
+  );
 }

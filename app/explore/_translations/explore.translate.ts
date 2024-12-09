@@ -25,5 +25,9 @@ export const enExploreTranslation = {
         description: "There are no contributors to display",
       },
     },
+    browse: {
+      title: "Browse projects",
+      description: "Browse projects by category",
+    },
   },
 };
