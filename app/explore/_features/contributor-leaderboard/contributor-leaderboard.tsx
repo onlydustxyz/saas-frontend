@@ -54,7 +54,7 @@ export function ContributorLeaderboard() {
               description={{ children: contributor.contributor.bio || "" }}
             />
             <Badge
-              classNames={{ base: "w-fit" }}
+              classNames={{ base: "w-fit shrink-0" }}
               translate={{
                 token: "common:count.prCount",
                 count: contributor.prCount.value,

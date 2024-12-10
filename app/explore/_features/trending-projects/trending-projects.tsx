@@ -54,5 +54,5 @@ export function TrendingProjects() {
     );
   }, [data, isError, isLoading]);
 
-  return <div className="grid grid-cols-1 gap-3xl mobile:grid-cols-2 laptop:grid-cols-4">{renderProjects()}</div>;
+  return <div className="grid gap-xl mobile:grid-cols-2 laptop:grid-cols-4 laptop:gap-3xl">{renderProjects()}</div>;
 }

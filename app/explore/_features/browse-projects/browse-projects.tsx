@@ -118,7 +118,7 @@ function Safe() {
         <BrowseProjectsFilters />
       </header>
 
-      <div className="grid grid-cols-1 gap-3xl mobile:grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-4">
+      <div className="grid gap-xl mobile:grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-4 laptop:gap-3xl">
         {renderProjects()}
       </div>
     </div>

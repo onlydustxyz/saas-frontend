@@ -39,7 +39,7 @@ export default function ExplorePage() {
             <ProjectCategoryList />
           </div>
 
-          <div className="grid grid-cols-2 gap-4xl">
+          <div className="grid gap-xl tablet:grid-cols-2 laptop:gap-3xl">
             <ContributorLeaderboard />
             <ProjectLeaderboard />
           </div>
