@@ -110,5 +110,6 @@
     "issues": "{{count}} issues",
     "goodFirstIssues": "{{count}} Good First Issues",
     "prCount": "{{count}} PRs"
-  }
+  },
+  "all": "All"
 }

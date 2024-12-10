@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { ReactNode, useCallback } from "react";
 
 import {
   BrowseProjectsContextProvider,
@@ -17,44 +17,25 @@ import { Tabs } from "@/design-system/molecules/tabs/tabs";
 
 import { EmptyStateLite } from "@/shared/components/empty-state-lite/empty-state-lite";
 import { ErrorState } from "@/shared/components/error-state/error-state";
+import { PROJECT_TAG, PROJECT_TAG_METADATA } from "@/shared/constants/project-tags";
+import { Translate } from "@/shared/translation/components/translate/translate";
 
 import { BrowseProjectsFilters } from "../browse-projects-filters/browse-projects-filters";
 
-/* TODO @hayden define the tabs */
-const tabs = [
-  {
-    id: "issues-available",
-    children: "Issues available",
-  },
-  {
-    id: "hot-community",
-    children: "Hot community",
-  },
-  {
-    id: "newbies-welcome",
-    children: "Newbies welcome",
-  },
-  {
-    id: "big-whale",
-    children: "Big whale",
-  },
-  {
-    id: "likely-to-reward",
-    children: "Likely to reward",
-  },
-  {
-    id: "work-in-progress",
-    children: "Work in progress",
-  },
-  {
-    id: "fast-and-furious",
-    children: "Fast and furious",
-  },
-];
+const tabs: { id: PROJECT_TAG | "ALL"; children: ReactNode }[] = Object.values(PROJECT_TAG).map(tag => ({
+  id: tag,
+  children: <Translate token={PROJECT_TAG_METADATA[tag].label} />,
+}));
+
+const ALL_TAB = {
+  id: "ALL",
+  children: <Translate token={"common:all"} />,
+} as const;
+
+tabs.unshift(ALL_TAB);
 
 function Safe() {
-  const { queryParams } = useBrowseProjectsContext();
-  const [selectedTab, setSelectedTab] = useState("issues-available");
+  const { filters, queryParams } = useBrowseProjectsContext();
 
   const { data, isLoading, isError } = ProjectReactQueryAdapter.client.useGetProjectsV2({
     queryParams,
@@ -83,6 +64,8 @@ function Safe() {
       );
     }
 
+    // TODO @hayden show more projects
+
     return projects.map(project => (
       <CardProjectMarketplace
         key={project.id}
@@ -103,13 +86,13 @@ function Safe() {
   return (
     <div className="flex flex-col gap-3xl">
       <header className="flex flex-row items-start justify-between gap-xl">
-        {/* TODO @hayden handle tabs */}
         <Tabs
           variant={"flat"}
-          searchParams={"data-view"}
           tabs={tabs}
-          selectedId={selectedTab}
-          onTabClick={setSelectedTab}
+          selectedId={filters.values.tags[0] ?? ALL_TAB.id}
+          onTabClick={id => {
+            filters.set({ tags: id === ALL_TAB.id ? [] : [id as PROJECT_TAG] });
+          }}
           classNames={{
             base: "flex-wrap",
           }}

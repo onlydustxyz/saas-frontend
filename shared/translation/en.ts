@@ -23,6 +23,7 @@ import { enPrimaryNavigationTranslation } from "@/shared/features/navigation/pri
 import { enModalsTranslation } from "@/shared/modals/_translations/modals.translate";
 import { enPanelsTranslation } from "@/shared/panels/_translations/panels.translate";
 import common from "@/shared/translation/translations/common/common.en.json";
+import enProjectTagsTranslation from "@/shared/translation/translations/projects/project-tags.en.json";
 import error from "@/shared/translation/translations/error/error.en.json";
 import notFound from "@/shared/translation/translations/not-found/not-found.en.json";
 import stories from "@/shared/translation/translations/stories/stories.en.json";
@@ -58,4 +59,7 @@ export const en = {
   ...enSplashTranslation,
   ...enModalsTranslation,
   ...enMutationTranslations,
+  projects: {
+    ...enProjectTagsTranslation,
+  },
 };

@@ -35,6 +35,7 @@ export function BrowseProjectsContextProvider({ children }: BrowseProjectsContex
 
   useEffect(() => {
     setQueryParams({
+      tags: filters.tags.length ? filters.tags : undefined,
       languageSlugs: filters.languageSlugs.length ? filters.languageSlugs : undefined,
       ecosystemSlugs: filters.ecosystemSlugs.length ? filters.ecosystemSlugs : undefined,
       categorySlugs: filters.categorySlugs.length ? filters.categorySlugs : undefined,
