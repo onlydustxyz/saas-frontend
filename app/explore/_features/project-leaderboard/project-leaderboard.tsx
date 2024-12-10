@@ -52,7 +52,7 @@ export function ProjectLeaderboard() {
               description={{ children: project.shortDescription }}
             />
             <Badge
-              classNames={{ base: "w-fit" }}
+              classNames={{ base: "w-fit shrink-0" }}
               translate={{
                 token: "common:count.prCount",
                 count: project.pullRequestCount,

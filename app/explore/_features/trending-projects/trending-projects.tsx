@@ -1,6 +1,8 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
+
+import { Section } from "@/app/explore/_components/section/section";
 
 import { ProjectReactQueryAdapter } from "@/core/application/react-query-adapter/project";
 
@@ -17,6 +19,10 @@ export function TrendingProjects() {
       pageSize: 4,
     },
   });
+
+  const count = useMemo(() => {
+    return data?.pages[0]?.totalItemNumber ?? 0;
+  }, [data]);
 
   const renderProjects = useCallback(() => {
     if (isLoading) {
@@ -54,5 +60,20 @@ export function TrendingProjects() {
     );
   }, [data, isError, isLoading]);
 
-  return <div className="grid grid-cols-1 gap-3xl tablet:grid-cols-2 laptop:grid-cols-4">{renderProjects()}</div>;
+  return (
+    <Section
+      title={{
+        translate: { token: "explore:trending.title" },
+      }}
+      count={count}
+      description={{
+        translate: { token: "explore:trending.description" },
+      }}
+      classNames={{
+        base: "gap-lg",
+      }}
+    >
+      <div className="grid gap-xl mobile:grid-cols-2 laptop:grid-cols-4 laptop:gap-3xl">{renderProjects()}</div>
+    </Section>
+  );
 }

@@ -1,0 +1,36 @@
+{
+  "projectTags": {
+    "BIG_WHALE": {
+      "label": "Big whale",
+      "tooltip": "Project that has rewarded big"
+    },
+    "FAST_AND_FURIOUS": {
+      "label": "Fast and furious",
+      "tooltip": "Project that is moving fast with a lot of contributions completed"
+    },
+    "HOT_COMMUNITY": {
+      "label": "Hot community",
+      "tooltip": "Project that has a high number of active contributors"
+    },
+    "LIKELY_TO_REWARD": {
+      "label": "Likely to reward",
+      "tooltip": "Project that can reward a work well done"
+    },
+    "NEWBIES_WELCOME": {
+      "label": "Newbies welcome",
+      "tooltip": "Project that onboard new contributors regularly"
+    },
+    "UPDATED_ROADMAP": {
+      "label": "Strong expertise required",
+      "tooltip": "Project presenting the most recent challenges"
+    },
+    "WORK_IN_PROGRESS": {
+      "label": "Work in progress",
+      "tooltip": "Project that has open issues ready to tackle"
+    },
+    "HAS_GOOD_FIRST_ISSUES": {
+      "label": "Issues available",
+      "tooltip": "Project that has issues suitable for first-time contributors"
+    }
+  }
+}

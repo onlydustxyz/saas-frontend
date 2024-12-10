@@ -98,7 +98,6 @@ export function CardProjectMarketplaceDefaultAdapter<C extends ElementType = "di
         />
 
         <Badge
-          color="success"
           shape="rounded"
           size="xs"
           startContent={
