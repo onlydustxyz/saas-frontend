@@ -1,29 +1,13 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useDebounce } from "react-use";
 
-export type BrowseProjectsFilter = {
-  languageIds: string[];
-  ecosystemIds: string[];
-  categories: { value: string; label: string }[];
-};
-
-export const DEFAULT_FILTER: BrowseProjectsFilter = {
-  languageIds: [],
-  ecosystemIds: [],
-  categories: [],
-};
-
-type BrowseProjectsContextReturn = {
-  filters: {
-    values: BrowseProjectsFilter;
-    isCleared: boolean;
-    set: (filter: Partial<BrowseProjectsFilter>) => void;
-    clear: () => void;
-    count: number;
-  };
-  queryParams: Partial<BrowseProjectsFilter>;
-  isLoading: boolean;
-};
+import {
+  BrowseProjectsContextFilter,
+  BrowseProjectsContextProviderProps,
+  BrowseProjectsContextQueryParams,
+  BrowseProjectsContextReturn,
+  DEFAULT_FILTER,
+} from "./browse-projects-filters.types";
 
 const BrowseProjectsContext = createContext<BrowseProjectsContextReturn>({
   filters: {
@@ -34,17 +18,12 @@ const BrowseProjectsContext = createContext<BrowseProjectsContextReturn>({
     count: 0,
   },
   queryParams: {},
-  isLoading: false,
 });
 
-type BrowseProjectsContextProviderProps = {
-  children: React.ReactNode;
-};
-
 export function BrowseProjectsContextProvider({ children }: BrowseProjectsContextProviderProps) {
-  const [filters, setFilters] = useState<BrowseProjectsFilter>(DEFAULT_FILTER);
-  const [queryParams, setQueryParams] = useState<Partial<BrowseProjectsFilter>>({});
-  const [debouncedQueryParams, setDebouncedQueryParams] = useState<Partial<BrowseProjectsFilter>>(queryParams);
+  const [filters, setFilters] = useState<BrowseProjectsContextFilter>(DEFAULT_FILTER);
+  const [queryParams, setQueryParams] = useState<BrowseProjectsContextQueryParams>({});
+  const [debouncedQueryParams, setDebouncedQueryParams] = useState<BrowseProjectsContextQueryParams>(queryParams);
 
   useDebounce(
     () => {
@@ -56,19 +35,19 @@ export function BrowseProjectsContextProvider({ children }: BrowseProjectsContex
 
   useEffect(() => {
     setQueryParams({
-      languageIds: filters.languageIds.length ? filters.languageIds : undefined,
-      ecosystemIds: filters.ecosystemIds.length ? filters.ecosystemIds : undefined,
-      categories: filters.categories.length ? filters.categories : undefined,
+      languageSlugs: filters.languageSlugs.length ? filters.languageSlugs : undefined,
+      ecosystemSlugs: filters.ecosystemSlugs.length ? filters.ecosystemSlugs : undefined,
+      categorySlugs: filters.categorySlugs.length ? filters.categorySlugs : undefined,
     });
   }, [filters]);
 
   const isCleared = useMemo(() => JSON.stringify(filters) === JSON.stringify(DEFAULT_FILTER), [filters]);
 
   const filtersCount = useMemo(() => {
-    return filters.languageIds.length + filters.ecosystemIds.length;
+    return filters.languageSlugs.length + filters.ecosystemSlugs.length + filters.categorySlugs.length;
   }, [filters]);
 
-  function setFilter(filter: Partial<BrowseProjectsFilter>) {
+  function setFilter(filter: Partial<BrowseProjectsContextFilter>) {
     const newFilters = { ...filters, ...filter };
     setFilters(newFilters);
   }
@@ -88,7 +67,6 @@ export function BrowseProjectsContextProvider({ children }: BrowseProjectsContex
           count: filtersCount,
         },
         queryParams: debouncedQueryParams,
-        isLoading: false, // You can connect this to your actual data fetching logic
       }}
     >
       {children}

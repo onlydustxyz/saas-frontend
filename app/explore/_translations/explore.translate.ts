@@ -28,6 +28,11 @@ export const enExploreTranslation = {
     browse: {
       title: "Browse projects",
       description: "Browse projects by category",
+      filters: {
+        title: "Add filters",
+        clear: "Clear all",
+        categories: "Categories",
+      },
     },
   },
 };

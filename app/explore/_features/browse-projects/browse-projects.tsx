@@ -1,6 +1,11 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+
+import {
+  BrowseProjectsContextProvider,
+  useBrowseProjectsContext,
+} from "@/app/explore/_features/browse-projects-filters/browse-projects-filters.context";
 
 import { ProjectReactQueryAdapter } from "@/core/application/react-query-adapter/project";
 
@@ -10,13 +15,10 @@ import {
 } from "@/design-system/molecules/cards/card-project-marketplace";
 import { Tabs } from "@/design-system/molecules/tabs/tabs";
 
+import { EmptyStateLite } from "@/shared/components/empty-state-lite/empty-state-lite";
 import { ErrorState } from "@/shared/components/error-state/error-state";
 
 import { BrowseProjectsFilters } from "../browse-projects-filters/browse-projects-filters";
-import {
-  BrowseProjectsContextProvider,
-  useBrowseProjectsContext,
-} from "../browse-projects-filters/browse-projects-filters.context";
 
 /* TODO @hayden define the tabs */
 const tabs = [
@@ -51,17 +53,11 @@ const tabs = [
 ];
 
 function Safe() {
-  const {
-    filters: { values: filters },
-  } = useBrowseProjectsContext();
+  const { queryParams } = useBrowseProjectsContext();
+  const [selectedTab, setSelectedTab] = useState("issues-available");
 
   const { data, isLoading, isError } = ProjectReactQueryAdapter.client.useGetProjectsV2({
-    queryParams: {
-      // TODO @hayden convert slugs to ids
-      languageSlugs: filters.languageIds,
-      ecosystemSlugs: filters.ecosystemIds,
-      categorySlugs: filters.categories,
-    },
+    queryParams,
   });
 
   const renderProjects = useCallback(() => {
@@ -77,33 +73,47 @@ function Safe() {
       );
     }
 
-    if (!data) {
-      return null;
+    const projects = data?.pages.flatMap(({ projects }) => projects) ?? [];
+
+    if (!projects.length) {
+      return (
+        <div className="col-span-full py-40">
+          <EmptyStateLite />
+        </div>
+      );
     }
 
-    return data.pages.flatMap(({ projects }) =>
-      projects.map(project => (
-        <CardProjectMarketplace
-          key={project.id}
-          name={project.name}
-          description={project.shortDescription}
-          logoUrl={project.logoUrl}
-          contributorCount={project.contributorCount}
-          starCount={project.starCount}
-          pullRequestCount={project.pullRequestCount}
-          issueCount={project.issueCount}
-          goodFirstIssueCount={project.goodFirstIssueCount}
-          categories={project.categories}
-          languages={project.languages}
-        />
-      ))
-    );
+    return projects.map(project => (
+      <CardProjectMarketplace
+        key={project.id}
+        name={project.name}
+        description={project.shortDescription}
+        logoUrl={project.logoUrl}
+        contributorCount={project.contributorCount}
+        starCount={project.starCount}
+        pullRequestCount={project.pullRequestCount}
+        issueCount={project.issueCount}
+        goodFirstIssueCount={project.goodFirstIssueCount}
+        categories={project.categories}
+        languages={project.languages}
+      />
+    ));
   }, [data, isError, isLoading]);
 
   return (
     <div className="flex flex-col gap-3xl">
-      <header className="flex justify-between gap-3xl">
-        <Tabs variant={"flat"} searchParams={"data-view"} tabs={tabs} selectedId={"issues-available"} />
+      <header className="flex flex-row items-start justify-between gap-xl">
+        {/* TODO @hayden handle tabs */}
+        <Tabs
+          variant={"flat"}
+          searchParams={"data-view"}
+          tabs={tabs}
+          selectedId={selectedTab}
+          onTabClick={setSelectedTab}
+          classNames={{
+            base: "flex-wrap",
+          }}
+        />
 
         <BrowseProjectsFilters />
       </header>

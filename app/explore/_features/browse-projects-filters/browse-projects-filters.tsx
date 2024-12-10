@@ -1,4 +1,7 @@
 import { Filter } from "lucide-react";
+import { useMemo } from "react";
+
+import { ProjectCategoryReactQueryAdapter } from "@/core/application/react-query-adapter/project-category";
 
 import { Badge } from "@/design-system/atoms/badge";
 import { Button } from "@/design-system/atoms/button/variants/button-default";
@@ -16,10 +19,11 @@ export function BrowseProjectsFilters() {
     filters: { values: filters, set, count, clear, isCleared },
   } = useBrowseProjectsContext();
 
-  // TODO @hayden translate
+  const { data } = ProjectCategoryReactQueryAdapter.client.useGetProjectCategories({});
+  const categories = useMemo(() => data?.categories ?? [], [data?.categories]);
 
   return (
-    <Popover>
+    <Popover placement="bottom-end">
       <Popover.Trigger>
         {() => (
           <div>
@@ -44,39 +48,51 @@ export function BrowseProjectsFilters() {
         {() => (
           <div className="flex min-w-[250px] max-w-[360px] flex-col gap-lg">
             <div className="flex items-center justify-between gap-md">
-              <Typo translate={{ token: "features:transactions.filters.title" }} />
+              <Typo translate={{ token: "explore:browse.filters.title" }} />
 
               {!isCleared ? (
                 <Button
                   onClick={clear}
                   size="sm"
                   variant="secondary"
-                  translate={{ token: "features:transactions.filters.clear" }}
+                  translate={{ token: "explore:browse.filters.clear" }}
                 />
               ) : null}
             </div>
 
             <LanguageFilter
-              selectedLanguages={filters.languageIds}
-              onSelect={languages => set({ languageIds: languages })}
+              selectedLanguages={filters.languageSlugs}
+              onSelect={languages => set({ languageSlugs: languages })}
             />
 
             <EcosystemFilter
-              selectedEcosystems={filters.ecosystemIds}
-              onSelect={ecosystems => set({ ecosystemIds: ecosystems })}
+              selectedEcosystems={filters.ecosystemSlugs}
+              onSelect={ecosystems => set({ ecosystemSlugs: ecosystems })}
             />
 
-            <div className="flex flex-col gap-lg">
-              <Typo size="xs" color="secondary" translate={{ token: "features:transactions.filters.types.title" }} />
+            {categories.length ? (
+              <div className="flex flex-col gap-lg">
+                <Typo size="xs" color="secondary" translate={{ token: "explore:browse.filters.categories" }} />
 
-              <div className="flex flex-wrap gap-xs">
-                {filters.categories.map(category => (
-                  <CheckboxButton key={`project-category-${category.value}`} value={category.value} onChange={() => {}}>
-                    {category.label}
-                  </CheckboxButton>
-                ))}
+                <div className="flex flex-wrap gap-xs">
+                  {categories.map(category => (
+                    <CheckboxButton
+                      key={`project-category-${category.id}`}
+                      value={filters.categorySlugs.includes(category.slug)}
+                      onChange={checked => {
+                        set({
+                          categorySlugs: checked
+                            ? [...filters.categorySlugs, category.slug]
+                            : filters.categorySlugs.filter(slug => slug !== category.slug),
+                        });
+                      }}
+                    >
+                      {category.name}
+                    </CheckboxButton>
+                  ))}
+                </div>
               </div>
-            </div>
+            ) : null}
           </div>
         )}
       </Popover.Content>
