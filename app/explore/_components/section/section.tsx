@@ -8,7 +8,7 @@ export function Section({ children, title, description, count, action, className
   const hasCount = typeof count === "number";
 
   return (
-    <section className={cn("flex flex-col gap-lg", classNames?.base)}>
+    <section className={cn("flex flex-col", classNames?.base)}>
       <header className="flex justify-between">
         <div className="flex flex-col gap-md">
           <div>

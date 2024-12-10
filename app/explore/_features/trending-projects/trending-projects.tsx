@@ -69,6 +69,9 @@ export function TrendingProjects() {
       description={{
         translate: { token: "explore:trending.description" },
       }}
+      classNames={{
+        base: "gap-lg",
+      }}
     >
       <div className="grid gap-xl mobile:grid-cols-2 laptop:grid-cols-4 laptop:gap-3xl">{renderProjects()}</div>
     </Section>

@@ -23,6 +23,9 @@ export default function ExplorePage() {
           description={{
             translate: { token: "explore:expertise.description" },
           }}
+          classNames={{
+            base: "gap-lg",
+          }}
         >
           <div className="flex flex-col gap-6xl">
             <ProjectCategoryList />
