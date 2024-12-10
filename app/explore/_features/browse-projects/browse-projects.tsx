@@ -18,6 +18,7 @@ import { Tabs } from "@/design-system/molecules/tabs/tabs";
 
 import { EmptyStateLite } from "@/shared/components/empty-state-lite/empty-state-lite";
 import { ErrorState } from "@/shared/components/error-state/error-state";
+import { ShowMore } from "@/shared/components/show-more/show-more";
 import { PROJECT_TAG, PROJECT_TAG_METADATA } from "@/shared/constants/project-tags";
 import { Translate } from "@/shared/translation/components/translate/translate";
 
@@ -38,9 +39,10 @@ tabs.unshift(ALL_TAB);
 function Safe() {
   const { filters, queryParams } = useBrowseProjectsContext();
 
-  const { data, isLoading, isError } = ProjectReactQueryAdapter.client.useGetProjectsV2({
-    queryParams,
-  });
+  const { data, isLoading, isError, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    ProjectReactQueryAdapter.client.useGetProjectsV2({
+      queryParams,
+    });
 
   const projects = useMemo(() => data?.pages.flatMap(({ projects }) => projects) ?? [], [data]);
   const count = useMemo(() => data?.pages[0]?.totalItemNumber ?? 0, [data]);
@@ -65,8 +67,6 @@ function Safe() {
         </div>
       );
     }
-
-    // TODO @hayden show more projects
 
     return projects.map(project => (
       <CardProjectMarketplace
@@ -117,6 +117,11 @@ function Safe() {
 
         <div className="grid gap-xl mobile:grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-4 laptop:gap-3xl">
           {renderProjects()}
+          {hasNextPage ? (
+            <div className="col-span-full">
+              <ShowMore onNext={fetchNextPage} loading={isFetchingNextPage} />
+            </div>
+          ) : null}
         </div>
       </div>
     </Section>
