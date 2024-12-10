@@ -1,6 +1,6 @@
 "use client";
 
-import { Typo } from "@/design-system/atoms/typo";
+import { Section } from "@/app/explore/_components/section/section";
 
 import { ScrollView } from "@/shared/components/scroll-view/scroll-view";
 
@@ -14,51 +14,52 @@ export default function ExplorePage() {
   return (
     <ScrollView>
       <div className="mx-auto flex max-w-laptop flex-col gap-6xl py-4xl">
-        <section className="flex flex-col gap-lg">
-          <div className="flex flex-col gap-md">
-            <div>
-              <Typo variant="heading" size="xs" weight="medium" translate={{ token: "explore:trending.title" }} />{" "}
-              <Typo variant="heading" size="xs" weight="medium" color="tertiary">
-                {/* TODO @hayden get the number of trending projects */}
-                (100)
-              </Typo>
-            </div>
-            <Typo color="secondary" size="xs" translate={{ token: "explore:trending.description" }} />
-          </div>
-
+        <Section
+          title={{
+            translate: { token: "explore:trending.title" },
+          }}
+          // TODO @hayden get the number of trending projects
+          count={100}
+          description={{
+            translate: { token: "explore:trending.description" },
+          }}
+        >
           <TrendingProjects />
-        </section>
+        </Section>
 
-        <section className="flex flex-col gap-6xl">
-          <div className="flex flex-col gap-lg">
-            <div className="flex flex-col gap-md">
-              <Typo variant="heading" size="xs" weight="medium" translate={{ token: "explore:expertise.title" }} />
-              <Typo color="secondary" size="xs" translate={{ token: "explore:expertise.description" }} />
-            </div>
-
+        <Section
+          title={{
+            translate: { token: "explore:expertise.title" },
+          }}
+          description={{
+            translate: { token: "explore:expertise.description" },
+          }}
+        >
+          <div className="flex flex-col gap-6xl">
             <ProjectCategoryList />
-          </div>
 
-          <div className="grid gap-xl tablet:grid-cols-2 laptop:gap-3xl">
-            <ContributorLeaderboard />
-            <ProjectLeaderboard />
-          </div>
-        </section>
-
-        <section className="flex flex-col gap-4xl">
-          <div className="flex flex-col gap-md">
-            <div>
-              <Typo variant="heading" size="xs" weight="medium" translate={{ token: "explore:browse.title" }} />{" "}
-              <Typo variant="heading" size="xs" weight="medium" color="tertiary">
-                {/* TODO @hayden get the number of projects */}
-                (100)
-              </Typo>
+            <div className="grid gap-xl tablet:grid-cols-2 laptop:gap-3xl">
+              <ContributorLeaderboard />
+              <ProjectLeaderboard />
             </div>
-            <Typo color="secondary" size="xs" translate={{ token: "explore:browse.description" }} />
           </div>
+        </Section>
 
+        <Section
+          title={{
+            translate: { token: "explore:browse.title" },
+          }}
+          // TODO @hayden get the number of browse projects
+          count={100}
+          description={{
+            translate: { token: "explore:browse.description" },
+          }}
+          classNames={{
+            base: "gap-4xl",
+          }}
+        >
           <BrowseProjects />
-        </section>
+        </Section>
       </div>
     </ScrollView>
   );
