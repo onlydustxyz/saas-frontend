@@ -44,7 +44,7 @@ export function SafeGlobalSearch() {
             <Header />
             <Filters />
             <div className={"h-auto overflow-hidden p-2"}>
-              <ScrollView className="max-h-[400px]">
+              <ScrollView className="h-[350px]">
                 <Command.Empty>
                   <EmptyStateLite />
                 </Command.Empty>

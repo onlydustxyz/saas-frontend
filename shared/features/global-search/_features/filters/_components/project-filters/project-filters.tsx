@@ -70,6 +70,10 @@ export function ProjectFilters() {
     }
   }
 
+  if (!languages?.length && !ecosystems?.length && !categories?.length) {
+    return null;
+  }
+
   return (
     <div className="relative flex w-full flex-col items-start justify-start gap-1 border-b border-b-border-primary px-6 py-4">
       {languages?.length ? (
