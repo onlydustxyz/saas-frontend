@@ -54,7 +54,7 @@ function Safe() {
 
     if (isError) {
       return (
-        <div className="col-span-full">
+        <div className="col-span-full py-40">
           <ErrorState />
         </div>
       );
