@@ -14,18 +14,7 @@ export default function ExplorePage() {
   return (
     <ScrollView>
       <div className="mx-auto flex max-w-laptop flex-col gap-6xl py-4xl">
-        <Section
-          title={{
-            translate: { token: "explore:trending.title" },
-          }}
-          // TODO @hayden get the number of trending projects
-          count={100}
-          description={{
-            translate: { token: "explore:trending.description" },
-          }}
-        >
-          <TrendingProjects />
-        </Section>
+        <TrendingProjects />
 
         <Section
           title={{
@@ -45,21 +34,7 @@ export default function ExplorePage() {
           </div>
         </Section>
 
-        <Section
-          title={{
-            translate: { token: "explore:browse.title" },
-          }}
-          // TODO @hayden get the number of browse projects
-          count={100}
-          description={{
-            translate: { token: "explore:browse.description" },
-          }}
-          classNames={{
-            base: "gap-4xl",
-          }}
-        >
-          <BrowseProjects />
-        </Section>
+        <BrowseProjects />
       </div>
     </ScrollView>
   );

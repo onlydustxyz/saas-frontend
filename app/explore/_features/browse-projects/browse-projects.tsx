@@ -1,7 +1,8 @@
 "use client";
 
-import { ReactNode, useCallback } from "react";
+import { ReactNode, useCallback, useMemo } from "react";
 
+import { Section } from "@/app/explore/_components/section/section";
 import {
   BrowseProjectsContextProvider,
   useBrowseProjectsContext,
@@ -41,6 +42,9 @@ function Safe() {
     queryParams,
   });
 
+  const projects = useMemo(() => data?.pages.flatMap(({ projects }) => projects) ?? [], [data]);
+  const count = useMemo(() => data?.pages[0]?.totalItemNumber ?? 0, [data]);
+
   const renderProjects = useCallback(() => {
     if (isLoading) {
       return Array.from({ length: 8 }).map((_, index) => <CardProjectMarketplaceLoading key={index} />);
@@ -53,8 +57,6 @@ function Safe() {
         </div>
       );
     }
-
-    const projects = data?.pages.flatMap(({ projects }) => projects) ?? [];
 
     if (!projects.length) {
       return (
@@ -81,30 +83,43 @@ function Safe() {
         languages={project.languages}
       />
     ));
-  }, [data, isError, isLoading]);
+  }, [projects, isError, isLoading]);
 
   return (
-    <div className="flex flex-col gap-3xl">
-      <header className="flex flex-row items-start justify-between gap-xl">
-        <Tabs
-          variant={"flat"}
-          tabs={tabs}
-          selectedId={filters.values.tags[0] ?? ALL_TAB.id}
-          onTabClick={id => {
-            filters.set({ tags: id === ALL_TAB.id ? [] : [id as PROJECT_TAG] });
-          }}
-          classNames={{
-            base: "flex-wrap",
-          }}
-        />
+    <Section
+      title={{
+        translate: { token: "explore:browse.title" },
+      }}
+      count={count}
+      description={{
+        translate: { token: "explore:browse.description" },
+      }}
+      classNames={{
+        base: "gap-4xl",
+      }}
+    >
+      <div className="flex flex-col gap-3xl">
+        <header className="flex flex-row items-start justify-between gap-xl">
+          <Tabs
+            variant={"flat"}
+            tabs={tabs}
+            selectedId={filters.values.tags[0] ?? ALL_TAB.id}
+            onTabClick={id => {
+              filters.set({ tags: id === ALL_TAB.id ? [] : [id as PROJECT_TAG] });
+            }}
+            classNames={{
+              base: "flex-wrap",
+            }}
+          />
 
-        <BrowseProjectsFilters />
-      </header>
+          <BrowseProjectsFilters />
+        </header>
 
-      <div className="grid gap-xl mobile:grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-4 laptop:gap-3xl">
-        {renderProjects()}
+        <div className="grid gap-xl mobile:grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-4 laptop:gap-3xl">
+          {renderProjects()}
+        </div>
       </div>
-    </div>
+    </Section>
   );
 }
 
