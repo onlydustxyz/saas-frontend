@@ -72,4 +72,5 @@ export interface ButtonGroupPort
   onClick?: (index: number) => void;
   fullWidth?: boolean;
   variant?: ButtonSolidVariant;
+  layout?: "horizontal" | "vertical";
 }
