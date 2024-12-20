@@ -118,7 +118,7 @@ function Safe() {
           <BrowseProjectsFilters />
         </header>
 
-        <div className="grid gap-xl mobile:grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-4 laptop:gap-3xl">
+        <div className="grid gap-xl mobile:grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-4 laptop:gap-2xl desktop:grid-cols-5 desktop:gap-3xl wide:grid-cols-7">
           {renderProjects()}
           {hasNextPage ? (
             <div className="col-span-full">

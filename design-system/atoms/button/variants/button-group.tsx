@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { tv } from "tailwind-variants";
 
 import { cn } from "@/shared/helpers/cn";
@@ -115,11 +116,14 @@ function ButtonItem({
   return renderButton();
 }
 
-export function ButtonGroup({ buttons, fullWidth, variant, layout = "horizontal", ...commonProps }: ButtonGroupPort) {
+export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupPort>(function ButtonGroup(
+  { buttons, fullWidth, variant, layout = "horizontal", ...commonProps },
+  ref
+) {
   const { base } = ButtonGroupVariant({ size: commonProps.size, fullWidth, layout });
 
   return (
-    <div className={base()}>
+    <div ref={ref} className={base()}>
       {buttons.map((itemProps, index) => (
         <div key={index} className={cn({ "flex-1": fullWidth })}>
           <ButtonItem
@@ -135,4 +139,4 @@ export function ButtonGroup({ buttons, fullWidth, variant, layout = "horizontal"
       ))}
     </div>
   );
-}
+});

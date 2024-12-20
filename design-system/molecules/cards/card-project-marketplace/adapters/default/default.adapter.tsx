@@ -1,7 +1,8 @@
 "use client";
 
 import { CircleDot, GitFork, Star, UserRound } from "lucide-react";
-import { ElementType, useRef } from "react";
+import { ElementType, useMemo, useRef } from "react";
+import { useMeasure } from "react-use";
 
 import { Avatar } from "@/design-system/atoms/avatar";
 import { ButtonGroup } from "@/design-system/atoms/button/variants/button-group";
@@ -17,7 +18,6 @@ import { Languages } from "@/shared/features/projects/languages/languages";
 import { Metric } from "@/shared/features/projects/metric/metric";
 import { cn } from "@/shared/helpers/cn";
 import { marketplaceRouting } from "@/shared/helpers/marketplace-routing";
-import { useIsTablet } from "@/shared/hooks/ui/use-media-query";
 
 import { HoverEffect } from "../../_components/hover-effect/hover-effect";
 import { AvatarWithEcosystemsProps, CardProjectMarketplacePort } from "../../card-project-marketplace.types";
@@ -98,7 +98,10 @@ export function CardProjectMarketplaceDefaultAdapter<C extends ElementType = "di
 }: CardProjectMarketplacePort<C>) {
   const slots = CardProjectMarketplaceDefaultVariants();
   const cardRef = useRef<HTMLDivElement>(null);
-  const isGreaterThanTablet = useIsTablet("greater");
+  const [buttonsRef, { width }] = useMeasure<HTMLDivElement>();
+  const buttonsLayout = useMemo(() => {
+    return width > 245 ? "horizontal" : "vertical";
+  }, [width]);
 
   return (
     <Paper
@@ -132,6 +135,7 @@ export function CardProjectMarketplaceDefaultAdapter<C extends ElementType = "di
 
             <div className="flex w-full">
               <ButtonGroup
+                ref={buttonsRef}
                 fullWidth
                 variant="tertiary"
                 buttons={[
@@ -162,7 +166,7 @@ export function CardProjectMarketplaceDefaultAdapter<C extends ElementType = "di
                       values: { count: goodFirstIssueCount },
                     },
                     startContent: (
-                      <div className={cn("relative mr-0.5 size-1.5", { "ml-1": !isGreaterThanTablet })}>
+                      <div className={cn("relative mr-0.5 size-1.5", { "ml-1": buttonsLayout === "vertical" })}>
                         <div className="absolute -inset-px animate-ping rounded-full bg-utility-secondary-green-500 opacity-75" />
                         <div className="size-full rounded-full bg-utility-secondary-green-500" />
                       </div>
@@ -170,7 +174,7 @@ export function CardProjectMarketplaceDefaultAdapter<C extends ElementType = "di
                   },
                 ]}
                 size="xs"
-                layout={isGreaterThanTablet ? "horizontal" : "vertical"}
+                layout={buttonsLayout}
               />
             </div>
 
