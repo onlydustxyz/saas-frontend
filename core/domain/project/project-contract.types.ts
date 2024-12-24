@@ -258,7 +258,7 @@ export type GetProjectContributorsV2Model = Omit<GetProjectContributorsV2Respons
 };
 
 type GetProjectContributorsV2PathParams = operations["getProjectContributorsV2"]["parameters"]["path"];
-type GetProjectContributorsV2QueryParams = operations["getProjectContributorsV2"]["parameters"]["query"];
+export type GetProjectContributorsV2QueryParams = operations["getProjectContributorsV2"]["parameters"]["query"];
 
 export type GetProjectContributorsV2PortResponse = HttpStorageResponse<GetProjectContributorsV2Model>;
 
@@ -285,7 +285,7 @@ export type GetProjectRewardsV2PortParams = HttpClientParameters<{
   PathParams: GetProjectRewardsV2PathParams;
 }>;
 
-/* ------------------------------ Get Project Available Issuers ------------------------------ */
+/* ------------------------------ Get Similar Projects ------------------------------ */
 
 export type GetSimilarProjectsResponse = components["schemas"]["ProjectLinkPageResponse"];
 

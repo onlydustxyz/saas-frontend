@@ -96,7 +96,12 @@ export default function ProjectsLayout({ params, children }: { params: { project
             <ProjectOverviewSummary projectIdOrSlug={params.projectSlug} />
             <SimilarProjects projectIdOrSlug={params.projectSlug} />
           </div>
-          <Paper background="glass" border="primary" classNames={{ base: "desktop:col-span-2" }} px="none">
+          <Paper
+            background="glass"
+            border="primary"
+            classNames={{ base: "desktop:col-span-2 overflow-hidden h-full" }}
+            px="none"
+          >
             <div className={"flex w-full flex-row items-center justify-between gap-1"}>
               <Navigation params={params} />
             </div>

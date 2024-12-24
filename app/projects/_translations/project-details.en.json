@@ -21,5 +21,17 @@
     "description": {
       "title": "Description"
     }
+  },
+  "contributors": {
+    "columns": {
+      "from": "From",
+      "rewards": "Rewards",
+      "mergedPr": "Merged PR",
+      "rewardAmount": "Reward Amount"
+    },
+    "filters": {
+      "columnList": "Columns"
+    },
+    "contributorsCount": "Contributors"
   }
 }
