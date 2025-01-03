@@ -26,15 +26,18 @@ export default function ManageProgramsFinancialPage({ params: { projectSlug } }:
             id: "root",
             label: <Translate token={"manageProjects:list.header.title"} />,
             href: NEXT_ROUTER.manageProjects.root,
+            level: "1",
           },
           {
             id: "details",
             label: data?.name ?? "",
             href: NEXT_ROUTER.manageProjects.default.root(projectSlug),
+            level: "2",
           },
           {
             id: "financial",
             label: <Translate token={"manageProjects:detail.views.financial"} />,
+            level: "5",
           },
         ]}
       />

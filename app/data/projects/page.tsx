@@ -120,10 +120,12 @@ function DataProjectsPage() {
             id: "root",
             label: <Translate token={"data:details.header.title"} />,
             href: NEXT_ROUTER.data.overview.root,
+            level: "1",
           },
           {
             id: "project",
             label: <Translate token={"data:details.tabs.project"} />,
+            level: "5",
           },
         ]}
       />

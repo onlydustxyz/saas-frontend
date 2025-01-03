@@ -46,6 +46,8 @@ function ProgramsPage() {
           {
             id: "root",
             label: <Translate token={"programs:list.header.title"} />,
+            href: NEXT_ROUTER.programs.root,
+            level: "1",
           },
         ]}
       />

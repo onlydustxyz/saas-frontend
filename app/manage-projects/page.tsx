@@ -50,6 +50,7 @@ function ManageProjectsPage() {
           {
             id: "root",
             label: <Translate token={"manageProjects:list.header.title"} />,
+            level: "1",
           },
         ]}
       />

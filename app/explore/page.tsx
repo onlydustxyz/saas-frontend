@@ -6,6 +6,7 @@ import "keen-slider/keen-slider.min.css";
 import { ProjectBanners } from "@/app/explore/_features/project-banners/project-banners";
 
 import { withClientOnly } from "@/shared/components/client-only/client-only";
+import { NEXT_ROUTER } from "@/shared/constants/router";
 import { GlobalSearch } from "@/shared/features/global-search/global-search";
 import { NavigationBreadcrumb } from "@/shared/features/navigation/navigation.context";
 import { Translate } from "@/shared/translation/components/translate/translate";
@@ -22,6 +23,8 @@ function ExplorePage() {
           {
             id: "root",
             label: <Translate token={"explore:title"} />,
+            href: NEXT_ROUTER.explore.root,
+            level: "1",
           },
         ]}
       />

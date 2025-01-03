@@ -38,15 +38,18 @@ export default function FinancialsProgramsPage({ params: { sponsorId } }: { para
             id: "root",
             label: <Translate token={"financials:list.header.title"} />,
             href: NEXT_ROUTER.financials.root,
+            level: "1",
           },
           {
             id: "details",
             label: data?.name,
             href: NEXT_ROUTER.financials.programs.root(sponsorId),
+            level: "2",
           },
           {
             id: "programs",
             label: <Translate token={"financials:details.views.programs"} />,
+            level: "5",
           },
         ]}
       />

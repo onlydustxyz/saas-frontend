@@ -46,6 +46,8 @@ function FinancialPage() {
           {
             id: "root",
             label: <Translate token={"financials:list.header.title"} />,
+            href: NEXT_ROUTER.financials.root,
+            level: "1",
           },
         ]}
       />

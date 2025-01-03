@@ -26,15 +26,18 @@ export default function ProgramsProjectsPage({ params: { programId } }: { params
             id: "root",
             label: <Translate token={"programs:list.header.title"} />,
             href: NEXT_ROUTER.programs.root,
+            level: "1",
           },
           {
             id: "details",
             label: data?.name,
             href: NEXT_ROUTER.programs.projects.root(programId),
+            level: "2",
           },
           {
             id: "projects",
             label: <Translate token={"programs:details.views.projects"} />,
+            level: "5",
           },
         ]}
       />

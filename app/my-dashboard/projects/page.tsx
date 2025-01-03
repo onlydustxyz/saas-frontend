@@ -49,10 +49,12 @@ export default function MyDashboardProjectsPage() {
             id: "root",
             label: <Translate token={"myDashboard:detail.header.title"} />,
             href: NEXT_ROUTER.myDashboard.root,
+            level: "1",
           },
           {
             id: "projects",
             label: <Translate token={"myDashboard:detail.views.projects"} />,
+            level: "5",
           },
         ]}
       />

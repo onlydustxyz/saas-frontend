@@ -19,10 +19,12 @@ export default function MyDashboardFinancialPage() {
             id: "root",
             label: <Translate token={"myDashboard:detail.header.title"} />,
             href: NEXT_ROUTER.myDashboard.root,
+            level: "1",
           },
           {
             id: "financial",
             label: <Translate token={"myDashboard:detail.views.financial"} />,
+            level: "5",
           },
         ]}
       />

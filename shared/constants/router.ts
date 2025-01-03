@@ -126,6 +126,9 @@ export const NEXT_ROUTER = {
       },
     },
   },
+  explore: {
+    root: "/explore",
+  },
 } as const;
 
 export const MARKETPLACE_ROUTER = {

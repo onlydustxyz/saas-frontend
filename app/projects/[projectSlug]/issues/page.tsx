@@ -11,6 +11,7 @@ import { Typo } from "@/design-system/atoms/typo";
 import { CardIssue } from "@/design-system/molecules/cards/card-issue";
 
 import { ScrollView } from "@/shared/components/scroll-view/scroll-view";
+import { NEXT_ROUTER } from "@/shared/constants/router";
 import { NavigationBreadcrumb } from "@/shared/features/navigation/navigation.context";
 import { Translate } from "@/shared/translation/components/translate/translate";
 
@@ -63,10 +64,13 @@ export default function ProjectIssuesPage({ params }: { params: { projectSlug: s
           {
             id: "root",
             label: data?.name,
+            href: NEXT_ROUTER.projects.overview.root(params.projectSlug),
+            level: "3",
           },
           {
             id: "open-issues",
             label: <Translate token={"project:details.tabs.openIssues"} />,
+            level: "5",
           },
         ]}
       />
