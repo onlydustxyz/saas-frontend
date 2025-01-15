@@ -3,6 +3,8 @@
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import { Orbit } from "lucide-react";
 
+import { EcosystemsList } from "@/app/ecosystems/_features/ecosystems-list/ecosystems-list";
+
 import { Icon } from "@/design-system/atoms/icon";
 
 import { withClientOnly } from "@/shared/components/client-only/client-only";
@@ -31,6 +33,8 @@ function EcosystemsPage() {
           logo={<Icon component={Orbit} classNames={{ base: "size-16" }} />}
         />
       </div>
+
+      <EcosystemsList />
     </div>
   );
 }
