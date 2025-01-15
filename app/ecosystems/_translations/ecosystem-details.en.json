@@ -12,5 +12,11 @@
   },
   "documentation": {
     "title": "Documentation"
+  },
+  "stats": {
+    "activeContributors": "Active Contributors",
+    "activeProjects": "Active Projects",
+    "availableIssues": "Available Issues",
+    "mergedPullRequests": "Merged Pull Requests"
   }
 }

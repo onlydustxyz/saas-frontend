@@ -11,7 +11,7 @@ export function Stat({ label, value, iconProps, badgeProps }: StatProps) {
         {label}
       </Typo>
 
-      <div className="flex">
+      <div className="flex items-center">
         <div className="flex w-full items-center gap-md">
           {iconProps ? <Icon {...iconProps} size="md" /> : null}
 
