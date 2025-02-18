@@ -13,13 +13,14 @@ enum Views {
   "OVERVIEW" = "OVERVIEW",
   "PROJECTS" = "PROJECTS",
   "COMMUNITY" = "COMMUNITY",
+  "MY_APPLICATIONS" = "MY_APPLICATIONS",
 }
 
 export function HackathonNavigation({ params }: { params: { hackathonSlug: string } }) {
   const isOverview = useMatchPath(NEXT_ROUTER.osw.details.overview.root(params.hackathonSlug));
   const isProjects = useMatchPath(NEXT_ROUTER.osw.details.projects.root(params.hackathonSlug));
   const isCommunity = useMatchPath(NEXT_ROUTER.osw.details.community.root(params.hackathonSlug));
-
+  const isMyApplications = useMatchPath(NEXT_ROUTER.osw.details.myApplications.root(params.hackathonSlug));
   const selectedId = useMemo(() => {
     if (isOverview) {
       return Views.OVERVIEW;
@@ -30,7 +31,10 @@ export function HackathonNavigation({ params }: { params: { hackathonSlug: strin
     // if (isCommunity) {
     //   return Views.COMMUNITY;
     // }
-  }, [isOverview, isProjects, isCommunity]);
+    if (isMyApplications) {
+      return Views.MY_APPLICATIONS;
+    }
+  }, [isOverview, isProjects, isCommunity, isMyApplications]);
 
   return (
     <Tabs
@@ -62,6 +66,14 @@ export function HackathonNavigation({ params }: { params: { hackathonSlug: strin
         //     href: NEXT_ROUTER.osw.details.community.root(params.hackathonSlug),
         //   },
         // },
+        {
+          id: Views.MY_APPLICATIONS,
+          children: <Translate token={"osw:details.tabs.myApplications"} />,
+          as: BaseLink,
+          htmlProps: {
+            href: NEXT_ROUTER.osw.details.myApplications.root(params.hackathonSlug),
+          },
+        },
       ]}
       selectedId={selectedId}
     />

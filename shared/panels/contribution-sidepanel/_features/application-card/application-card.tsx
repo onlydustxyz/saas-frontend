@@ -10,6 +10,7 @@ import { Tooltip } from "@/design-system/atoms/tooltip";
 import { Typo } from "@/design-system/atoms/typo";
 
 import { AcceptIgnoreApplication } from "@/shared/components/mutation/application/accept-ignore-application/accept-ignore-application";
+import { ApplicationLimitBadge } from "@/shared/features/application-limit-badge/application-limit-badge";
 import { useContributorSidePanel } from "@/shared/panels/contributor-sidepanel/contributor-sidepanel.hooks";
 import { Translate } from "@/shared/translation/components/translate/translate";
 
@@ -34,10 +35,13 @@ export function ApplicationCard({ application, contributionId, isIgnored, repoId
         <Avatar size="sm" shape="squared" src={contributor.avatarUrl} />
 
         <div className="flex flex-col gap-md">
-          <div className="flex flex-col">
-            <Typo size="sm" weight="medium">
-              {contributor.login}
-            </Typo>
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-row gap-1">
+              <Typo size="sm" weight="medium">
+                {contributor.login}
+              </Typo>
+              <ApplicationLimitBadge count={11} />
+            </div>
 
             <Typo size="xs" color="secondary">
               {application.contributor.rank.getTitle().wording} • {application.contributor.rank.getRank()}

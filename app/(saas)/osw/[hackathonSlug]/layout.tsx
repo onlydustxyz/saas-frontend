@@ -9,6 +9,7 @@ import { AuthenticatedRegisterHackathon } from "@/app/(saas)/osw/_features/regis
 import { Paper } from "@/design-system/atoms/paper/variants/paper-default";
 
 import { PageContainer } from "@/shared/features/page/page-container/page-container";
+import { ApplyIssueSidepanel } from "@/shared/panels/apply-issue-sidepanel/apply-issue-sidepanel";
 
 export async function generateMetadata({ params }: { params: { hackathonSlug: string } }): Promise<Metadata> {
   const hackathonSlug = params.hackathonSlug;
@@ -47,12 +48,13 @@ export default function HackathonsLayout({
           >
             <HackathonNavigation params={params} />
 
-            <div className={"w-full p-xl tablet:w-auto"}>
+            <div className={"w-1/3 p-xl"}>
               <AuthenticatedRegisterHackathon hackathonSlug={params.hackathonSlug} />
             </div>
           </div>
 
           {children}
+          <ApplyIssueSidepanel />
         </Paper>
       </div>
     </PageContainer>

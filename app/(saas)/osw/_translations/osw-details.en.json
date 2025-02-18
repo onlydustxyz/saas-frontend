@@ -2,7 +2,8 @@
   "tabs": {
     "overview": "Overview",
     "projects": "Projects",
-    "community": "Community"
+    "community": "Community",
+    "myApplications": "My applications"
   },
   "summary": {
     "date": "Date",

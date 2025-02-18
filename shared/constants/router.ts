@@ -112,6 +112,9 @@ export const NEXT_ROUTER = {
       community: {
         root: (slug: string) => `/osw/${slug}/community`,
       },
+      myApplications: {
+        root: (slug: string) => `/osw/${slug}/my-applications`,
+      },
     },
   },
   repositories: {
