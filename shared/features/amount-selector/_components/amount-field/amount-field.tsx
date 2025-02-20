@@ -108,7 +108,7 @@ export function AmountField({ onAmountChange, amount, readOnly, isFilled, budget
   return (
     <div className={"grid justify-center gap-2"}>
       <div
-        className={cn("mx-auto flex items-center gap-1 font-clash text-lg", {
+        className={cn("mx-auto flex items-center gap-1 text-lg", {
           "text-xl": primary.value.length < 22,
           "text-2xl": primary.value.length < 18,
           "text-3xl": primary.value.length < 14,
@@ -120,7 +120,7 @@ export function AmountField({ onAmountChange, amount, readOnly, isFilled, budget
           type="text"
           style={{ width: inputWidth }}
           className={cn(
-            "flex bg-transparent text-right font-medium text-typography-primary outline-none transition-colors",
+            "flex bg-transparent text-right font-medium tabular-nums text-typography-primary outline-none transition-colors",
             {
               "text-typography-tertiary placeholder:text-typography-tertiary": !isFilled,
             }
@@ -132,7 +132,7 @@ export function AmountField({ onAmountChange, amount, readOnly, isFilled, budget
         />
         <div onClick={handleFocusInput}>
           <span
-            className={cn("font-medium text-typography-primary transition-colors", {
+            className={cn("font-clash font-medium text-typography-primary transition-colors", {
               "text-typography-tertiary": !isFilled,
             })}
           >
