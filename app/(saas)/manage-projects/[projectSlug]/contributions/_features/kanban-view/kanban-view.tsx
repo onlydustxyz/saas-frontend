@@ -1,12 +1,14 @@
 import { Plus } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
+import { IssueApplicantsPanel } from "@/app/(saas)/manage-projects/[projectSlug]/contributions/_features/issue-applicants-panel/issue-applicants-panel";
 import { KanbanViewProps } from "@/app/(saas)/manage-projects/[projectSlug]/contributions/_features/kanban-view/kanban-view.types";
 
 import { ContributionReactQueryAdapter } from "@/core/application/react-query-adapter/contribution";
 import { ProjectReactQueryAdapter } from "@/core/application/react-query-adapter/project";
 import { GetContributionsQueryParams } from "@/core/domain/contribution/contribution-contract.types";
+import { ContributionActivityInterface } from "@/core/domain/contribution/models/contribution-activity-model";
 import {
   ContributionActivityStatus,
   ContributionActivityStatusUnion,
@@ -65,6 +67,24 @@ function Column({
 
   const count = useMemo(() => data?.pages?.[0]?.totalItemNumber ?? 0, [data]);
 
+  const renderContribution = useCallback((contribution: ContributionActivityInterface) => {
+    if (contribution.isNotAssigned()) {
+      return (
+        <IssueApplicantsPanel key={contribution.id} id={contribution.id}>
+          <CardContributionKanban contribution={contribution} as={ContributionAs.MAINTAINER} />
+        </IssueApplicantsPanel>
+      );
+    }
+
+    return (
+      <CardContributionKanban
+        key={contribution.id}
+        contribution={contribution}
+        onAction={onOpenContribution}
+        as={ContributionAs.MAINTAINER}
+      />
+    );
+  }, []);
   return (
     <KanbanColumn
       {...kanbanProps}
@@ -77,14 +97,7 @@ function Column({
         ...(kanbanProps.header || {}),
       }}
     >
-      {contributions?.map(contribution => (
-        <CardContributionKanban
-          contribution={contribution}
-          key={contribution.id}
-          onAction={onOpenContribution}
-          as={ContributionAs.MAINTAINER}
-        />
-      ))}
+      {contributions?.map(renderContribution)}
       {isPending && (
         <>
           <Skeleton classNames={{ base: "h-[160px] w-full" }} />

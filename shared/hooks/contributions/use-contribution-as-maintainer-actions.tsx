@@ -21,7 +21,6 @@ import { Translate } from "@/shared/translation/components/translate/translate";
 import { useCanReward } from "../rewards/use-can-reward";
 
 export const useContributionAsMaintainerActions = ({
-  actions,
   contribution,
 }: UseContributionActionsProps): UseContributionActionReturn => {
   const { projectSlug = "" } = useParams<{ projectSlug: string }>();
@@ -84,9 +83,6 @@ export const useContributionAsMaintainerActions = ({
       },
     });
 
-  function onReview() {
-    actions?.onAction?.(contribution.id);
-  }
 
   function onUnassign() {
     if (isProjectOrganisationMissingPermissions(contribution.repo.id)) {
@@ -150,7 +146,9 @@ export const useContributionAsMaintainerActions = ({
         buttons: [
           {
             children: <Translate token={"features:cardContributionKanban.actions.asMaintainer.review"} />,
-            onClick: onReview,
+            classNames: {
+              base: "pointer-events-none",
+            },
           },
         ],
       };
