@@ -79,7 +79,7 @@ export function HackathonEvents({ hackathonSlug }: HackathonEventsProps) {
       </div>
 
       {data.events.length ? (
-        data.events.map(event => {
+        [...data.events].reverse().map(event => {
           const formattedDates = event.formatDisplayDates();
 
           return (
