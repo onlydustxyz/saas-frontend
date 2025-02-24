@@ -61,15 +61,15 @@ export function CommentCard({
 
   return (
     <div className="flex flex-col gap-4">
-      <Card className="relative overflow-hidden bg-gradient-to-br from-background to-muted/20 p-4">
+      <Card className="relative overflow-hidden border-none bg-transparent p-4">
         <div className="flex flex-col gap-4">
-          <div className="flex items-start justify-between">
-            <div className="flex items-start gap-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
               <Avatar className="size-8">
                 <AvatarImage src={author.avatarUrl} />
                 <AvatarFallback>{author.name[0]}</AvatarFallback>
               </Avatar>
-              <div className="flex flex-col">
+              <div className="flex flex-row gap-2">
                 <TypographySmall className="font-medium">{author.name}</TypographySmall>
                 <TypographySmall className="text-muted-foreground">{createdAt}</TypographySmall>
               </div>

@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GitPullRequest, MessageSquare, MoreHorizontal, Share2, ThumbsDown, ThumbsUp } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -24,6 +25,7 @@ import { Separator } from "@/shared/ui/separator";
 import { Textarea } from "@/shared/ui/textarea";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/tooltip";
 import { TypographyH4, TypographyMuted, TypographySmall } from "@/shared/ui/typography";
+import { cn } from "@/shared/utils";
 
 const issueSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -135,20 +137,20 @@ export function ThreadCard({
     <div className="flex flex-col gap-4">
       <div className="flex items-start justify-between">
         <div className="flex items-start gap-4">
-          <Avatar className="size-10 rounded-xl border">
+          <Avatar className="size-10 rounded-xl border shadow-sm transition-transform group-hover:scale-105">
             <AvatarImage src={author.avatarUrl} />
             <AvatarFallback className="rounded-xl">{author.name[0]}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <TypographyH4 className="line-clamp-1">{title}</TypographyH4>
+            <div className="flex flex-wrap items-center gap-2">
+              <TypographyH4 className="line-clamp-1 group-hover:text-primary">{title}</TypographyH4>
               {category && (
-                <Badge variant="outline" className="hidden sm:inline-flex">
+                <Badge variant="outline" className="hidden border-primary/20 bg-primary/10 text-primary sm:inline-flex">
                   {category}
                 </Badge>
               )}
             </div>
-            <div className="flex items-center gap-2 text-muted-foreground">
+            <div className="flex flex-wrap items-center gap-2 text-muted-foreground">
               <TypographySmall>Posted by {author.name}</TypographySmall>
               <span>•</span>
               <TypographySmall>{createdAt}</TypographySmall>
@@ -168,24 +170,34 @@ export function ThreadCard({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" onClick={e => e.preventDefault()}>
-            <DropdownMenuItem onClick={e => handleAction(e, handleShare)}>Share Thread</DropdownMenuItem>
+            <DropdownMenuItem onClick={e => handleAction(e, handleShare)}>
+              <Share2 className="mr-2 size-4" />
+              Share Thread
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={e => handleAction(e, () => setIsIssueDialogOpen(true))}>
               <GitPullRequest className="mr-2 size-4" />
               Convert to Issue
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive">Report</DropdownMenuItem>
+            <DropdownMenuItem className="text-destructive">
+              <AlertTriangle className="mr-2 size-4" />
+              Report
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
 
-      <TypographyMuted className="line-clamp-3 whitespace-pre-wrap">{content}</TypographyMuted>
+      <TypographyMuted className="line-clamp-3 whitespace-pre-wrap text-sm leading-relaxed">{content}</TypographyMuted>
 
       {tags.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {tags.map(tag => (
-            <Badge key={tag} variant="secondary" className="text-xs">
+            <Badge
+              key={tag}
+              variant="secondary"
+              className="bg-secondary/40 text-xs transition-colors hover:bg-secondary/60"
+            >
               {tag}
             </Badge>
           ))}
@@ -193,13 +205,13 @@ export function ThreadCard({
       )}
 
       <div className="flex items-center gap-2">
-        <div className="flex items-center gap-1 rounded-full border bg-background px-2 py-1">
+        <div className="flex items-center gap-1 rounded-full border bg-background px-2 py-1 shadow-sm transition-colors hover:border-primary/50">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
                 variant="ghost"
                 size="icon"
-                className={isUpvoted ? "text-primary" : ""}
+                className={cn("transition-colors", isUpvoted ? "text-primary" : "")}
                 onClick={e => handleAction(e, handleUpvote)}
               >
                 <ThumbsUp className="size-4" />
@@ -208,14 +220,14 @@ export function ThreadCard({
             <TooltipContent>Upvote</TooltipContent>
           </Tooltip>
 
-          <span className={`min-w-8 text-center text-sm font-medium ${scoreColor}`}>{score}</span>
+          <span className={cn("min-w-8 text-center text-sm font-medium transition-colors", scoreColor)}>{score}</span>
 
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
                 variant="ghost"
                 size="icon"
-                className={isDownvoted ? "text-destructive" : ""}
+                className={cn("transition-colors", isDownvoted ? "text-destructive" : "")}
                 onClick={e => handleAction(e, handleDownvote)}
               >
                 <ThumbsDown className="size-4" />
@@ -227,12 +239,17 @@ export function ThreadCard({
 
         <Separator orientation="vertical" className="h-6" />
 
-        <Button variant="ghost" size="sm" className="gap-2">
+        <Button variant="ghost" size="sm" className="gap-2 transition-colors hover:bg-secondary/80">
           <MessageSquare className="size-4" />
           <span className="text-sm">{replies} replies</span>
         </Button>
 
-        <Button variant="ghost" size="sm" className="gap-2 md:ml-auto" onClick={e => handleAction(e, handleShare)}>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="gap-2 transition-colors hover:bg-secondary/80 md:ml-auto"
+          onClick={e => handleAction(e, handleShare)}
+        >
           <Share2 className="size-4" />
           <span className="hidden sm:inline">Share</span>
         </Button>
@@ -241,7 +258,7 @@ export function ThreadCard({
   );
 
   const card = (
-    <Card className="group relative overflow-hidden bg-gradient-to-br from-background to-muted/20 p-6 transition-all hover:shadow-lg">
+    <Card className="group relative overflow-hidden bg-gradient-to-br from-background to-muted/20 p-6 shadow-md transition-all hover:shadow-lg hover:ring-1 hover:ring-primary/10">
       {cardContent}
     </Card>
   );

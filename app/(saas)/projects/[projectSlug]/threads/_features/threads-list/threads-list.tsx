@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Hash, Loader2, MessageSquare, MessageSquarePlus, X } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { Hash, Loader2, MessageSquare, MessageSquarePlus, Search, SlidersHorizontal, X } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -14,9 +14,10 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/shared/ui/input";
 import { ScrollArea } from "@/shared/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/shared/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
 import { Textarea } from "@/shared/ui/textarea";
-import { TypographyH3, TypographyMuted } from "@/shared/ui/typography";
+import { TypographyH3, TypographyMuted, TypographySmall } from "@/shared/ui/typography";
 
 import { ThreadCard } from "../thread-card/thread-card";
 
@@ -95,6 +96,10 @@ export function ThreadsList({ params }: { params: { projectSlug: string } }) {
   const [currentTab, setCurrentTab] = useState<"edit" | "preview">("edit");
   const [tagInput, setTagInput] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [sortBy, setSortBy] = useState<"latest" | "popular" | "controversial">("latest");
 
   const form = useForm<ThreadFormData>({
     resolver: zodResolver(threadSchema),
@@ -138,6 +143,42 @@ export function ThreadsList({ params }: { params: { projectSlug: string } }) {
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
+
+  // Get unique tags from all threads
+  const availableTags = useMemo(() => {
+    const tags = new Set<string>();
+    threads.forEach(thread => thread.tags?.forEach(tag => tags.add(tag)));
+    return Array.from(tags);
+  }, [threads]);
+
+  // Filter and sort threads
+  const filteredThreads = useMemo(() => {
+    return threads
+      .filter(thread => {
+        const matchesSearch = searchQuery
+          ? thread.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            thread.content.toLowerCase().includes(searchQuery.toLowerCase())
+          : true;
+
+        const matchesCategories =
+          selectedCategories.length === 0 || (thread.category && selectedCategories.includes(thread.category));
+
+        const matchesTags = selectedTags.length === 0 || thread.tags?.some(tag => selectedTags.includes(tag)) || false;
+
+        return matchesSearch && matchesCategories && matchesTags;
+      })
+      .sort((a, b) => {
+        switch (sortBy) {
+          case "popular":
+            return b.upvotes - b.downvotes - (a.upvotes - a.downvotes);
+          case "controversial":
+            return (b.downvotes / b.upvotes || 0) - (a.downvotes / a.upvotes || 0);
+          default:
+            // "latest"
+            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        }
+      });
+  }, [threads, searchQuery, selectedCategories, selectedTags, sortBy]);
 
   const onSubmit = async (data: ThreadFormData) => {
     setIsSubmitting(true);
@@ -227,199 +268,280 @@ export function ThreadsList({ params }: { params: { projectSlug: string } }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <TypographyH3>
-          <Translate token="project:details.threads.title" />
-        </TypographyH3>
-        <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <MessageSquarePlus className="mr-2 h-4 w-4" />
-              <Translate token="project:details.threads.create.form.submit" />
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[700px]">
-            <DialogHeader>
-              <DialogTitle>
-                <Translate token="project:details.threads.create.title" />
-              </DialogTitle>
-              <DialogDescription>
-                Start a new discussion thread. Be clear and specific to get better responses.
-              </DialogDescription>
-            </DialogHeader>
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <TypographyH3>
+            <Translate token="project:details.threads.title" />
+          </TypographyH3>
+          <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+            <DialogTrigger asChild>
+              <Button>
+                <MessageSquarePlus className="mr-2 h-4 w-4" />
+                <Translate token="project:details.threads.create.form.submit" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[700px]">
+              <DialogHeader>
+                <DialogTitle>
+                  <Translate token="project:details.threads.create.title" />
+                </DialogTitle>
+                <DialogDescription>
+                  Start a new discussion thread. Be clear and specific to get better responses.
+                </DialogDescription>
+              </DialogHeader>
 
-            <Tabs value={currentTab} onValueChange={value => setCurrentTab(value as "edit" | "preview")}>
-              <TabsList className="mb-4">
-                <TabsTrigger value="edit">Edit</TabsTrigger>
-                <TabsTrigger value="preview">Preview</TabsTrigger>
-              </TabsList>
+              <Tabs value={currentTab} onValueChange={value => setCurrentTab(value as "edit" | "preview")}>
+                <TabsList className="mb-4">
+                  <TabsTrigger value="edit">Edit</TabsTrigger>
+                  <TabsTrigger value="preview">Preview</TabsTrigger>
+                </TabsList>
 
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                  <TabsContent value="edit" className="space-y-4">
-                    <FormField
-                      control={form.control}
-                      name="title"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Title</FormLabel>
-                          <FormControl>
-                            <Input placeholder="What's your thread about?" {...field} />
-                          </FormControl>
-                          <FormDescription>
-                            Be specific and imagine you're asking a question to another person.
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="category"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Category</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <TabsContent value="edit" className="space-y-4">
+                      <FormField
+                        control={form.control}
+                        name="title"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Title</FormLabel>
                             <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select a category" />
-                              </SelectTrigger>
+                              <Input placeholder="What's your thread about?" {...field} />
                             </FormControl>
-                            <SelectContent>
-                              {THREAD_CATEGORIES.map(category => (
-                                <SelectItem key={category.value} value={category.value}>
-                                  {category.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                            <FormDescription>
+                              Be specific and imagine you're asking a question to another person.
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <FormField
-                      control={form.control}
-                      name="tags"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Tags</FormLabel>
-                          <FormControl>
-                            <div className="space-y-2">
-                              <div className="flex flex-wrap gap-2">
-                                {field.value.map(tag => (
-                                  <Badge key={tag} variant="secondary">
-                                    {tag}
-                                    <Button
-                                      variant="ghost"
-                                      size="icon"
-                                      className="ml-1 h-4 w-4 p-0 hover:bg-transparent"
-                                      onClick={() => handleRemoveTag(tag)}
-                                    >
-                                      <X className="size-3" />
-                                    </Button>
-                                  </Badge>
+                      <FormField
+                        control={form.control}
+                        name="category"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Category</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select a category" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {THREAD_CATEGORIES.map(category => (
+                                  <SelectItem key={category.value} value={category.value}>
+                                    {category.label}
+                                  </SelectItem>
                                 ))}
-                              </div>
-                              <div className="flex gap-2">
-                                <Input
-                                  placeholder="Add tags..."
-                                  value={tagInput}
-                                  onChange={e => setTagInput(e.target.value)}
-                                  onKeyDown={e => {
-                                    if (e.key === "Enter" && tagInput) {
-                                      e.preventDefault();
-                                      handleAddTag(tagInput);
-                                    }
-                                  }}
-                                />
-                                <Button
-                                  type="button"
-                                  variant="outline"
-                                  onClick={() => tagInput && handleAddTag(tagInput)}
-                                >
-                                  <Hash className="size-4" />
-                                </Button>
-                              </div>
-                              <ScrollArea className="h-20">
-                                <div className="flex flex-wrap gap-2 p-2">
-                                  {SUGGESTED_TAGS.map(tag => (
-                                    <Badge
-                                      key={tag}
-                                      variant="outline"
-                                      className="cursor-pointer"
-                                      onClick={() => handleAddTag(tag)}
-                                    >
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="tags"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Tags</FormLabel>
+                            <FormControl>
+                              <div className="space-y-2">
+                                <div className="flex flex-wrap gap-2">
+                                  {field.value.map(tag => (
+                                    <Badge key={tag} variant="secondary">
                                       {tag}
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="ml-1 h-4 w-4 p-0 hover:bg-transparent"
+                                        onClick={() => handleRemoveTag(tag)}
+                                      >
+                                        <X className="size-3" />
+                                      </Button>
                                     </Badge>
                                   ))}
                                 </div>
-                              </ScrollArea>
-                            </div>
-                          </FormControl>
-                          <FormDescription>Add up to 5 tags to help others find your thread.</FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="content"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Content</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder="Describe your topic in detail..."
-                              className="min-h-[200px]"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormDescription>
-                            Provide all the information others would need to understand and respond to your thread.
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </TabsContent>
-
-                  <TabsContent value="preview">
-                    <Card className="p-6">
-                      <ThreadCard
-                        id="preview"
-                        title={form.getValues("title") || "Thread Title"}
-                        content={form.getValues("content") || "Thread content will appear here..."}
-                        author={{
-                          name: "Current User",
-                          avatarUrl: "https://github.com/shadcn.png",
-                        }}
-                        createdAt="Preview"
-                        upvotes={0}
-                        replies={0}
-                        tags={form.getValues("tags")}
-                        category={form.getValues("category")}
-                        onUpvote={() => {}}
+                                <div className="flex gap-2">
+                                  <Input
+                                    placeholder="Add tags..."
+                                    value={tagInput}
+                                    onChange={e => setTagInput(e.target.value)}
+                                    onKeyDown={e => {
+                                      if (e.key === "Enter" && tagInput) {
+                                        e.preventDefault();
+                                        handleAddTag(tagInput);
+                                      }
+                                    }}
+                                  />
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    onClick={() => tagInput && handleAddTag(tagInput)}
+                                  >
+                                    <Hash className="size-4" />
+                                  </Button>
+                                </div>
+                                <ScrollArea className="h-20">
+                                  <div className="flex flex-wrap gap-2 p-2">
+                                    {SUGGESTED_TAGS.map(tag => (
+                                      <Badge
+                                        key={tag}
+                                        variant="outline"
+                                        className="cursor-pointer"
+                                        onClick={() => handleAddTag(tag)}
+                                      >
+                                        {tag}
+                                      </Badge>
+                                    ))}
+                                  </div>
+                                </ScrollArea>
+                              </div>
+                            </FormControl>
+                            <FormDescription>Add up to 5 tags to help others find your thread.</FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
                       />
-                    </Card>
-                  </TabsContent>
 
-                  <div className="flex justify-end gap-2">
-                    <Button variant="outline" type="button" onClick={() => setIsCreateDialogOpen(false)}>
-                      Cancel
-                    </Button>
-                    <Button type="submit" disabled={isSubmitting}>
-                      {isSubmitting && <Loader2 className="mr-2 size-4 animate-spin" />}
-                      Create Thread
-                    </Button>
+                      <FormField
+                        control={form.control}
+                        name="content"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Content</FormLabel>
+                            <FormControl>
+                              <Textarea
+                                placeholder="Describe your topic in detail..."
+                                className="min-h-[200px]"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              Provide all the information others would need to understand and respond to your thread.
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </TabsContent>
+
+                    <TabsContent value="preview">
+                      <Card className="p-6">
+                        <ThreadCard
+                          id="preview"
+                          title={form.getValues("title") || "Thread Title"}
+                          content={form.getValues("content") || "Thread content will appear here..."}
+                          author={{
+                            name: "Current User",
+                            avatarUrl: "https://github.com/shadcn.png",
+                          }}
+                          createdAt="Preview"
+                          upvotes={0}
+                          replies={0}
+                          tags={form.getValues("tags")}
+                          category={form.getValues("category")}
+                          onUpvote={() => {}}
+                        />
+                      </Card>
+                    </TabsContent>
+
+                    <div className="flex justify-end gap-2">
+                      <Button variant="outline" type="button" onClick={() => setIsCreateDialogOpen(false)}>
+                        Cancel
+                      </Button>
+                      <Button type="submit" disabled={isSubmitting}>
+                        {isSubmitting && <Loader2 className="mr-2 size-4 animate-spin" />}
+                        Create Thread
+                      </Button>
+                    </div>
+                  </form>
+                </Form>
+              </Tabs>
+            </DialogContent>
+          </Dialog>
+        </div>
+
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="Search threads..."
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+          <div className="flex gap-2">
+            <Select value={sortBy} onValueChange={value => setSortBy(value as typeof sortBy)}>
+              <SelectTrigger className="w-[140px]">
+                <SelectValue placeholder="Sort by" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="latest">Latest</SelectItem>
+                <SelectItem value="popular">Popular</SelectItem>
+                <SelectItem value="controversial">Controversial</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <SlidersHorizontal className="h-4 w-4" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle>Filter Threads</SheetTitle>
+                  <SheetDescription>Filter threads by category and tags</SheetDescription>
+                </SheetHeader>
+                <div className="mt-6 space-y-6">
+                  <div className="space-y-2">
+                    <TypographySmall className="font-medium">Categories</TypographySmall>
+                    <div className="flex flex-wrap gap-2">
+                      {THREAD_CATEGORIES.map(category => (
+                        <Badge
+                          key={category.value}
+                          variant={selectedCategories.includes(category.value) ? "default" : "outline"}
+                          className="cursor-pointer"
+                          onClick={() =>
+                            setSelectedCategories(prev =>
+                              prev.includes(category.value)
+                                ? prev.filter(c => c !== category.value)
+                                : [...prev, category.value]
+                            )
+                          }
+                        >
+                          {category.label}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
-                </form>
-              </Form>
-            </Tabs>
-          </DialogContent>
-        </Dialog>
+
+                  <div className="space-y-2">
+                    <TypographySmall className="font-medium">Tags</TypographySmall>
+                    <div className="flex flex-wrap gap-2">
+                      {availableTags.map(tag => (
+                        <Badge
+                          key={tag}
+                          variant={selectedTags.includes(tag) ? "default" : "outline"}
+                          className="cursor-pointer"
+                          onClick={() =>
+                            setSelectedTags(prev => (prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]))
+                          }
+                        >
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
       </div>
 
       <div className="grid gap-4">
@@ -440,8 +562,8 @@ export function ThreadsList({ params }: { params: { projectSlug: string } }) {
               </div>
             </div>
           </Card>
-        ) : threads.length > 0 ? (
-          threads.map(thread => (
+        ) : filteredThreads.length > 0 ? (
+          filteredThreads.map(thread => (
             <ThreadCard
               key={thread.id}
               {...thread}
@@ -456,11 +578,11 @@ export function ThreadsList({ params }: { params: { projectSlug: string } }) {
           <Card className="flex flex-col items-center gap-4 p-8 text-center">
             <MessageSquare className="size-12 text-muted-foreground" />
             <div className="space-y-2">
-              <TypographyH3>
-                <Translate token="project:details.threads.empty.title" />
-              </TypographyH3>
+              <TypographyH3>No threads found</TypographyH3>
               <TypographyMuted>
-                <Translate token="project:details.threads.empty.description" />
+                {searchQuery || selectedCategories.length > 0 || selectedTags.length > 0
+                  ? "Try adjusting your filters or search query"
+                  : "Be the first to start a discussion!"}
               </TypographyMuted>
             </div>
             <Button onClick={() => setIsCreateDialogOpen(true)}>

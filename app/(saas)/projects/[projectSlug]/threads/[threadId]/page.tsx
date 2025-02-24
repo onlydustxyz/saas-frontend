@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
 import { Loader2, MessageSquare } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -15,6 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/shared/ui/separator";
 import { Textarea } from "@/shared/ui/textarea";
 import { TypographyH3, TypographyMuted } from "@/shared/ui/typography";
+import { cn } from "@/shared/utils";
 
 import { ThreadCard } from "../_features/thread-card/thread-card";
 import { CommentCard } from "./_features/comment-card/comment-card";
@@ -204,7 +206,7 @@ function ThreadDetailsPage({ params }: { params: { threadId: string; projectSlug
 
   return (
     <ScrollView>
-      <div className="container space-y-6 py-6">
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="container space-y-6 py-6">
         {isLoading ? (
           <Card className="p-6">
             <div className="flex animate-pulse flex-col gap-6">
@@ -223,95 +225,117 @@ function ThreadDetailsPage({ params }: { params: { threadId: string; projectSlug
             </div>
           </Card>
         ) : (
-          <Card>
-            <div className="space-y-6 p-6">
+          <div className="space-y-6">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
               <ThreadCard {...MOCK_THREAD} projectSlug={params.projectSlug} onUpvote={() => {}} isPreview />
+            </motion.div>
 
-              <Separator />
-
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">{comments.length} comments</span>
-                  <Separator orientation="vertical" className="h-4" />
-                  <Select value={sortBy} onValueChange={value => setSortBy(value as SortOption)}>
-                    <SelectTrigger className="w-[120px]">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="best">Best</SelectItem>
-                      <SelectItem value="top">Top</SelectItem>
-                      <SelectItem value="new">New</SelectItem>
-                      <SelectItem value="old">Old</SelectItem>
-                      <SelectItem value="controversial">Controversial</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                  <FormField
-                    control={form.control}
-                    name="content"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Textarea
-                            placeholder={
-                              replyingTo ? "Write your reply..." : "What are your thoughts on this discussion?"
-                            }
-                            className="min-h-[100px] resize-y"
-                            disabled={isSubmitting}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <div className="flex justify-end gap-2">
-                    {replyingTo && (
-                      <Button
-                        variant="outline"
-                        type="button"
-                        onClick={() => setReplyingTo(null)}
-                        disabled={isSubmitting}
-                      >
-                        Cancel Reply
-                      </Button>
-                    )}
-                    <Button type="submit" disabled={isSubmitting}>
-                      {isSubmitting && <Loader2 className="mr-2 size-4 animate-spin" />}
-                      {replyingTo ? "Reply" : "Comment"}
-                    </Button>
-                  </div>
-                </form>
-              </Form>
-
-              <div className="space-y-4">
-                {comments.map(comment => (
-                  <CommentCard
-                    key={comment.id}
-                    {...comment}
-                    onUpvote={handleUpvote}
-                    onDownvote={handleDownvote}
-                    onReply={() => setReplyingTo(comment.id)}
-                  />
-                ))}
-                {comments.length === 0 && (
-                  <div className="flex flex-col items-center gap-4 py-12 text-center">
-                    <MessageSquare className="size-12 text-muted-foreground" />
-                    <div className="space-y-2">
-                      <TypographyH3>No comments yet</TypographyH3>
-                      <TypographyMuted>Be the first to share your thoughts!</TypographyMuted>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="space-y-6"
+            >
+              <Card className="overflow-hidden bg-gradient-to-br from-background to-muted/20">
+                <div className="space-y-6 p-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium">{comments.length} comments</span>
+                      <Separator orientation="vertical" className="h-4" />
+                      <Select value={sortBy} onValueChange={value => setSortBy(value as SortOption)}>
+                        <SelectTrigger className="w-[120px]">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="best">Best</SelectItem>
+                          <SelectItem value="top">Top</SelectItem>
+                          <SelectItem value="new">New</SelectItem>
+                          <SelectItem value="old">Old</SelectItem>
+                          <SelectItem value="controversial">Controversial</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
-                )}
-              </div>
-            </div>
-          </Card>
+
+                  <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                      <FormField
+                        control={form.control}
+                        name="content"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Textarea
+                                placeholder={
+                                  replyingTo ? "Write your reply..." : "What are your thoughts on this discussion?"
+                                }
+                                className={cn(
+                                  "min-h-[100px] resize-y transition-all duration-200",
+                                  field.value && "min-h-[150px]"
+                                )}
+                                disabled={isSubmitting}
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <div className="flex justify-end gap-2">
+                        {replyingTo && (
+                          <Button
+                            variant="outline"
+                            type="button"
+                            onClick={() => setReplyingTo(null)}
+                            disabled={isSubmitting}
+                          >
+                            Cancel Reply
+                          </Button>
+                        )}
+                        <Button type="submit" disabled={isSubmitting}>
+                          {isSubmitting && <Loader2 className="mr-2 size-4 animate-spin" />}
+                          {replyingTo ? "Reply" : "Comment"}
+                        </Button>
+                      </div>
+                    </form>
+                  </Form>
+
+                  <div className="space-y-4">
+                    {comments.map((comment, index) => (
+                      <motion.div
+                        key={comment.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                      >
+                        <CommentCard
+                          {...comment}
+                          onUpvote={handleUpvote}
+                          onDownvote={handleDownvote}
+                          onReply={() => setReplyingTo(comment.id)}
+                        />
+                      </motion.div>
+                    ))}
+                    {comments.length === 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="flex flex-col items-center gap-4 py-12 text-center"
+                      >
+                        <MessageSquare className="size-12 text-muted-foreground" />
+                        <div className="space-y-2">
+                          <TypographyH3>No comments yet</TypographyH3>
+                          <TypographyMuted>Be the first to share your thoughts!</TypographyMuted>
+                        </div>
+                      </motion.div>
+                    )}
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+          </div>
         )}
-      </div>
+      </motion.div>
     </ScrollView>
   );
 }
