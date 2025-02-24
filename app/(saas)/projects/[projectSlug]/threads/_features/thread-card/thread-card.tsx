@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GitPullRequest, MessageSquare, MoreHorizontal, Share2, ThumbsDown, ThumbsUp } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -47,6 +48,8 @@ interface ThreadCardProps {
   replies: number;
   tags?: string[];
   category?: string;
+  projectSlug?: string;
+  isPreview?: boolean;
   onUpvote: (id: string) => void;
   onDownvote?: (id: string) => void;
   onShare?: (id: string) => void;
@@ -64,6 +67,8 @@ export function ThreadCard({
   replies,
   tags = [],
   category,
+  projectSlug,
+  isPreview,
   onUpvote,
   onDownvote,
   onShare,
@@ -120,111 +125,136 @@ export function ThreadCard({
   const score = upvotes - downvotes;
   const scoreColor = score > 0 ? "text-green-500" : score < 0 ? "text-red-500" : "text-muted-foreground";
 
-  return (
-    <>
-      <Card className="group relative overflow-hidden bg-gradient-to-br from-background to-muted/20 p-6 transition-all hover:shadow-lg">
-        <div className="flex flex-col gap-4">
-          <div className="flex items-start justify-between">
-            <div className="flex items-start gap-4">
-              <Avatar className="size-10 rounded-xl border">
-                <AvatarImage src={author.avatarUrl} />
-                <AvatarFallback className="rounded-xl">{author.name[0]}</AvatarFallback>
-              </Avatar>
-              <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-2">
-                  <TypographyH4 className="line-clamp-1">{title}</TypographyH4>
-                  {category && (
-                    <Badge variant="outline" className="hidden sm:inline-flex">
-                      {category}
-                    </Badge>
-                  )}
-                </div>
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <TypographySmall>Posted by {author.name}</TypographySmall>
-                  <span>•</span>
-                  <TypographySmall>{createdAt}</TypographySmall>
-                </div>
-              </div>
-            </div>
+  const handleAction = (e: React.MouseEvent, action: () => void) => {
+    e.preventDefault();
+    e.stopPropagation();
+    action();
+  };
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="opacity-0 transition-opacity group-hover:opacity-100">
-                  <MoreHorizontal className="size-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={handleShare}>Share Thread</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => setIsIssueDialogOpen(true)}>
-                  <GitPullRequest className="mr-2 size-4" />
-                  Convert to Issue
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-destructive">Report</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-
-          <TypographyMuted className="line-clamp-3 whitespace-pre-wrap">{content}</TypographyMuted>
-
-          {tags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {tags.map(tag => (
-                <Badge key={tag} variant="secondary" className="text-xs">
-                  {tag}
+  const cardContent = (
+    <div className="flex flex-col gap-4">
+      <div className="flex items-start justify-between">
+        <div className="flex items-start gap-4">
+          <Avatar className="size-10 rounded-xl border">
+            <AvatarImage src={author.avatarUrl} />
+            <AvatarFallback className="rounded-xl">{author.name[0]}</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-2">
+              <TypographyH4 className="line-clamp-1">{title}</TypographyH4>
+              {category && (
+                <Badge variant="outline" className="hidden sm:inline-flex">
+                  {category}
                 </Badge>
-              ))}
+              )}
             </div>
-          )}
-
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1 rounded-full border bg-background px-2 py-1">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className={isUpvoted ? "text-primary" : ""}
-                    onClick={handleUpvote}
-                  >
-                    <ThumbsUp className="size-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Upvote</TooltipContent>
-              </Tooltip>
-
-              <span className={`min-w-8 text-center text-sm font-medium ${scoreColor}`}>{score}</span>
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className={isDownvoted ? "text-destructive" : ""}
-                    onClick={handleDownvote}
-                  >
-                    <ThumbsDown className="size-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Downvote</TooltipContent>
-              </Tooltip>
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <TypographySmall>Posted by {author.name}</TypographySmall>
+              <span>•</span>
+              <TypographySmall>{createdAt}</TypographySmall>
             </div>
-
-            <Separator orientation="vertical" className="h-6" />
-
-            <Button variant="ghost" size="sm" className="gap-2">
-              <MessageSquare className="size-4" />
-              <span className="text-sm">{replies} replies</span>
-            </Button>
-
-            <Button variant="ghost" size="sm" className="gap-2 md:ml-auto" onClick={handleShare}>
-              <Share2 className="size-4" />
-              <span className="hidden sm:inline">Share</span>
-            </Button>
           </div>
         </div>
-      </Card>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="opacity-0 transition-opacity group-hover:opacity-100"
+              onClick={e => e.preventDefault()}
+            >
+              <MoreHorizontal className="size-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" onClick={e => e.preventDefault()}>
+            <DropdownMenuItem onClick={e => handleAction(e, handleShare)}>Share Thread</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={e => handleAction(e, () => setIsIssueDialogOpen(true))}>
+              <GitPullRequest className="mr-2 size-4" />
+              Convert to Issue
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="text-destructive">Report</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
+      <TypographyMuted className="line-clamp-3 whitespace-pre-wrap">{content}</TypographyMuted>
+
+      {tags.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {tags.map(tag => (
+            <Badge key={tag} variant="secondary" className="text-xs">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+      )}
+
+      <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 rounded-full border bg-background px-2 py-1">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className={isUpvoted ? "text-primary" : ""}
+                onClick={e => handleAction(e, handleUpvote)}
+              >
+                <ThumbsUp className="size-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Upvote</TooltipContent>
+          </Tooltip>
+
+          <span className={`min-w-8 text-center text-sm font-medium ${scoreColor}`}>{score}</span>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className={isDownvoted ? "text-destructive" : ""}
+                onClick={e => handleAction(e, handleDownvote)}
+              >
+                <ThumbsDown className="size-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Downvote</TooltipContent>
+          </Tooltip>
+        </div>
+
+        <Separator orientation="vertical" className="h-6" />
+
+        <Button variant="ghost" size="sm" className="gap-2">
+          <MessageSquare className="size-4" />
+          <span className="text-sm">{replies} replies</span>
+        </Button>
+
+        <Button variant="ghost" size="sm" className="gap-2 md:ml-auto" onClick={e => handleAction(e, handleShare)}>
+          <Share2 className="size-4" />
+          <span className="hidden sm:inline">Share</span>
+        </Button>
+      </div>
+    </div>
+  );
+
+  const card = (
+    <Card className="group relative overflow-hidden bg-gradient-to-br from-background to-muted/20 p-6 transition-all hover:shadow-lg">
+      {cardContent}
+    </Card>
+  );
+
+  if (isPreview) {
+    return card;
+  }
+
+  return (
+    <>
+      <Link href={`/projects/${projectSlug}/threads/${id}`} className="block">
+        {card}
+      </Link>
 
       <Dialog open={isIssueDialogOpen} onOpenChange={setIsIssueDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">

@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Hash, Loader2, MessageSquarePlus, X } from "lucide-react";
+import { Hash, Loader2, MessageSquare, MessageSquarePlus, X } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -94,6 +94,7 @@ export function ThreadsList({ params }: { params: { projectSlug: string } }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentTab, setCurrentTab] = useState<"edit" | "preview">("edit");
   const [tagInput, setTagInput] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const form = useForm<ThreadFormData>({
     resolver: zodResolver(threadSchema),
@@ -115,9 +116,12 @@ export function ThreadsList({ params }: { params: { projectSlug: string } }) {
   }, [form]);
 
   // Save draft to localStorage
-  const saveDraft = useCallback((data: Partial<ThreadFormData>) => {
-    localStorage.setItem("threadDraft", JSON.stringify(data));
-  }, []);
+  const saveDraft = useCallback(
+    (data: Partial<{ title: string; content: string; category: string; tags: string[] }>) => {
+      localStorage.setItem("threadDraft", JSON.stringify(data));
+    },
+    []
+  );
 
   // Auto-save draft when form changes
   useEffect(() => {
@@ -126,6 +130,14 @@ export function ThreadsList({ params }: { params: { projectSlug: string } }) {
     });
     return () => subscription.unsubscribe();
   }, [form, saveDraft]);
+
+  useEffect(() => {
+    // Simulate loading
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const onSubmit = async (data: ThreadFormData) => {
     setIsSubmitting(true);
@@ -411,11 +423,29 @@ export function ThreadsList({ params }: { params: { projectSlug: string } }) {
       </div>
 
       <div className="grid gap-4">
-        {threads.length > 0 ? (
+        {isLoading ? (
+          <Card className="p-6">
+            <div className="flex animate-pulse flex-col gap-6">
+              <div className="flex items-start gap-4">
+                <div className="h-10 w-10 rounded-xl bg-muted"></div>
+                <div className="flex-1 space-y-4">
+                  <div className="h-4 w-3/4 rounded bg-muted"></div>
+                  <div className="h-3 w-1/4 rounded bg-muted"></div>
+                </div>
+              </div>
+              <div className="h-16 rounded bg-muted"></div>
+              <div className="flex gap-2">
+                <div className="h-6 w-20 rounded-full bg-muted"></div>
+                <div className="h-6 w-20 rounded-full bg-muted"></div>
+              </div>
+            </div>
+          </Card>
+        ) : threads.length > 0 ? (
           threads.map(thread => (
             <ThreadCard
               key={thread.id}
               {...thread}
+              projectSlug={params.projectSlug}
               onUpvote={handleUpvote}
               onDownvote={handleDownvote}
               onShare={handleShare}
@@ -423,10 +453,20 @@ export function ThreadsList({ params }: { params: { projectSlug: string } }) {
             />
           ))
         ) : (
-          <Card className="p-6">
-            <TypographyMuted>
-              <Translate token="project:details.threads.empty.description" />
-            </TypographyMuted>
+          <Card className="flex flex-col items-center gap-4 p-8 text-center">
+            <MessageSquare className="size-12 text-muted-foreground" />
+            <div className="space-y-2">
+              <TypographyH3>
+                <Translate token="project:details.threads.empty.title" />
+              </TypographyH3>
+              <TypographyMuted>
+                <Translate token="project:details.threads.empty.description" />
+              </TypographyMuted>
+            </div>
+            <Button onClick={() => setIsCreateDialogOpen(true)}>
+              <MessageSquarePlus className="mr-2 h-4 w-4" />
+              Start a Thread
+            </Button>
           </Card>
         )}
       </div>
