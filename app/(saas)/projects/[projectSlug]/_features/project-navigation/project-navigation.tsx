@@ -11,6 +11,7 @@ const PROJECT_ROUTES = (projectSlug: string) => [
   { href: NEXT_ROUTER.projects.details.issues.root(projectSlug), label: "Open Issues" },
   { href: NEXT_ROUTER.projects.details.contributors.root(projectSlug), label: "Contributors" },
   { href: NEXT_ROUTER.projects.details.rewards.root(projectSlug), label: "Rewards" },
+  { href: NEXT_ROUTER.projects.details.threads.root(projectSlug), label: "Threads" },
 ];
 
 export function ProjectNavigation({ params }: { params: { projectSlug: string } }) {

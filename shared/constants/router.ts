@@ -97,6 +97,9 @@ export const NEXT_ROUTER = {
       rewards: {
         root: (slug: string) => `/projects/${slug}/rewards`,
       },
+      threads: {
+        root: (slug: string) => `/projects/${slug}/threads`,
+      },
     },
   },
   osw: {

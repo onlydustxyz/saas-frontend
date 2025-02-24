@@ -3,7 +3,8 @@
     "overview": "Overview",
     "openIssues": "Open Issues",
     "contributors": "Contributors",
-    "rewards": "Rewards"
+    "rewards": "Rewards",
+    "threads": "Threads"
   },
   "events": {
     "title": "Events"
@@ -53,6 +54,21 @@
     "empty": {
       "title": "No open issues",
       "description": "There are currently no open issues available in this project"
+    }
+  },
+  "threads": {
+    "title": "Project Threads",
+    "empty": {
+      "title": "No threads yet",
+      "description": "Be the first to start a discussion!"
+    },
+    "create": {
+      "title": "Create New Thread",
+      "form": {
+        "title": "Title",
+        "content": "Content",
+        "submit": "Create Thread"
+      }
     }
   }
 }
