@@ -100,6 +100,9 @@ export const NEXT_ROUTER = {
       threads: {
         root: (slug: string) => `/projects/${slug}/threads`,
       },
+      channels: {
+        root: (slug: string) => `/projects/${slug}/channels`,
+      },
     },
   },
   osw: {
