@@ -103,6 +103,9 @@ export const NEXT_ROUTER = {
       channels: {
         root: (slug: string) => `/projects/${slug}/channels`,
       },
+      discord: {
+        root: (slug: string) => `/projects/${slug}/discord`,
+      },
     },
   },
   osw: {
