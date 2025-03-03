@@ -8,6 +8,7 @@ import { NewIssues } from "./_features/new-issues/new-issues";
 import { OdQuestBanner } from "./_features/odquest-banner/odquest-banner";
 import { ProjectRecommendationBanner } from "./_features/project-recommendation-banner/project-recommendation-banner";
 import { RecommendedIssues } from "./_features/recommended-issues/recommended-issues";
+import { SmartSearch } from "./_features/smart-search/smart-search";
 
 interface Issue {
   id: string;
@@ -316,7 +317,7 @@ export default function ExplorePage() {
   const cat3 = categories[2];
 
   return (
-    <PageContainer>
+    <PageContainer size="large">
       <NavigationBreadcrumb
         breadcrumb={[
           {
@@ -326,37 +327,43 @@ export default function ExplorePage() {
         ]}
       />
 
-      <div className="flex flex-col gap-16 pt-10">
-        <IssueCategory
-          key={recommendedIssues.id}
-          title={recommendedIssues.title}
-          type={recommendedIssues.type}
-          items={recommendedIssues.items}
-        />
+      <div className="flex flex-col items-center gap-16">
+        {/* Smart Search Hero */}
+        <SmartSearch />
 
-        {/* Continue where you left off section */}
-        <div className="relative -mx-6 px-6">
-          <div className="relative">
-            <ContinueContributing />
+        {/* Main Content */}
+        <div className="max-w-[1400px] space-y-16">
+          <IssueCategory
+            key={recommendedIssues.id}
+            title={recommendedIssues.title}
+            type={recommendedIssues.type}
+            items={recommendedIssues.items}
+          />
+
+          {/* Continue where you left off section */}
+          <div className="relative -mx-6 px-6">
+            <div className="relative">
+              <ContinueContributing />
+            </div>
           </div>
+
+          {/* Project Recommendation Banner */}
+          <div className="relative -mx-6 px-6">
+            <ProjectRecommendationBanner />
+          </div>
+
+          <IssueCategory key={cat1.id} title={cat1.title} type={cat1.type} items={cat1.items} />
+          <IssueCategory key={cat2.id} title={cat2.title} type={cat2.type} items={cat2.items} />
+
+          {/* OdQuest Banner */}
+          <div className="relative -mx-6 px-6">
+            <OdQuestBanner />
+          </div>
+
+          <IssueCategory key={cat3.id} title={cat3.title} type={cat3.type} items={cat3.items} />
+
+          <FeaturedProjects />
         </div>
-
-        {/* Project Recommendation Banner */}
-        <div className="relative -mx-6 px-6">
-          <ProjectRecommendationBanner />
-        </div>
-
-        <IssueCategory key={cat1.id} title={cat1.title} type={cat1.type} items={cat1.items} />
-        <IssueCategory key={cat2.id} title={cat2.title} type={cat2.type} items={cat2.items} />
-
-        {/* OdQuest Banner */}
-        <div className="relative -mx-6 px-6">
-          <OdQuestBanner />
-        </div>
-
-        <IssueCategory key={cat3.id} title={cat3.title} type={cat3.type} items={cat3.items} />
-
-        <FeaturedProjects />
       </div>
     </PageContainer>
   );
