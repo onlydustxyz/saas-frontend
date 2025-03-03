@@ -1,11 +1,14 @@
 import {
+  BookOpenIcon,
   CalendarIcon,
   GitBranchIcon,
   GitCommitIcon,
   GitPullRequestIcon,
   MessageSquareIcon,
+  StarIcon,
   UsersIcon,
 } from "lucide-react";
+import Link from "next/link";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Badge } from "@/shared/ui/badge";
@@ -106,10 +109,136 @@ This is a good first issue for someone familiar with CSS and React. The implemen
     ],
   };
 
+  // This would typically come from an API
+  const projectOverview = {
+    stats: {
+      stars: 115000,
+      forks: 24000,
+      contributors: 2800,
+      openIssues: 150,
+    },
+    techStack: [
+      { name: "TypeScript", color: "#3178C6" },
+      { name: "React", color: "#61DAFB" },
+      { name: "Node.js", color: "#339933" },
+    ],
+    documentation: "https://nextjs.org/docs",
+    difficulty: {
+      timeEstimate: "2-3 days",
+      expertise: ["React", "CSS", "TypeScript"],
+      scope: "Medium",
+    },
+  };
+
   return (
-    <div className="grid gap-8 lg:grid-cols-3">
+    <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
       {/* Main Content */}
-      <div className="space-y-8 lg:col-span-2">
+      <div className="space-y-6">
+        {/* Project Overview Card */}
+        <Card className="overflow-hidden">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <BookOpenIcon className="h-5 w-5 text-blue-500" />
+              Project Overview
+            </CardTitle>
+            <CardDescription>Key information about the project and issue scope</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              {/* Project Stats */}
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                    <StarIcon className="h-4 w-4" />
+                    Stars
+                  </div>
+                  <p className="text-xl font-semibold">{projectOverview.stats.stars.toLocaleString()}</p>
+                </div>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                    <GitBranchIcon className="h-4 w-4" />
+                    Forks
+                  </div>
+                  <p className="text-xl font-semibold">{projectOverview.stats.forks.toLocaleString()}</p>
+                </div>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                    <UsersIcon className="h-4 w-4" />
+                    Contributors
+                  </div>
+                  <p className="text-xl font-semibold">{projectOverview.stats.contributors.toLocaleString()}</p>
+                </div>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                    <GitPullRequestIcon className="h-4 w-4" />
+                    Open Issues
+                  </div>
+                  <p className="text-xl font-semibold">{projectOverview.stats.openIssues.toLocaleString()}</p>
+                </div>
+              </div>
+
+              <Separator />
+
+              {/* Tech Stack & Resources */}
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <h3 className="text-sm font-medium">Tech Stack</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {projectOverview.techStack.map(tech => (
+                      <Badge
+                        key={tech.name}
+                        variant="outline"
+                        style={{
+                          backgroundColor: `${tech.color}15`,
+                          color: tech.color,
+                          borderColor: `${tech.color}30`,
+                        }}
+                      >
+                        {tech.name}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-sm font-medium">Resources</h3>
+                  <Button variant="outline" size="sm" className="gap-2" asChild>
+                    <Link href={projectOverview.documentation}>
+                      <BookOpenIcon className="h-4 w-4" />
+                      View Documentation
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+
+              <Separator />
+
+              {/* Issue Scope */}
+              <div className="grid gap-6 sm:grid-cols-3">
+                <div className="space-y-2">
+                  <h3 className="text-sm font-medium">Time Estimate</h3>
+                  <p className="text-sm text-muted-foreground">{projectOverview.difficulty.timeEstimate}</p>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-sm font-medium">Required Expertise</h3>
+                  <div className="flex flex-wrap gap-1">
+                    {projectOverview.difficulty.expertise.map(skill => (
+                      <Badge key={skill} variant="secondary" className="text-xs">
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-sm font-medium">Scope</h3>
+                  <Badge variant="outline" className="bg-yellow-500/10 text-yellow-500">
+                    {projectOverview.difficulty.scope}
+                  </Badge>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Description Card */}
         <Card className="overflow-hidden">
           <CardHeader>

@@ -19,18 +19,16 @@ export async function generateMetadata({ params }: { params: { issueId: string }
 
 export default function IssueLayout({ params, children }: { params: { issueId: string }; children: ReactNode }) {
   return (
-    <PageContainer size="small">
+    <PageContainer size="large">
       <div className="flex min-h-screen flex-col">
         {/* Header Area */}
-
-        <div className="mb-4 border-b">
+        <div className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <IssueHeader issueId={params.issueId} />
         </div>
 
         {/* Main Content */}
-        <div className="relative flex-1">
-          {/* Content */}
-          <div className="relative">{children}</div>
+        <div className="relative flex-1 py-8">
+          <div className="mx-auto max-w-[1400px]">{children}</div>
         </div>
 
         {/* Sidepanel */}
