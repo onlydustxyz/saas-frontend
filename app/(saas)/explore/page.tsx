@@ -5,6 +5,8 @@ import { ContinueContributing } from "./_features/continue-contributing/continue
 import { FeaturedProjects } from "./_features/featured-projects/featured-projects";
 import { IssueCategory } from "./_features/issue-category/issue-category";
 import { NewIssues } from "./_features/new-issues/new-issues";
+import { OdQuestBanner } from "./_features/odquest-banner/odquest-banner";
+import { ProjectRecommendationBanner } from "./_features/project-recommendation-banner/project-recommendation-banner";
 import { RecommendedIssues } from "./_features/recommended-issues/recommended-issues";
 
 interface Issue {
@@ -309,6 +311,10 @@ export default function ExplorePage() {
     },
   ];
 
+  const cat1 = categories[0];
+  const cat2 = categories[1];
+  const cat3 = categories[2];
+
   return (
     <PageContainer>
       <NavigationBreadcrumb
@@ -330,16 +336,25 @@ export default function ExplorePage() {
 
         {/* Continue where you left off section */}
         <div className="relative -mx-6 px-6">
-          <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-muted/20 to-background/20 backdrop-blur-sm" />
           <div className="relative">
             <ContinueContributing />
           </div>
         </div>
 
-        {/* Dynamic Category Sections */}
-        {categories.map(category => (
-          <IssueCategory key={category.id} title={category.title} type={category.type} items={category.items} />
-        ))}
+        {/* Project Recommendation Banner */}
+        <div className="relative -mx-6 px-6">
+          <ProjectRecommendationBanner />
+        </div>
+
+        <IssueCategory key={cat1.id} title={cat1.title} type={cat1.type} items={cat1.items} />
+        <IssueCategory key={cat2.id} title={cat2.title} type={cat2.type} items={cat2.items} />
+
+        {/* OdQuest Banner */}
+        <div className="relative -mx-6 px-6">
+          <OdQuestBanner />
+        </div>
+
+        <IssueCategory key={cat3.id} title={cat3.title} type={cat3.type} items={cat3.items} />
 
         <FeaturedProjects />
       </div>
