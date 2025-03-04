@@ -14,6 +14,7 @@ import { ContributionActivityInterface } from "@/core/domain/contribution/models
 import { IssueInterface } from "@/core/domain/issue/models/issue-model";
 
 import { Button } from "@/design-system/atoms/button/variants/button-default";
+import { ButtonPrimaryColorVariants } from "@/design-system/atoms/button/variants/button-primary-color";
 import { Typo } from "@/design-system/atoms/typo";
 import { CheckboxButton } from "@/design-system/molecules/checkbox-button";
 import { ContributionBadge } from "@/design-system/molecules/contribution-badge";
@@ -31,8 +32,20 @@ import { SidePanelLoading } from "@/shared/features/side-panels/side-panel-loadi
 import { useSidePanel, useSinglePanelData } from "@/shared/features/side-panels/side-panel/side-panel";
 import { Github } from "@/shared/icons";
 import { Translate } from "@/shared/translation/components/translate/translate";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/shared/ui/alert-dialog";
 import { Card, CardDescription } from "@/shared/ui/card";
 import { TypographyH4 } from "@/shared/ui/typography";
+import { cn } from "@/shared/utils";
 
 import { Apply } from "./_components/apply/apply";
 import { Metrics } from "./_components/metrics/metrics";
@@ -141,13 +154,48 @@ function Footer({
             ) : (
               <>
                 <div />
-                <Button
-                  variant="primary"
-                  translate={{ token: "panels:applyIssue.apply.sendApplication" }}
-                  type="submit"
-                  isLoading={isPending}
-                  isDisabled={maxApplicationsReached}
-                />
+                <div className="flex flex-row gap-2">
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <button className={ButtonPrimaryColorVariants({ variant: "secondary" }).base()} type="button">
+                        <Typo
+                          size="sm"
+                          as={"span"}
+                          classNames={{ base: cn(ButtonPrimaryColorVariants({ variant: "secondary" }).label()) }}
+                        >
+                          Try issue
+                        </Typo>
+                      </button>
+                    </AlertDialogTrigger>
+
+                    <AlertDialogContent className="z-[100] max-w-screen-sm" overlayProps={{ className: "z-[100]" }}>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Contribute without applying</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Discover the project without applying.
+                          <br />
+                          You can hone your skills and apply later if you&apos;re up to it.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Not now</AlertDialogCancel>
+                        <AlertDialogAction asChild>
+                          <a href={issueUrl} target="_blank" rel="noreferrer">
+                            Let&apos;s go!
+                          </a>
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+
+                  <Button
+                    variant="primary"
+                    translate={{ token: "panels:applyIssue.apply.sendApplication" }}
+                    type="submit"
+                    isLoading={isPending}
+                    isDisabled={maxApplicationsReached}
+                  />
+                </div>
               </>
             )}
           </div>

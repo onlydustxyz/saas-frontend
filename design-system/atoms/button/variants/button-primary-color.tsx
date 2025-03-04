@@ -9,7 +9,7 @@ import { cn } from "@/shared/helpers/cn";
 
 import { ButtonSolidPort } from "../button.types";
 
-const ButtonPrimaryColorVariants = tv({
+export const ButtonPrimaryColorVariants = tv({
   extend: ButtonDefaultVariants,
   slots: {
     base: "outline-none data-[focus-visible=true]:effect-ring-brand-spaced focus-visible:effect-ring-brand-spaced",
