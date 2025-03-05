@@ -1,5 +1,5 @@
 import odSayAvatar from "@/public/images/avatars/od_say.webp";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { useLocalStorage } from "react-use";
 import { toast } from "sonner";
 
@@ -47,19 +47,27 @@ export default function useChat() {
 
   const { user } = useAuthUser();
 
-  const { mutate: startChat, isPending: isStartChatPending } = MeReactQueryAdapter.client.useStartRecoChat({
+  const {
+    mutate: startChat,
+    mutateAsync: startChatAsync,
+    isPending: isStartChatPending,
+  } = MeReactQueryAdapter.client.useStartRecoChat({
     options: {
-      onSuccess: data => {
-        setMessages([messageFromAssistant(data)]);
-        setChatId(data.chatId);
-      },
+      // onSuccess: data => {
+      //   setMessages([messageFromAssistant(data)]);
+      //   setChatId(data.chatId);
+      // },
       onError: error => toast.error(error.message),
       retry: 3,
     },
   });
 
-  const { mutate: continueChat, isPending: isContinueChatPending } = MeReactQueryAdapter.client.useContinueRecoChat({
-    pathParams: { chatId: chatId || "" },
+  const {
+    mutate: continueChat,
+    mutate: continueChatAsync,
+    isPending: isContinueChatPending,
+  } = MeReactQueryAdapter.client.useContinueRecoChat({
+    pathParams: { chatId: JSON.parse(localStorage.getItem("odsay-chat-id") || "null") || "" },
     options: {
       onSuccess: data => setMessages([...(messages || []), messageFromAssistant(data)]),
       onError: error => toast.error(error.message),
@@ -87,10 +95,18 @@ export default function useChat() {
     capture("project_recommendation_chat_send_message", { chatId });
   };
 
-  const startNewConversation = () => {
-    setMessages([]);
-    setChatId(undefined);
-    startChat({});
+  const startNewConversation = async () => {
+    const chatData = await startChatAsync({});
+    setChatId(chatData.chatId);
+    setMessages([messageFromAssistant(chatData)]);
+  };
+
+  const startNewConversationWithMessage = async (message: string) => {
+    if (!user) return;
+    const data = await startChatAsync({});
+    setChatId(data.chatId);
+    setMessages([messageFromAssistant(data), messageFromUser(user, message)]);
+    continueChat({ userMessage: message });
   };
 
   return {
@@ -99,5 +115,6 @@ export default function useChat() {
     startNewConversation,
     sendMessage,
     isThinking,
+    startNewConversationWithMessage,
   };
 }

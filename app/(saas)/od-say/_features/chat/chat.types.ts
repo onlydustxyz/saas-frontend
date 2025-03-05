@@ -5,3 +5,12 @@ export const formSchema = z.object({
 });
 
 export type ChatFormData = z.infer<typeof formSchema>;
+
+export interface ChatProps {
+  initialMessage?: string | null;
+}
+
+export interface ChatRef {
+  sendMessage: (message: string) => void;
+  startNewConversation: () => void;
+}

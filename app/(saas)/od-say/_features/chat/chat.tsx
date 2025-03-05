@@ -14,10 +14,11 @@ import { cn } from "@/shared/utils";
 
 import Message from "./_features/message/message";
 import useChat from "./chat.hooks";
-import { ChatFormData, formSchema } from "./chat.types";
+import { ChatFormData, ChatProps, formSchema } from "./chat.types";
 
-export default function Chat() {
-  const { startNewConversation, sendMessage, messages, isThinking, chatId } = useChat();
+export default function Chat({ initialMessage }: ChatProps) {
+  const { startNewConversation, sendMessage, messages, isThinking, chatId, startNewConversationWithMessage } =
+    useChat();
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
   const { hideIntercomLauncher } = useIntercom();
 
@@ -61,7 +62,12 @@ export default function Chat() {
   };
 
   useEffectOnce(() => {
-    if (!chatId) startNewConversation();
+    if (initialMessage) {
+      console.log("initialMessage", initialMessage);
+      startNewConversationWithMessage(initialMessage);
+    } else if (!chatId) {
+      startNewConversation();
+    }
   });
 
   return (

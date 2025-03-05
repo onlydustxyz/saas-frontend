@@ -1,8 +1,6 @@
 import { NavigationBreadcrumb } from "@/shared/features/navigation/navigation.context";
 import { PageContainer } from "@/shared/features/page/page-container/page-container";
 import { PageInner } from "@/shared/features/page/page-inner/page-inner";
-import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-import { TypographyP } from "@/shared/ui/typography";
 
 import { IssueCard } from "./_components/issue-card/issue-card";
 import { NewProjectCard } from "./_components/new-project-card/new-project-card";
@@ -22,7 +20,7 @@ export default function DiscoverPageV2() {
       />
 
       <div className="flex flex-col gap-16 pt-4">
-        <PageHeader />
+        <PageHeader enoughtRecommendations={false} />
         <PageInner className="relative z-[1] flex w-full flex-col gap-14">
           <PageCarousel
             title="Recommended for you"

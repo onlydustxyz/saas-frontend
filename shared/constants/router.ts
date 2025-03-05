@@ -215,6 +215,9 @@ export const NEXT_ROUTER = {
   },
   discover: {
     root: "/discover",
+    odSay: {
+      root: "/discover/od-say",
+    },
   },
   api: {
     fillout: {
