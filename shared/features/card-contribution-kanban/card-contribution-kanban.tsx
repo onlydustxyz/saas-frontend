@@ -17,7 +17,7 @@ export function CardContributionKanban({
   as,
   ...actions
 }: CardContributionKanbanProps) {
-  const { buttons, customContent } = useContributionActions({ as, contribution, actions });
+  const { buttons, customContent } = useContributionActions({ as, contribution });
   const rewardUsdAmount =
     as === ContributionAs.CONTRIBUTOR ? contribution.callerTotalRewardedUsdAmount : contribution.totalRewardedUsdAmount;
 
