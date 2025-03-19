@@ -216,6 +216,38 @@ export const QuestListData: QuestList[] = [
     issues: [2866995946, 2866997140, 2866997973],
     maintainers: [19536159],
   },
+
+  {
+    id: "f8c47e9d-b3a5-4f16-8d92-3c7a1b94e5d0",
+    bannerUrl: "https://pbs.twimg.com/profile_banners/1658760144077877250/1690476363/1500x500",
+    projectId: "ed69beff-183c-4df2-afa3-22d4b4e6b44a",
+    projectSlug: "lyricflip",
+    name: "Mobile app foundational pages",
+    shortDescription:
+      "We have a couple of screens that goes midway into the screens we have on the mobile app version and we need the built rapidly by a group of 2 or 3 people. We want this build by a group because we want uniformity of appearance all over the app.",
+    longDescription: {
+      title: "Mobile app foundational pages",
+      description:
+        "We have a couple of screens that goes midway into the screens we have on the mobile app version and we need the built rapidly by a group of 2 or 3 people. We want this build by a group because we want uniformity of appearance all over the app.",
+      warning: "",
+      links: [],
+    },
+    wantedProfiles: {
+      senior: {
+        provided: [],
+        wanted: 2,
+      },
+    },
+    requiredSkills: ["react native", "expo", "UI", "typescript"],
+    startDate: "2025-03-20",
+    endDate: "2025-04-03",
+    status: "application-open",
+    issues: [
+      2926956496, 2926953702, 2926950585, 2926948727, 2926944633, 2926943128, 2926941803, 2926940839, 2926939730,
+      2926937458, 2926933443, 2926929902, 2926925029, 2926921661,
+    ],
+    maintainers: [51526246],
+  },
 ];
 
 // https://api.github.com/repos/Trustless-Work/Trustless-Work-Smart-Escrow/issues/41
