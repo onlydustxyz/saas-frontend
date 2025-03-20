@@ -1,7 +1,0 @@
-
-name: Split into components
-description: Split the code into components
----
-create a folder _components/<component_name>/
-place the component in <component_name>.tsx, and if type definitions are needed
-add them in <component_name>.types.ts; otherwise, skip creating the types file.

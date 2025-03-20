@@ -1,0 +1,243 @@
+---
+description: Creating or updating core domain logic, adapters and requests
+globs: 
+alwaysApply: false
+---
+# Core Folder Architecture
+
+This document describes the architecture patterns for the `/core` folder, following a clean hexagonal architecture (ports and adapters) pattern.
+
+## Key Concepts
+
+- **Domain**: Contains business logic, models, and interfaces for a specific resource or entity
+- **Model**: Represents core business entities and their behaviors
+- **Facade**: Inbound ports/interfaces that expose domain functionality
+- **Storage**: Outbound ports/interfaces for persistence and external services
+- **Adapter**: Implementations of ports (both inbound and outbound)
+- **Application**: Contains use cases and application-specific logic
+
+## Directory Structure
+
+```
+/core
+├── domain/                               # Business logic, models, and interfaces
+│   └── resource-name/                    # Organized by resource/entity
+│       ├── resource-contract.types.ts    # Type definitions
+│       ├── models/                       # Domain models
+│       │   └── resource-model.ts
+│       ├── inputs/                       # Inbound ports (facades)
+│       │   └── resource-facade-port.ts
+│       └── outputs/                      # Outbound ports (storage)
+│           └── resource-storage-port.ts
+├── application/                          # Use cases and application-specific logic
+│   └── react-query-adapter/              # Adapters for React Query
+│       └── resource-name/
+│           └── client/
+│               ├── index.ts              # Group React Query hooks
+│               └── use-resource-action.ts
+├── infrastructure/                       # Implementations of domain interfaces
+│   └── marketplace-api-client-adapter/   # Organized by external system
+│       └── adapters/
+│           └── resource-adapter.ts       # Implements resource-storage-port
+└── kernel/                               # Cross-cutting concerns and utilities
+    └── resource-name/
+        └── resource-utils.ts
+```
+
+## Bootstrap Pattern
+
+```
+/core
+└── bootstrap/                      # Application initialization
+    └── index.ts                    # Main bootstrap class
+```
+
+## Naming Conventions
+
+- Domain models: `{resource}-model.ts`
+- Inbound ports: `{resource}-facade-port.ts`
+- Outbound ports: `{resource}-storage-port.ts`
+- Type definitions: `{resource}-contract.types.ts`
+- Adapters: `{resource}-{adapter}-adapter.ts` 
+- React Query hooks: `use-{action}-{resource}.ts`
+
+
+## Implementation Guidelines
+
+### Creating a New Domain
+
+1. **Define Types and Contracts**
+   - Create `resource-contract.types.ts` with interfaces for your domain
+   - Define input/output types for all operations
+
+   For example:
+   ```
+   /* ------------------------ Get Deposit ------------------------ */
+
+   export type GetDepositResponse = components["schemas"]["DepositResponse"];
+
+   type GetDepositPathParams = operations["getDeposit"]["parameters"]["path"];
+
+   export type GetDepositPortParams = HttpClientParameters<{ PathParams: GetDepositPathParams }>;
+
+   export type GetDepositPortResponse = HttpStorageResponse<GetDepositResponse>;
+   ```
+
+2. **Implement Domain Model**
+   - Create `models/resource-model.ts`
+   - Implement business logic
+
+   For example: 
+   ```
+   export type DepositResponse = components["schemas"]["DepositResponse"];
+
+   export interface DepositInterface extends DepositResponse {
+      isPending(): boolean;
+   }
+
+   export class Deposit implements DepositInterface {
+      id!: DepositResponse["id"];
+      status!: DepositResponse["status"];
+
+      constructor(props: DepositResponse) {
+         Object.assign(this, props);
+      }
+
+      isPending() {
+         return this.status === "PENDING";
+      }
+   }
+   ```
+
+3. **Define Ports**
+   - Create `inputs/resource-facade-port.ts` for inbound operations
+   - Create `outputs/resource-storage-port.ts` for persistence
+   - Define clear interfaces with TypeScript
+
+   For example:
+   ```
+   export interface DepositFacadePort {
+      getDeposit(p: GetDepositPortParams): GetDepositPortResponse;
+   }
+
+   export interface DepositStoragePort {
+      routes: Record<string, string>;
+      getDeposit(p: GetDepositPortParams): GetDepositPortResponse;
+   }
+   ```
+
+4. **Create Adapters**
+   - Implement storage adapter in `infrastructure/`
+   - Create React Query hooks in `application/react-query-adapter/`
+   - Follow existing adapter patterns
+
+   For example:
+   ```
+   export class DepositClientAdapter implements DepositStoragePort {
+      constructor(private readonly client: HttpClient) {}
+
+      routes = {
+         getDeposit: "deposits/:depositId",
+      } as const;
+
+      getDeposit = ({ pathParams }: FirstParameter<DepositStoragePort["getDeposit"]>) => {
+         const path = this.routes["getDeposit"];
+         const method = "GET";
+         const tag = HttpClient.buildTag({ path, pathParams });
+
+         const request = async () => {
+            const data = await this.client.request<GetDepositResponse>({
+               path,
+               method,
+               tag,
+               pathParams,
+            });
+
+            return new Deposit(data);
+         };
+
+         return {
+            request,
+            tag,
+         };
+      };
+   }
+   ```
+
+5. **Add to Bootstrap**
+   - Register new domain in bootstrap if needed
+   - Configure any required dependencies
+
+   For example:
+   ```
+   export interface BootstrapConstructor {
+      depositStoragePortForClient: DepositStoragePort;
+      depositStoragePortForServer: DepositStoragePort;
+   }
+
+   export class Bootstrap {
+      static #instance: Bootstrap;
+
+      depositStoragePortForClient: DepositStoragePort;
+      depositStoragePortForServer: DepositStoragePort;
+      
+      constructor(constructor: BootstrapConstructor) {
+         this.depositStoragePortForClient = constructor.depositStoragePortForClient;
+         this.depositStoragePortForServer = constructor.depositStoragePortForServer;
+      }
+
+      getDepositStoragePortForClient() {
+         return this.depositStoragePortForClient;
+      }
+
+      getDepositStoragePortForServer() {
+         return this.depositStoragePortForServer;
+      }
+
+      public static get getBootstrap(): Bootstrap {
+         if (!Bootstrap.#instance) {
+            this.newBootstrap({
+              depositStoragePortForClient: new DepositClientAdapter(new FetchHttpClient()),
+              depositStoragePortForServer: new DepositClientAdapter(new FetchHttpClient()),
+            });
+         }
+
+         return Bootstrap.#instance;
+      }
+   }
+   ```
+
+### Updating an Existing Domain
+
+1. **Modify Types First**
+   - Update `resource-contract.types.ts`
+   - Maintain backward compatibility when possible
+
+2. **Update Domain Model**
+   - Add new methods to `resource-model.ts`
+   - Ensure existing functionality remains intact
+   - Update tests for new behavior
+
+3. **Extend Ports**
+   - Add new methods to facade port if needed
+   - Update storage port for new operations
+   - Maintain existing interface contracts
+
+4. **Update Adapters**
+   - Modify existing adapters to support new operations
+   - Add new React Query hooks for new functionality
+   - Update tests for modified behavior
+
+5. **Testing and Validation**
+   - Add unit tests for new functionality
+   - Update integration tests if needed
+   - Validate changes in development environment
+
+## Best Practices
+
+- Keep domain logic pure and independent of infrastructure
+- Use dependency injection for external services
+- Implement proper error handling and validation
+- Write comprehensive tests for all new functionality
+- Document breaking changes in the changelog
+- Follow existing patterns in the codebase

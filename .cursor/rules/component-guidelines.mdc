@@ -1,0 +1,89 @@
+---
+description: Creating or updating UI components
+globs: 
+alwaysApply: false
+---
+# Component Guidelines
+
+## Overview
+
+This document outlines the rules and guidelines for component usage in the OnlyDust SaaS Frontend project. Our goal is to maintain consistency and quality while transitioning from our legacy design system to shadcn components.
+
+## Component Library Priority
+
+### New Components
+
+- ✅ **DO**: Use shadcn components from `@/shared/ui` for all new development
+- ❌ **DON'T**: Import or use components from `@/design-system` for new features
+- ✅ **DO**: Follow the shadcn component patterns and best practices
+
+### Existing Components
+
+- ✅ **DO**: Gradually migrate existing design system components to shadcn
+- ✅ **DO**: Prioritize migration when making significant changes
+- ✅ **DO**: Document migration status and plans
+
+## Component Structure
+
+### File Organization
+
+- Place new components as close to their usage as possible inside a `_components` folder
+- Use kebab-case for file names (e.g., `user-profile-card.tsx`)
+- Group related components in subdirectories
+
+### Component Implementation
+
+- Use shadcn components as building blocks
+- Extend shadcn components through composition
+- Style using Tailwind CSS classes
+- Follow TypeScript best practices
+
+
+## Component Documentation Template
+
+```typescript
+/**
+ * @component ComponentName
+ * @description Brief description of the component
+ * @deprecated If using design system, mark as deprecated
+ * @migration-status Current migration status
+ * @migration-plan Link to migration plan if applicable
+ */
+```
+
+## Examples
+
+### Good Example (New Component)
+
+```typescript
+import { Card } from "@/shared/ui/card";
+import { Button } from "@/shared/ui/button";
+
+export function UserProfileCard({ user }) {
+  return (
+    <Card>
+      <Card.Header>
+        <Card.Title>{user.name}</Card.Title>
+      </Card.Header>
+      <Card.Content>
+        <Button>View Profile</Button>
+      </Card.Content>
+    </Card>
+  );
+}
+```
+## Best practices
+
+- When adding the `children` prop to a component, ALWAYS type it with `PropsWithChildren`, NOT with `ReactNode`.
+
+
+## Related rules
+
+- [feature-migration.mdc](mdc:.cursor/rules/feature-migration.mdc)
+
+
+## Resources
+
+- [shadcn Documentation](mdc:https:/ui.shadcn.com)
+- [Tailwind CSS Documentation](mdc:https:/tailwindcss.com)
+- [TypeScript Documentation](mdc:https:/www.typescriptlang.org)

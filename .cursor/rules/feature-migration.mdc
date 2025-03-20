@@ -1,0 +1,108 @@
+---
+description: Migrate features from our old design system to shadcn
+globs: 
+alwaysApply: false
+---
+## Migration Guidelines
+
+### Migration Process
+
+1. Identify components that need migration
+
+   - Scan for components using `@/design-system/*` imports
+   - Prioritize frequently used components
+   - Create a list of dependencies for each component
+
+2. Create a migration plan
+
+   - Document the equivalent shadcn/ui component
+   - List all props that need to be mapped
+   - Identify breaking changes
+   - Plan for backwards compatibility if needed
+
+3. Implement changes incrementally
+
+   - Migrate one component at a time
+   - Test thoroughly in isolation
+   - Update all instances of the component
+
+4. Update documentation
+
+   - Mark old components as deprecated
+   - Document new implementation
+   - Update component usage examples
+
+5. Remove deprecated code
+   - Only after all instances are migrated
+   - Verify no remaining imports exist
+   - Remove from design system directory
+
+### Do's and Don'ts
+
+#### Do's ✅
+
+- DO use `@/shared/ui/*` for new shadcn component imports
+- DO maintain a migration tracking document
+- DO update component props to match shadcn/ui API
+- DO test components in all scenarios they're used
+- DO add TypeScript types for all new components
+- DO remove Storybook stories if they exist
+- DO keep commits focused on single component migrations
+- DO add migration status comments to files being worked on
+
+#### Don'ts ❌
+
+- DON'T mix design-system and shadcn/ui components in the same component
+- DON'T create new components in the design-system directory
+- DON'T modify existing design-system components (except for critical fixes)
+- DON'T remove design-system components until all usages are migrated
+- DON'T copy design-system styles to new components
+- DON'T create wrapper components to maintain old APIs
+
+### Documentation Requirements
+
+- Document components still using the design system:
+
+  ```typescript
+  /**
+   * @component ComponentName
+   * @deprecated Use shadcn/ui ComponentName instead
+   * @migration-status [Not Started|In Progress|Completed]
+   * @migration-plan docs/migration/component-name.md
+   * @target-component @/shared/ui/component-name
+   */
+  ```
+
+- Migration tracking document should include:
+  - Component name
+  - Current status
+  - Breaking changes
+  - Migration blockers
+  - Dependencies
+  - Test coverage status
+
+### Migration Example
+
+```typescript
+// OLD Implementation ❌
+import { Button } from "@/design-system/atoms/button";
+import { Icon } from "@/design-system/atoms/icon";
+
+// NEW Implementation ✅
+import { Button } from "@/shared/ui/button";
+import { Icon } from "@/shared/ui/icon";
+
+// Example of deprecated component with proper documentation
+/**
+ * @component LegacyButton
+ * @deprecated Use shadcn Button component from @/shared/ui/button
+ * @migration-status In Progress
+ * @migration-plan docs/migration/legacy-button.md
+ * @target-component @/shared/ui/button
+ *
+ * Breaking Changes:
+ * - 'type' prop renamed to 'variant'
+ * - 'isLoading' prop replaced with 'loading'
+ * - Custom themes no longer supported
+ */
+```

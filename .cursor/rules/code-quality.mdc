@@ -1,0 +1,121 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+## Code Review Guidelines
+
+### Review Process
+
+#### Component Migration
+
+- Reject new code using design system components
+- Flag existing code for migration to shadcn/ui
+- Document exceptions with clear justification
+- Remove any related Storybook stories
+- Track migration progress in `migration-progress.md`
+
+#### Code Quality Checks
+
+- Verify TypeScript strict mode compliance
+- Ensure proper error boundary implementation
+- Check for proper cleanup in useEffect hooks
+- Validate proper use of React Query patterns
+- Confirm proper implementation of loading states
+- Review accessibility compliance
+
+#### Documentation Requirements
+
+- Verify API documentation is up to date
+- Ensure complex business logic is documented
+- Check for proper JSDoc comments on public interfaces
+- Validate changelog entries
+- Review README updates if applicable
+
+### Do's and Don'ts
+
+#### Do's
+
+- DO Use TypeScript interfaces for component props
+- DO Implement proper error boundaries
+- DO Use React Query for data fetching
+- DO Follow the domain-driven design structure
+- DO Use absolute imports (@/...) when importing files from a different root directory
+  - Example: `import { Button } from "@/shared/ui/button"` when in a directory other than `@/shared`
+  - Example: `import { Button } from "./button"` when inside `@/shared`
+- DO Implement proper loading states
+- DO Write unit tests for utilities
+- DO Use proper type annotations
+- DO Follow the established file structure
+
+#### Don'ts
+
+- DON'T use deprecated design system components
+- DON'T implement new features without tests
+- DON'T leave console.log statements
+- DON'T use any type
+- DON'T duplicate business logic
+- DON'T skip error handling
+- DON'T mix styling approaches
+
+### Performance Considerations
+
+#### Bundle Size
+
+- Monitor bundle size impact
+- Remove unused design system components
+- Optimize imports
+- Track chunk sizes
+- Review dynamic imports usage
+
+#### Runtime Performance
+
+- Monitor React re-renders
+- Check memo usage where appropriate
+- Validate image optimization
+- Review API call patterns
+- Check for memory leaks
+
+### Validation Procedures
+
+#### Pre-commit Checks
+
+- Run ESLint with --max-warnings=0
+- Execute TypeScript compilation
+- Run unit tests
+- Check formatting with Prettier
+- Validate i18n completeness
+
+#### Pull Request Validation
+
+- Run automated CI checks
+- Verify bundle size impact
+- Check test coverage
+- Review accessibility score
+- Validate mobile responsiveness
+
+#### Post-deployment Verification
+
+- Monitor error rates
+- Check performance metrics
+- Validate feature flags
+- Review analytics implementation
+- Test cross-browser compatibility
+
+### Security Guidelines
+
+#### Code Security
+
+- Review authentication implementation
+- Validate authorization checks
+- Check for exposed sensitive data
+- Review API endpoint security
+- Verify CORS configuration
+
+#### Data Handling
+
+- Validate input sanitization
+- Check XSS prevention
+- Review data encryption
+- Verify secure storage practices
+- Monitor API key usage

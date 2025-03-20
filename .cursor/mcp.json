@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "code-tools": {
-      "command": "node",
-      "args": ["/Users/alexisbenoliel/local/ia/agent/build/index.js"]
-    }
-  }
-}

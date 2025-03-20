@@ -1,7 +1,0 @@
-
-name: Split into features
-description: Split the code into features
----
-create a folder _features/<feature_name>/
-place the feature in <feature_name>.tsx, and if type definitions are needed
-add them in <feature_name>.types.ts; otherwise, skip creating the types file.
