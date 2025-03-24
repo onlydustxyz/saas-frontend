@@ -38,6 +38,7 @@ export function GetStartedDialog({ defaultOpen = true }: GetStartedDialogProps) 
   if (
     !user ||
     !getStartedData ||
+    !user?.isNewContributor() ||
     (getStartedData.hasAppliedToAnIssue &&
       getStartedData.hasBeenAssignedToAnIssue &&
       getStartedData.hasCompletedOneContribution)
