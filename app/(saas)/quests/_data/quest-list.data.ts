@@ -253,10 +253,12 @@ export const QuestListData: QuestList[] = [
     projectId: "12f9a106-470e-4047-ada6-4befb442783b",
     projectSlug: "gasless-gossip",
     name: "Production level Nestjs foundational issues",
-    shortDescription: "To be defined",
+    shortDescription:
+      "Ready to dive deep into the guts of production-grade NestJS? Gasless Gossip is calling two mid-level NestJS & Postgres builders to tackle 20 real-world, foundational issues. This is a 5-day sprint, where speed, precision, and clean architecture matter. You'll be pairing directly with the project maintainer and get full-on support throughout the quest. We're looking for one man and one woman, because inclusion isn't optional - it's how we build better. Think you've got the skills and the speed? Join us, build fast, build smart, and leave your mark.",
     longDescription: {
       title: "Production level Nestjs foundational issues",
-      description: "To be defined",
+      description:
+        "Ready to dive deep into the guts of production-grade NestJS? Gasless Gossip is calling two mid-level NestJS & Postgres builders to tackle 20 real-world, foundational issues. This is a 5-day sprint, where speed, precision, and clean architecture matter. You'll be pairing directly with the project maintainer and get full-on support throughout the quest. We're looking for one man and one woman, because inclusion isn't optional - it's how we build better. Think you've got the skills and the speed? Join us, build fast, build smart, and leave your mark.",
       warning: "Devs should be able to work along with the Maintainer and he will be available for them all the time.",
       links: [],
     },
