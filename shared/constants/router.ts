@@ -173,6 +173,9 @@ export const NEXT_ROUTER = {
     termsAndConditions: {
       root: "/signup/terms-and-conditions",
     },
+    onboarding: {
+      root: "/signup/onboarding",
+    },
   },
   settings: {
     root: "/settings",

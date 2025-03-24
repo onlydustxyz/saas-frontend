@@ -10,6 +10,7 @@ import { ShowMore } from "@/shared/components/show-more/show-more";
 import { GlobalSearchProvider, useGlobalSearch } from "@/shared/features/global-search/global-search.context";
 import { useIsBreakpoint } from "@/shared/hooks/ui/use-is-breakpoint";
 import { Button } from "@/shared/ui/button";
+import { cn } from "@/shared/utils";
 
 import { Header } from "./_components/header/header";
 import { ModalPortal } from "./_components/modal-container/modal-container";
@@ -17,15 +18,26 @@ import { SearchResultGroup } from "./_components/search-result-group/search-resu
 import { Filters } from "./_features/filters/filters";
 import { Result } from "./_features/result/result";
 
-export function SafeGlobalSearch() {
+export function SafeGlobalSearch({
+  searchWidthClassName,
+  containerClassName,
+}: {
+  searchWidthClassName?: string;
+  containerClassName?: string;
+}) {
   const { hasNextPage, fetchNextPage, isFetchingNextPage, results, onOpenChange, inputValue } = useGlobalSearch();
   const isSmBreakpoint = useIsBreakpoint("sm");
 
   return (
     <>
-      <Button variant={"outline"} size={isSmBreakpoint ? "default" : "icon"} onClick={() => onOpenChange(true)}>
+      <Button
+        variant={"outline"}
+        size={isSmBreakpoint ? "default" : "icon"}
+        onClick={() => onOpenChange(true)}
+        className={containerClassName}
+      >
         <Search />
-        <span className="hidden w-36 text-left sm:inline">Search</span>
+        <span className={cn("hidden w-36 text-left sm:inline", searchWidthClassName)}>Search</span>
         <kbd className="pointer-events-none hidden select-none items-center gap-0.5 font-sans text-xs font-medium text-muted-foreground opacity-100 sm:inline-flex">
           ⌘K
         </kbd>
@@ -80,10 +92,16 @@ export function SafeGlobalSearch() {
   );
 }
 
-export function GlobalSearch() {
+export function GlobalSearch({
+  searchWidthClassName,
+  containerClassName,
+}: {
+  searchWidthClassName?: string;
+  containerClassName?: string;
+}) {
   return (
     <GlobalSearchProvider>
-      <SafeGlobalSearch />
+      <SafeGlobalSearch searchWidthClassName={searchWidthClassName} containerClassName={containerClassName} />
     </GlobalSearchProvider>
   );
 }

@@ -11,6 +11,10 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 export function ContributeNow({ projectId }: { projectId?: string }) {
   const { capture } = usePosthog();
 
+  if (!projectId) {
+    return null;
+  }
+
   return (
     <Popover
       onOpenChange={open => {

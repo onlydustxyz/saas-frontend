@@ -2,7 +2,6 @@ import * as DateFns from "date-fns";
 import { FormatDistanceStrictUnit, Locale } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 
-
 import { DateFacadePort, DateRangeType, TimeGroupingType } from "./date-facade-port";
 
 export class DateFnsAdapter implements DateFacadePort {
@@ -206,5 +205,17 @@ export class DateFnsAdapter implements DateFacadePort {
 
   formatInTimeZone(date: Date, timeZone: string, pattern: string, options?: { locale: Locale }): string {
     return formatInTimeZone(date, timeZone, pattern, options);
+  }
+
+  isBefore(dateLeft: Date, dateRight: Date): boolean {
+    return DateFns.isBefore(dateLeft, dateRight);
+  }
+
+  isAfter(dateLeft: Date, dateRight: Date): boolean {
+    return DateFns.isAfter(dateLeft, dateRight);
+  }
+
+  addHours(date: Date, hours: number): Date {
+    return DateFns.addHours(date, hours);
   }
 }

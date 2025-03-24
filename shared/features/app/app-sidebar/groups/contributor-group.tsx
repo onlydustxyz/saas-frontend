@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { NEXT_ROUTER } from "@/shared/constants/router";
 import { useAuthUser } from "@/shared/hooks/auth/use-auth-user";
+import { useForcedOnboarding } from "@/shared/hooks/flags/use-forced-onboarding";
 import { useMatchPath } from "@/shared/hooks/router/use-match-path";
 import {
   SidebarGroup,
@@ -19,6 +20,7 @@ export function ContributorGroup() {
   const isProjectsRoute = useMatchPath(NEXT_ROUTER.myDashboard.projects.root, { exact: false });
   const isRewardsRoute = useMatchPath(NEXT_ROUTER.myDashboard.rewards.root, { exact: false });
   const isProfileRoute = useMatchPath(NEXT_ROUTER.users.details.root(user?.login ?? ""), { exact: false });
+  const isForcedOnboarding = useForcedOnboarding();
 
   const items = [
     {
@@ -41,12 +43,14 @@ export function ContributorGroup() {
     },
   ];
 
+  const itemsToShow = isForcedOnboarding ? items.slice(0, 1) : items;
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Contributor</SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
-          {items.map(item => (
+          {itemsToShow.map(item => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton asChild tooltip={item.title} isActive={item.isActive}>
                 <Link href={item.url}>
@@ -56,7 +60,7 @@ export function ContributorGroup() {
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
-          {user ? (
+          {user && !isForcedOnboarding ? (
             <SidebarMenuItem>
               <SidebarMenuButton asChild tooltip="Public Profile" isActive={isProfileRoute}>
                 <Link href={NEXT_ROUTER.users.details.root(user.login)}>

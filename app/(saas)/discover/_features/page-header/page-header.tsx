@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { NEXT_ROUTER } from "@/shared/constants/router";
+import { GlobalSearch } from "@/shared/features/global-search/global-search";
+import { useForcedOnboarding } from "@/shared/hooks/flags/use-forced-onboarding";
 import { usePosthog } from "@/shared/tracking/posthog/use-posthog";
 import { Button } from "@/shared/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card";
@@ -69,9 +71,21 @@ function NoSufficentData() {
     </div>
   );
 }
+
+function ForcedOnboardingFooter() {
+  return (
+    <div>
+      <GlobalSearch searchWidthClassName="w-[500px]" containerClassName="h-[50px]" />
+    </div>
+  );
+}
+
 export function PageHeader({ hasSufficentData = false }: { hasSufficentData?: boolean }) {
+  const isForcedOnboarding = useForcedOnboarding();
+
   const Footer = hasSufficentData ? HasSufficentData : NoSufficentData;
 
+  const VariableFooter = isForcedOnboarding ? ForcedOnboardingFooter : Footer;
   return (
     <header className="relative z-[1] w-full py-16">
       <Image
@@ -92,7 +106,7 @@ export function PageHeader({ hasSufficentData = false }: { hasSufficentData?: bo
             Get recommendations based on your profile and past contributions.
           </TypographyP>
         </div>
-        <Footer />
+        <VariableFooter />
       </div>
     </header>
   );

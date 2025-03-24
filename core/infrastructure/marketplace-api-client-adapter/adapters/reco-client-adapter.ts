@@ -92,16 +92,17 @@ export class RecoClientAdapter implements RecoStoragePort {
     };
   };
 
-  getTailoredDiscoveries = () => {
+  getTailoredDiscoveries = ({ queryParams }: FirstParameter<RecoStoragePort["getTailoredDiscoveries"]>) => {
     const path = this.routes["getTailoredDiscoveries"];
     const method = "GET";
-    const tag = HttpClient.buildTag({ path });
+    const tag = HttpClient.buildTag({ path, queryParams });
 
     const request = async () => {
       const data = await this.client.request<GetTailoredDiscoveriesResponse>({
         path,
         method,
         tag,
+        queryParams,
       });
 
       return new TailoredDiscoveries(data);

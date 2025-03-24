@@ -46,7 +46,6 @@ alwaysApply: false
 - DO update component props to match shadcn/ui API
 - DO test components in all scenarios they're used
 - DO add TypeScript types for all new components
-- DO remove Storybook stories if they exist
 - DO keep commits focused on single component migrations
 - DO add migration status comments to files being worked on
 

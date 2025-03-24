@@ -12,7 +12,6 @@ alwaysApply: true
 - Reject new code using design system components
 - Flag existing code for migration to shadcn/ui
 - Document exceptions with clear justification
-- Remove any related Storybook stories
 - Track migration progress in `migration-progress.md`
 
 #### Code Quality Checks
@@ -47,6 +46,7 @@ alwaysApply: true
 - DO Write unit tests for utilities
 - DO Use proper type annotations
 - DO Follow the established file structure
+- DO use ternary syntax when conditionally rendering React components, for example `{condition ? <Component/> : null}`
 
 #### Don'ts
 
@@ -57,6 +57,7 @@ alwaysApply: true
 - DON'T duplicate business logic
 - DON'T skip error handling
 - DON'T mix styling approaches
+- DON'T use `&&` when conditionally rendering React components
 
 ### Performance Considerations
 

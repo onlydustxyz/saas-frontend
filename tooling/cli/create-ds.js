@@ -150,62 +150,10 @@ async function createIndex({ name, path }) {
   );
 }
 
-async function createStories({ name, path, PascalName }) {
-  await fs.appendFile(
-    `${path}/${name}.stories.tsx`,
-    await prettier.format(
-      `
-        import { Meta, StoryObj } from "@storybook/react";
-        import { ${PascalName}Port } from "./${name}.types";
-
-        import { ${PascalName} } from "./variants/${name}-default";
-
-        type Story = StoryObj<typeof ${PascalName}>;
-
-        const defaultProps: ${PascalName}Port<"div"> = {};
-
-        const meta: Meta<typeof ${PascalName}> = {
-          component: ${PascalName},
-          title: "${
-            path.includes("atoms")
-              ? "Atoms"
-              : path.includes("molecules")
-                ? "Molecules"
-                : path.includes("organisms")
-                  ? "Organisms"
-                  : "Local"
-          }/${PascalName}",
-          tags: ["autodocs"],
-        };
-
-        export const Default: Story = {
-          parameters: {
-            docs: {
-              source: { code: "<${PascalName} />" },
-            },
-          },
-          render: args => {
-            return (
-              <div className="flex w-full items-center gap-2">
-                <${PascalName} {...defaultProps} {...args} />
-              </div>
-            );
-          },
-        };
-
-        export default meta;
-
-  `,
-      { parser: "typescript" }
-    )
-  );
-}
-
 async function createFiles(informations) {
   await createVariants(informations);
   await createTypes(informations);
   await createLoading(informations);
-  await createStories(informations);
   await createIndex(informations);
   await createAdapter(informations);
   await exec(`eslint '${informations.path}/*.{js,jsx,json,ts,tsx}' --max-warnings=0 --fix`);
@@ -219,7 +167,6 @@ async function promptName() {
   const { name, folder, path } = await defaultPromptName();
 
   /** variant default **/
-  /** stories default **/
 
   return { folder, name, path };
 }

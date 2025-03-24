@@ -20,6 +20,8 @@ export enum TimeGroupingType {
 export interface DateFacadePort {
   isToday: (date: Date) => boolean;
   isPast: (date: Date) => boolean;
+  isBefore: (dateLeft: Date, dateRight: Date) => boolean;
+  isAfter: (dateLeft: Date, dateRight: Date) => boolean;
   isFuture: (date: Date) => boolean;
   compareAsc: (dateLeft: Date, dateRight: Date) => number;
   compareDesc: (dateLeft: Date, dateRight: Date) => number;
@@ -62,4 +64,5 @@ export interface DateFacadePort {
   getDateFromWeekNumber: (year: number, weekNumber: number) => Date;
   getWeekNumber: (date: Date, options?: { hideMonths: boolean }) => string;
   formatInTimeZone: (date: Date, timeZone: string, pattern: string, options?: { locale: Locale }) => string;
+  addHours: (date: Date, hours: number) => Date;
 }

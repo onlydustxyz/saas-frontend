@@ -1,6 +1,13 @@
-import { Issue, IssueInterface } from "@/core/domain/issue/models/issue-model";
-import { ProjectListItemInterfaceV2, ProjectListItemV2 } from "@/core/domain/project/models/project-list-item-model-v2";
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
+
+import {
+  TailoredDiscoveriesIssue,
+  TailoredDiscoveriesIssueInterface,
+} from "../../issue/models/tailored-discovery-issue-model";
+import {
+  TailoredDiscoveriesProject,
+  TailoredDiscoveriesProjectInterface,
+} from "../../project/models/tailored-discoveries-project-model";
 
 export type TailoredDiscoveriesResponse = components["schemas"]["TailoredDiscoveriesResponse"];
 
@@ -21,23 +28,23 @@ export class TailoredDiscoveries implements TailoredDiscoveriesInterface {
 export type TailoredDiscoveriesSectionResponse = components["schemas"]["TailoredDiscoveriesSectionResponse"];
 
 export interface TailoredDiscoveriesSectionInterface extends TailoredDiscoveriesSectionResponse {
-  projects: ProjectListItemInterfaceV2[];
-  issues: IssueInterface[];
+  projects: TailoredDiscoveriesProjectInterface[];
+  issues: TailoredDiscoveriesIssueInterface[];
   getResourceType(): "project" | "issue";
-  getProjects(): ProjectListItemInterfaceV2[];
-  getIssues(): IssueInterface[];
+  getProjects(): TailoredDiscoveriesProjectInterface[];
+  getIssues(): TailoredDiscoveriesIssueInterface[];
 }
 
 class TailoredDiscoveriesSection implements TailoredDiscoveriesSectionInterface {
   title!: string;
   subtitle!: string;
-  projects!: ProjectListItemInterfaceV2[];
-  issues!: IssueInterface[];
+  projects!: TailoredDiscoveriesProjectInterface[];
+  issues!: TailoredDiscoveriesIssueInterface[];
 
   constructor(props: TailoredDiscoveriesSectionResponse) {
     Object.assign(this, props);
-    this.projects = props.projects.map(project => new ProjectListItemV2(project));
-    this.issues = props.issues.map(issue => new Issue(issue));
+    this.projects = props.projects.map(project => new TailoredDiscoveriesProject(project));
+    this.issues = props.issues.map(issue => new TailoredDiscoveriesIssue(issue));
   }
 
   private resourceTypeProject = "project" as const;

@@ -37,6 +37,7 @@ This document outlines the rules and guidelines for component usage in the OnlyD
 - Extend shadcn components through composition
 - Style using Tailwind CSS classes
 - Follow TypeScript best practices
+- Use the `lucide` icon package
 
 
 ## Component Documentation Template

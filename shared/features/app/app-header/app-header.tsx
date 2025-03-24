@@ -4,6 +4,7 @@ import { AppUserMenu } from "@/shared/features/app/app-user-menu/app-user-menu";
 import { GlobalSearch } from "@/shared/features/global-search/global-search";
 import { useNavigation } from "@/shared/features/navigation/navigation.context";
 import { NotificationsPopover } from "@/shared/features/notifications/notifications-popover";
+import { useForcedOnboarding } from "@/shared/hooks/flags/use-forced-onboarding";
 import { IsAuthenticated, SignInButton, useAuthContext } from "@/shared/providers/auth-provider";
 import {
   Breadcrumb,
@@ -22,7 +23,7 @@ import { RenderComponent } from "../../render-component/render-component";
 export function AppHeader() {
   const { breadcrumb } = useNavigation();
   const { isLoading } = useAuthContext();
-
+  const isForcedOnboarding = useForcedOnboarding();
   return (
     <header className="sticky top-0 z-[39] flex h-16 shrink-0 items-center gap-2 border-b bg-background/80 px-4 backdrop-blur-sm">
       <div className="flex items-center gap-2">
@@ -63,7 +64,7 @@ export function AppHeader() {
           <div className={"flex flex-1 flex-row items-center justify-end gap-3"}>
             <IsAuthenticated>
               <IsAuthenticated.Yes>
-                <GlobalSearch />
+                {!isForcedOnboarding && <GlobalSearch />}
 
                 <NotificationsPopover />
 

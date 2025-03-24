@@ -2,6 +2,7 @@ import { ContributionGithubStatusUnion } from "@/core/domain/contribution/models
 
 export interface IssueCardProps {
   title: string;
+  onClick?: () => void;
   languages: {
     name: string;
     logoUrl: string;

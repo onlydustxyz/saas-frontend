@@ -1,5 +1,5 @@
 import { AvatarImage } from "@radix-ui/react-avatar";
-import { sortBy } from "lodash";
+import { sortBy } from "lodash-es";
 import { Search } from "lucide-react";
 import { useCallback, useContext, useMemo, useRef } from "react";
 import { Controller } from "react-hook-form";

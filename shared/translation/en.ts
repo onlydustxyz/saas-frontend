@@ -25,11 +25,9 @@ import { enFeaturesTranslations } from "@/shared/features/_translations/features
 import { enModalsTranslation } from "@/shared/modals/_translations/modals.translate";
 import { enPanelsTranslation } from "@/shared/panels/_translations/panels.translate";
 import common from "@/shared/translation/translations/common/common.en.json";
-import stories from "@/shared/translation/translations/stories/stories.en.json";
 
 export const en = {
   common,
-  stories,
   ...enProgramsTranslation,
   ...enProjectRecommendationTranslation,
   ...enFinancialsTranslation,

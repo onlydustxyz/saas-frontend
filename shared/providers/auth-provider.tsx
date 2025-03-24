@@ -12,6 +12,8 @@ import { Button } from "@/design-system/atoms/button/variants/button-default";
 import { NEXT_ROUTER } from "@/shared/constants/router";
 import { useAuthUser } from "@/shared/hooks/auth/use-auth-user";
 
+import { useForcedOnboarding } from "../hooks/flags/use-forced-onboarding";
+
 interface AuthContext {
   isAuthenticated: boolean;
   redirectToSignup(): void;
@@ -112,11 +114,17 @@ export function withSignup<P extends object>(Component: React.ComponentType<P>) 
     const router = useRouter();
     const { redirectToApp } = useAuthContext();
     const { user } = useAuthUser();
+    const isForcedOnboarding = useForcedOnboarding();
 
     useEffect(() => {
       if (user) {
         if (!user.hasAcceptedLatestTermsAndConditions) {
           router.push(NEXT_ROUTER.signup.termsAndConditions.root);
+          return;
+        }
+
+        if (isForcedOnboarding && !user.hasCompletedOnboarding) {
+          router.push(NEXT_ROUTER.signup.onboarding.root);
           return;
         }
 
@@ -157,4 +165,23 @@ IsAuthenticated.No = function No({ children }: PropsWithChildren) {
 export function SignInButton({ children }: PropsWithChildren) {
   const { redirectToSignup } = useAuthContext();
   return <Button onClick={redirectToSignup}>{children ?? "Sign in"}</Button>;
+}
+
+export function withOnboarding<P extends object>(Component: React.ComponentType<P>) {
+  return function WithOnboardingComponent(props: P) {
+    const router = useRouter();
+    const { redirectToApp } = useAuthContext();
+    const { user } = useAuthUser();
+
+    useEffect(() => {
+      if (user) {
+        if (user.hasCompletedOnboarding) {
+          redirectToApp();
+          return;
+        }
+      }
+    }, [router, user]);
+
+    return <Component {...props} />;
+  };
 }

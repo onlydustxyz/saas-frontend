@@ -7,7 +7,7 @@ import { Combobox, ComboboxProps } from "@/shared/ui/combobox";
 
 import { LanguagesFilterProps } from "./languages-filter.types";
 
-export function LanguagesFilter({ languagesIds, onSelect }: LanguagesFilterProps) {
+export function LanguagesFilter({ languagesIds, onSelect, fullWidth = false }: LanguagesFilterProps) {
   const { data: data } = LanguageReactQueryAdapter.client.useGetLanguages({});
 
   const options: ComboboxProps<string>["options"] = useMemo(() => {
@@ -32,6 +32,7 @@ export function LanguagesFilter({ languagesIds, onSelect }: LanguagesFilterProps
       onChange={onSelect}
       selectedLabel="languages"
       placeholder="Select languages"
+      fullWidth={fullWidth}
     />
   );
 }

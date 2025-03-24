@@ -951,6 +951,11 @@
         var(--typography-quaternary);
     }
 
+    .full-width-popover-content {
+      width: var(--radix-popover-trigger-width) !important;
+      max-height: var(--radix-popover-content-available-height) !important;
+    }
+
     [class^="PostHogSurvey"] {
       pointer-events: all !important;
     }

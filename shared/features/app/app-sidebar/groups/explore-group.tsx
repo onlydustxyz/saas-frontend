@@ -2,6 +2,7 @@ import { ArrowRight, Bot, Compass, FolderSearch, LayoutList, Lightbulb, Orbit, R
 import Link from "next/link";
 
 import { NEXT_ROUTER } from "@/shared/constants/router";
+import { useForcedOnboarding } from "@/shared/hooks/flags/use-forced-onboarding";
 import { useMatchPath } from "@/shared/hooks/router/use-match-path";
 import { usePosthog } from "@/shared/tracking/posthog/use-posthog";
 import { Badge } from "@/shared/ui/badge";
@@ -27,6 +28,7 @@ export function ExploreGroup() {
   const isOdSayRoute = useMatchPath(NEXT_ROUTER.odSay.root, { exact: false });
   const isProjectRecommendationRoute = useMatchPath(NEXT_ROUTER.projectRecommendation.root, { exact: false });
   const isQuestRoute = useMatchPath(NEXT_ROUTER.quests.root, { exact: false });
+  const isForcedOnboarding = useForcedOnboarding();
 
   const items = [
     {
@@ -62,12 +64,38 @@ export function ExploreGroup() {
     },
   ];
 
+  const itemsToShow = isForcedOnboarding
+    ? [
+        {
+          title: "Discover",
+          url: NEXT_ROUTER.discover.root,
+          icon: Compass,
+          isActive: isDiscoverRoute,
+        },
+        {
+          title: "Open-Source Week",
+          url: NEXT_ROUTER.osw.root,
+          icon: Rocket,
+          isActive: isOswRoute,
+        },
+        {
+          title: "ODQuests",
+          url: NEXT_ROUTER.quests.root,
+          icon: Target,
+          isActive: isQuestRoute,
+          isNew: true,
+        },
+      ]
+    : items;
+
+  const showRecommendations = !isForcedOnboarding;
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Explore</SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
-          {items.map(item => (
+          {itemsToShow.map(item => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton asChild tooltip={item.title} isActive={item.isActive}>
                 <Link href={item.url}>
@@ -83,81 +111,86 @@ export function ExploreGroup() {
             </SidebarMenuItem>
           ))}
 
-          <Dialog>
-            <DialogTrigger asChild onClick={() => capture("project_recommendation_modal_opened")}>
-              <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Recommendations" isActive={isOdSayRoute || isProjectRecommendationRoute}>
-                  <Lightbulb />
-                  <span>Recommendations</span>
+          {showRecommendations ? (
+            <Dialog>
+              <DialogTrigger asChild onClick={() => capture("project_recommendation_modal_opened")}>
+                <SidebarMenuItem>
+                  <SidebarMenuButton tooltip="Recommendations" isActive={isOdSayRoute || isProjectRecommendationRoute}>
+                    <Lightbulb />
+                    <span>Recommendations</span>
 
-                  <Badge variant="emphasis" className="ml-auto">
-                    New
-                  </Badge>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </DialogTrigger>
+                    <Badge variant="emphasis" className="ml-auto">
+                      New
+                    </Badge>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </DialogTrigger>
 
-            <DialogContent className="w-screen max-w-screen-sm">
-              <DialogHeader className="flex flex-col gap-5">
-                <DialogTitle>How would you like to find projects?</DialogTitle>
+              <DialogContent className="w-screen max-w-screen-sm">
+                <DialogHeader className="flex flex-col gap-5">
+                  <DialogTitle>How would you like to find projects?</DialogTitle>
 
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <DialogClose asChild onClick={() => capture("project_recommendation_modal_form_clicked")}>
-                    <Link
-                      href={NEXT_ROUTER.projectRecommendation.root}
-                      className="cursor-pointer transition-opacity hover:opacity-80"
-                    >
-                      <Card className="relative">
-                        <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} />
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <DialogClose asChild onClick={() => capture("project_recommendation_modal_form_clicked")}>
+                      <Link
+                        href={NEXT_ROUTER.projectRecommendation.root}
+                        className="cursor-pointer transition-opacity hover:opacity-80"
+                      >
+                        <Card className="relative">
+                          <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} />
 
-                        <CardHeader className="flex flex-col gap-2">
-                          <LayoutList className="size-8 text-cyan-200" />
+                          <CardHeader className="flex flex-col gap-2">
+                            <LayoutList className="size-8 text-cyan-200" />
 
-                          <div className="flex flex-col gap-1.5">
-                            <CardTitle className="text-left text-cyan-100">Form-based</CardTitle>
+                            <div className="flex flex-col gap-1.5">
+                              <CardTitle className="text-left text-cyan-100">Form-based</CardTitle>
 
-                            <CardDescription className="text-left">
-                              Find a project using the project recommendation form.
-                            </CardDescription>
-                          </div>
+                              <CardDescription className="text-left">
+                                Find a project using the project recommendation form.
+                              </CardDescription>
+                            </div>
 
-                          <Button variant="outline" className="w-fit">
-                            Complete the form
-                            <ArrowRight />
-                          </Button>
-                        </CardHeader>
-                      </Card>
-                    </Link>
-                  </DialogClose>
+                            <Button variant="outline" className="w-fit">
+                              Complete the form
+                              <ArrowRight />
+                            </Button>
+                          </CardHeader>
+                        </Card>
+                      </Link>
+                    </DialogClose>
 
-                  <DialogClose asChild onClick={() => capture("project_recommendation_modal_chat_clicked")}>
-                    <Link href={NEXT_ROUTER.odSay.root} className="cursor-pointer transition-opacity hover:opacity-80">
-                      <Card className="relative">
-                        <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} />
+                    <DialogClose asChild onClick={() => capture("project_recommendation_modal_chat_clicked")}>
+                      <Link
+                        href={NEXT_ROUTER.odSay.root}
+                        className="cursor-pointer transition-opacity hover:opacity-80"
+                      >
+                        <Card className="relative">
+                          <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} />
 
-                        <CardHeader className="flex flex-col gap-2">
-                          <Bot className="size-8 text-purple-200" />
+                          <CardHeader className="flex flex-col gap-2">
+                            <Bot className="size-8 text-purple-200" />
 
-                          <div className="flex flex-col gap-1.5">
-                            <CardTitle className="text-left text-purple-100">Chat-based</CardTitle>
+                            <div className="flex flex-col gap-1.5">
+                              <CardTitle className="text-left text-purple-100">Chat-based</CardTitle>
 
-                            <CardDescription className="text-left">
-                              Chat with OD-Say to find your perfect project.
-                            </CardDescription>
-                          </div>
+                              <CardDescription className="text-left">
+                                Chat with OD-Say to find your perfect project.
+                              </CardDescription>
+                            </div>
 
-                          <Button variant="outline" className="w-fit">
-                            Start a conversation
-                            <ArrowRight />
-                          </Button>
-                        </CardHeader>
-                      </Card>
-                    </Link>
-                  </DialogClose>
-                </div>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
+                            <Button variant="outline" className="w-fit">
+                              Start a conversation
+                              <ArrowRight />
+                            </Button>
+                          </CardHeader>
+                        </Card>
+                      </Link>
+                    </DialogClose>
+                  </div>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
+          ) : null}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

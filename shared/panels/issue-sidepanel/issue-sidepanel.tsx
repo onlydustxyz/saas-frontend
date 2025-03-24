@@ -16,6 +16,8 @@ import { useGithubPermissionsContext } from "@/shared/features/github-permission
 import { ApplyCounter } from "@/shared/features/issues/apply-counter/apply-counter";
 import { ApplyIssueGuideline } from "@/shared/features/issues/apply-issue-guideline/apply-issue-guideline";
 import { useAuthUser } from "@/shared/hooks/auth/use-auth-user";
+import { useRecommendedState } from "@/shared/providers/recommended-state";
+import { usePosthog } from "@/shared/tracking/posthog/use-posthog";
 import { Button } from "@/shared/ui/button";
 import { Card, CardDescription } from "@/shared/ui/card";
 import { Checkbox } from "@/shared/ui/checkbox";
@@ -91,6 +93,8 @@ function Content({
     options: { enabled: Boolean(contributionUuid) },
   });
 
+  const { getForProject } = useRecommendedState();
+
   const isLoading = isIssueLoading || isContributionLoading;
 
   const isError = isIssueError || isContributionError;
@@ -99,6 +103,7 @@ function Content({
 
   const isHackathon = Boolean(issue?.hackathon?.id) || Boolean(contribution?.isIncludedInLiveHackathon);
 
+  const { capture } = usePosthog();
   const { user } = useAuthUser();
 
   const isAssigned = issue?.assignees?.some(assignee => assignee.githubUserId === user?.githubUserId) ?? false;
@@ -114,7 +119,7 @@ function Content({
     [myApplications]
   );
 
-  const { mutate: createApplication, isPending: isCreatingApplication } =
+  const { mutateAsync: createApplication, isPending: isCreatingApplication } =
     MeReactQueryAdapter.client.usePostMyApplication({
       options: {
         onSuccess: () => {
@@ -169,7 +174,7 @@ function Content({
     }
   }, [isHackathon]);
 
-  function handleCreate(values: IssueSidepanelFormSchema) {
+  async function handleCreate(values: IssueSidepanelFormSchema) {
     if (isMaxApplicationsOnLiveHackathonReached) return;
 
     const applicationProjectId = issue?.project?.id ?? projectId;
@@ -177,11 +182,27 @@ function Content({
 
     if (!applicationProjectId || !applicationIssueId) return;
 
-    createApplication({
-      projectId: applicationProjectId,
-      issueId: applicationIssueId,
-      githubComment: values.githubComment,
-    });
+    try {
+      const recommendedData = getForProject(issue?.project?.slug);
+
+      await createApplication({
+        projectId: applicationProjectId,
+        issueId: applicationIssueId,
+        githubComment: values.githubComment,
+      });
+
+      capture("issue_apply_from_saas", {
+        project_slug: issue?.project?.slug,
+        issue_id: issue?.id,
+        issue_number: issue?.number,
+        issue_title: issue?.title,
+        issue_url: issue?.htmlUrl,
+        is_recommended: Boolean(recommendedData),
+        ...(recommendedData?.data ? { recommended_data: recommendedData.data } : {}),
+      });
+    } catch {
+      //
+    }
   }
 
   function handleCancel() {

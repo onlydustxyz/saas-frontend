@@ -12,7 +12,7 @@ import { TypographyMuted, TypographySmall } from "@/shared/ui/typography";
 
 import { IssueCardProps } from "./issue-card.types";
 
-export function IssueCard({ title, project, languages, createdAt, labels, issue }: IssueCardProps) {
+export function IssueCard({ title, project, languages, createdAt, labels, issue, onClick }: IssueCardProps) {
   const limitedLabels = labels?.slice(0, 2) ?? [];
 
   const dateKernelPort = bootstrap.getDateKernelPort();
@@ -51,7 +51,7 @@ export function IssueCard({ title, project, languages, createdAt, labels, issue 
   }, [languages]);
 
   return (
-    <Card className="flex flex-col gap-4 p-4">
+    <Card className="flex flex-col gap-4 p-4" onClick={onClick}>
       <header>
         <CardTitle className="flex w-full flex-row items-center justify-start gap-2">
           <ContributionBadge type="ISSUE" githubStatus={issue.githubStatus} number={issue.number} />

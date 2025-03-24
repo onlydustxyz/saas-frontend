@@ -8,12 +8,13 @@ import { UseQueryFacadeParams, useQueryAdapter } from "../../helpers/use-query-a
 
 export function useGetTailoredDiscoveries({
   options,
+  queryParams,
 }: UseQueryFacadeParams<RecoFacadePort["getTailoredDiscoveries"], GetTailoredDiscoveriesModel>) {
   const recoStoragePort = bootstrap.getRecoStoragePortForClient();
 
   return useQuery(
     useQueryAdapter({
-      ...recoStoragePort.getTailoredDiscoveries({}),
+      ...recoStoragePort.getTailoredDiscoveries({ queryParams }),
       options,
     })
   );

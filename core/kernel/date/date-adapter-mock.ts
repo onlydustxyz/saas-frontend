@@ -1,4 +1,5 @@
 import { Locale } from "date-fns";
+
 import { DateFacadePort, DateRangeType } from "./date-facade-port";
 
 export const DateAdapterMock: DateFacadePort = {
@@ -36,4 +37,7 @@ export const DateAdapterMock: DateFacadePort = {
   startOfYear: (_date: Date) => new Date(),
   setYear: (_date: Date, _year: number) => new Date(),
   formatInTimeZone: (_date: Date, _timeZone: string, _pattern: string, _options?: { locale: Locale }) => "",
+  isBefore: (_dateLeft: Date, _dateRight: Date) => false,
+  isAfter: (_dateLeft: Date, _dateRight: Date) => false,
+  addHours: (_date: Date, _hours: number) => new Date(),
 };

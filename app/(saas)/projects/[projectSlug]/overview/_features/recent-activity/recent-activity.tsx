@@ -64,7 +64,7 @@ export function RecentActivity({ projectId = "" }: { projectId?: string }) {
     }
 
     return (
-      <ul className={"flex flex-col gap-3"}>
+      <ul className={"flex flex-col"}>
         {contributions.map(contribution => (
           <li key={contribution.id}>
             <button
@@ -73,7 +73,7 @@ export function RecentActivity({ projectId = "" }: { projectId?: string }) {
                 open({ id: contribution.id, as: ContributionAs.CONTRIBUTOR });
               }}
               className={
-                "flex w-full cursor-pointer items-center justify-between gap-3 text-left transition-opacity hover:opacity-80"
+                "flex w-full cursor-pointer items-center justify-between gap-3 rounded-sm p-1.5 text-left transition-colors hover:bg-muted/50"
               }
             >
               <div className={"flex flex-1 items-center gap-3"}>

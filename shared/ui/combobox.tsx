@@ -18,6 +18,7 @@ export interface ComboboxProps<T extends string> {
   selectedLabel?: string;
   closeOnSelect?: boolean;
   selectionMode?: "single" | "multiple";
+  fullWidth?: boolean;
   search?: {
     value: string;
     onChange: (value: string) => void;
@@ -39,6 +40,7 @@ export function Combobox<T extends string>({
   selectionMode = "multiple",
   search: controlledSearch,
   pagination,
+  fullWidth = false,
 }: ComboboxProps<T>) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -94,16 +96,21 @@ export function Combobox<T extends string>({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" role="combobox" aria-expanded={open} className="w-[200px] justify-between">
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className={cn("w-[200px] justify-between", fullWidth && "w-full")}
+        >
           {getSelectedLabel()}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className={cn("w-[200px] p-0", fullWidth && "full-width-popover-content")}>
         <Command>
           <CommandInput placeholder={placeholder} value={searchValue} onValueChange={onSearchChange} />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>No options found.</CommandEmpty>
             <CommandGroup>
               {options.map(option => (
                 <CommandItem

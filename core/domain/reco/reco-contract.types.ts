@@ -60,4 +60,8 @@ export type GetTailoredDiscoveriesModel = TailoredDiscoveriesInterface;
 
 export type GetTailoredDiscoveriesPortResponse = HttpStorageResponse<GetTailoredDiscoveriesModel>;
 
-export type GetTailoredDiscoveriesPortParams = HttpClientParameters<object>;
+type GetTailoredDiscoveriesQueryParams = operations["getTailoredDiscoveries"]["parameters"]["query"];
+
+export type GetTailoredDiscoveriesPortParams = HttpClientParameters<{
+  QueryParams: GetTailoredDiscoveriesQueryParams;
+}>;

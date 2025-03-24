@@ -1,9 +1,11 @@
+import { bootstrap } from "@/core/bootstrap";
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
 type MeResponse = components["schemas"]["GetMeResponse"];
 
 export interface MeInterface extends MeResponse {
   isMe(id: string): boolean;
+  isNewContributor(): boolean;
 }
 
 export class Me implements MeInterface {
@@ -32,5 +34,10 @@ export class Me implements MeInterface {
 
   isMe(id: string) {
     return this.id === id;
+  }
+
+  isNewContributor() {
+    const dateKernelPort = bootstrap.getDateKernelPort();
+    return dateKernelPort.isBefore(new Date(this.createdAt), dateKernelPort.addHours(new Date(), 24));
   }
 }
