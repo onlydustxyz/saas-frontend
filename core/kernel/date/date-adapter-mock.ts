@@ -7,6 +7,7 @@ export const DateAdapterMock: DateFacadePort = {
   isToday: (_date: Date) => false,
   isPast: (_date: Date) => false,
   isFuture: (_date: Date) => false,
+  isWithinInterval: (_date: Date, _interval: { start: Date; end: Date }) => false,
   addMinutes: (_date: Date, _minutes: number) => new Date(),
   compareAsc: (_dateLeft: Date, _dateRight: Date) => 1,
   compareDesc: (_dateLeft: Date, _dateRight: Date) => 1,
@@ -40,4 +41,5 @@ export const DateAdapterMock: DateFacadePort = {
   isBefore: (_dateLeft: Date, _dateRight: Date) => false,
   isAfter: (_dateLeft: Date, _dateRight: Date) => false,
   addHours: (_date: Date, _hours: number) => new Date(),
+  subHours: (_date: Date, _hours: number) => new Date(),
 };

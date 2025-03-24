@@ -17,6 +17,10 @@ export class DateFnsAdapter implements DateFacadePort {
     return DateFns.isFuture(date);
   }
 
+  isWithinInterval(date: Date, interval: { start: Date; end: Date }): boolean {
+    return DateFns.isWithinInterval(date, interval);
+  }
+
   compareAsc(dateLeft: Date, dateRight: Date): number {
     return DateFns.compareAsc(dateLeft, dateRight);
   }
@@ -217,5 +221,9 @@ export class DateFnsAdapter implements DateFacadePort {
 
   addHours(date: Date, hours: number): Date {
     return DateFns.addHours(date, hours);
+  }
+
+  subHours(date: Date, hours: number): Date {
+    return DateFns.subHours(date, hours);
   }
 }

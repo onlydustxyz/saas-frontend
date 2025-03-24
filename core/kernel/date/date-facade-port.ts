@@ -23,6 +23,7 @@ export interface DateFacadePort {
   isBefore: (dateLeft: Date, dateRight: Date) => boolean;
   isAfter: (dateLeft: Date, dateRight: Date) => boolean;
   isFuture: (date: Date) => boolean;
+  isWithinInterval: (date: Date, interval: { start: Date; end: Date }) => boolean;
   compareAsc: (dateLeft: Date, dateRight: Date) => number;
   compareDesc: (dateLeft: Date, dateRight: Date) => number;
   format: (date: Date, pattern: string) => string;
@@ -65,4 +66,5 @@ export interface DateFacadePort {
   getWeekNumber: (date: Date, options?: { hideMonths: boolean }) => string;
   formatInTimeZone: (date: Date, timeZone: string, pattern: string, options?: { locale: Locale }) => string;
   addHours: (date: Date, hours: number) => Date;
+  subHours: (date: Date, hours: number) => Date;
 }

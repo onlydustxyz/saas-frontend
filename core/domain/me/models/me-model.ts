@@ -38,6 +38,9 @@ export class Me implements MeInterface {
 
   isNewContributor() {
     const dateKernelPort = bootstrap.getDateKernelPort();
-    return dateKernelPort?.isBefore(new Date(this.createdAt), dateKernelPort?.addHours(new Date(), 24));
+    return dateKernelPort?.isWithinInterval(new Date(this.createdAt), {
+      start: dateKernelPort?.subHours(new Date(), 24),
+      end: new Date(),
+    });
   }
 }
