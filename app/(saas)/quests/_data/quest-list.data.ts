@@ -266,7 +266,7 @@ export const QuestListData: QuestList[] = [
         wanted: 2,
       },
     },
-    requiredSkills: ["Nestjs", "Postgress"],
+    requiredSkills: ["Nestjs", "Postgres"],
     startDate: "2025-03-25",
     endDate: "2025-04-01",
     status: "application-open",
