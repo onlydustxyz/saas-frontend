@@ -233,14 +233,14 @@ export const QuestListData: QuestList[] = [
     },
     wantedProfiles: {
       senior: {
-        provided: [],
+        provided: [169891780, 86140439],
         wanted: 2,
       },
     },
     requiredSkills: ["react native", "expo", "UI", "typescript"],
     startDate: "2025-03-20",
     endDate: "2025-04-03",
-    status: "application-open",
+    status: "started",
     issues: [
       2926956496, 2926953702, 2926950585, 2926948727, 2926944633, 2926943128, 2926941803, 2926940839, 2926939730,
       2926937458, 2926933443, 2926929902, 2926925029, 2926921661,
