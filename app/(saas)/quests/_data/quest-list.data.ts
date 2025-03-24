@@ -216,7 +216,6 @@ export const QuestListData: QuestList[] = [
     issues: [2866995946, 2866997140, 2866997973],
     maintainers: [19536159],
   },
-
   {
     id: "f8c47e9d-b3a5-4f16-8d92-3c7a1b94e5d0",
     bannerUrl: "https://pbs.twimg.com/profile_banners/1658760144077877250/1690476363/1500x500",
@@ -246,6 +245,32 @@ export const QuestListData: QuestList[] = [
       2926956496, 2926953702, 2926950585, 2926948727, 2926944633, 2926943128, 2926941803, 2926940839, 2926939730,
       2926937458, 2926933443, 2926929902, 2926925029, 2926921661,
     ],
+    maintainers: [51526246],
+  },
+  {
+    id: "c9d2e8f1-a4b6-4c7d-9e3f-2b5a8c6d4e0f",
+    bannerUrl: "https://pbs.twimg.com/profile_banners/1658760144077877250/1690476363/1500x500",
+    projectId: "12f9a106-470e-4047-ada6-4befb442783b",
+    projectSlug: "gasless-gossip",
+    name: "Production level Nestjs foundational issues",
+    shortDescription: "To be defined",
+    longDescription: {
+      title: "Production level Nestjs foundational issues",
+      description: "To be defined",
+      warning: "Devs should be able to work along with the Maintainer and he will be available for them all the time.",
+      links: [],
+    },
+    wantedProfiles: {
+      senior: {
+        provided: [],
+        wanted: 2,
+      },
+    },
+    requiredSkills: ["Nestjs", "Postgress"],
+    startDate: "2025-03-25",
+    endDate: "2025-04-01",
+    status: "application-open",
+    issues: [],
     maintainers: [51526246],
   },
 ];
