@@ -2,7 +2,7 @@ import { components } from "@/core/infrastructure/marketplace-api-client-adapter
 
 import { SearchRessourceType } from "./search.types";
 
-export type SearchItemResponse = components["schemas"]["SearchItemResponse"];
+type SearchItemResponse = components["schemas"]["SearchItemResponse"];
 
 export interface SearchItemInterface extends SearchItemResponse {
   isProject(): boolean;

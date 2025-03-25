@@ -17,7 +17,7 @@ import { useContributionActions } from "@/shared/hooks/contributions/use-contrib
 import { UseContributionPanelFooter } from "@/shared/panels/contribution-sidepanel/_features/footer/footer.types";
 import { Translate } from "@/shared/translation/components/translate/translate";
 
-export const useContributionPanelFooterAsMaintainer = ({
+const useContributionPanelFooterAsMaintainer = ({
   as,
   contribution,
   setIsManageApplicantsModalOpen,
@@ -91,7 +91,7 @@ export const useContributionPanelFooterAsMaintainer = ({
   );
 };
 
-export const useContributionPanelFooterAsContributor = ({ contribution }: UseContributionPanelFooter) => {
+const useContributionPanelFooterAsContributor = ({ contribution }: UseContributionPanelFooter) => {
   const [shouldDeleteComment, setShouldDeleteComment] = useState(false);
   const { close } = useSidePanelsContext();
   const { handleVerifyPermissions, isAuthorized } = usePublicRepoScope();

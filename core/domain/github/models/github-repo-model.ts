@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type GithubRepoResponse = components["schemas"]["GithubRepoResponse"];
+type GithubRepoResponse = components["schemas"]["GithubRepoResponse"];
 
 export interface GithubRepoInterface extends GithubRepoResponse {
   isRepoIncluded(repoIds: number[]): boolean;

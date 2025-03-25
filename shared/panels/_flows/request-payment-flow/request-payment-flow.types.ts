@@ -1,7 +1,3 @@
-import { PropsWithChildren } from "react";
-
-export interface RequestPaymentFlowContextProps extends PropsWithChildren {}
-
 export interface OpenProps {
   initialState?: {
     selectedRewardsIds: string[];

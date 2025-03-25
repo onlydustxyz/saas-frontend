@@ -1,3 +1,3 @@
-export function TimelineItemLoading() {
+function TimelineItemLoading() {
   return <div />;
 }

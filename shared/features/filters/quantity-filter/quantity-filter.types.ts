@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 import { QuantityFilterType } from "@/core/kernel/filters/filters-facade-port";
 
-export interface QuantityFilterValues {
+interface QuantityFilterValues {
   type: QuantityFilterType;
   amount?: {
     gte?: number;

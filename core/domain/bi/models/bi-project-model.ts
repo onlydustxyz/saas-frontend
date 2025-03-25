@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type BiProjectResponse = components["schemas"]["BiProjectsPageItemResponse"];
+type BiProjectResponse = components["schemas"]["BiProjectsPageItemResponse"];
 
 export interface BiProjectInterface extends BiProjectResponse {}
 

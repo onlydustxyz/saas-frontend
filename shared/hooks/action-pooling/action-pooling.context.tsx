@@ -12,7 +12,7 @@ interface ActionPoolingContextInterface {
   shouldRefetch: false | number;
 }
 
-export const ActionPoolingContext = createContext<ActionPoolingContextInterface>({
+const ActionPoolingContext = createContext<ActionPoolingContextInterface>({
   startPooling: () => {},
   shouldRefetch: false,
 });

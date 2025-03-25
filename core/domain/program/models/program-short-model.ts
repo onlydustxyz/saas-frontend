@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type ProgramShortResponse = components["schemas"]["ProgramShortResponse"];
+type ProgramShortResponse = components["schemas"]["ProgramShortResponse"];
 
 export interface ProgramShortInterface extends ProgramShortResponse {}
 

@@ -1,4 +1,4 @@
-export type profileLevel = "junior" | "senior" | "expert";
+type profileLevel = "junior" | "senior" | "expert";
 
 export interface QuestList {
   id: string;

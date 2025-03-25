@@ -1,17 +1,12 @@
 "use client";
 
-import { Orbit } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { ProjectReactQueryAdapter } from "@/core/application/react-query-adapter/project";
 import { GetProjectsV2QueryParams } from "@/core/domain/project/project-contract.types";
 
-import { Typo } from "@/design-system/atoms/typo";
-import { CardProjectMarketplaceLoading } from "@/design-system/molecules/cards/card-project-marketplace/card-project-marketplace.loading";
-import { CardProjectMarketplace } from "@/design-system/molecules/cards/card-project-marketplace/variants/card-project-marketplace-default";
-import { TableSearch } from "@/design-system/molecules/table-search/variants/table-search-default";
-
 import { BaseLink } from "@/shared/components/base-link/base-link";
+import { CardProject } from "@/shared/components/cards/card-project";
 import { withClientOnly } from "@/shared/components/client-only/client-only";
 import { EmptyStateLite } from "@/shared/components/empty-state-lite/empty-state-lite";
 import { ErrorState } from "@/shared/components/error-state/error-state";
@@ -21,7 +16,8 @@ import { NEXT_ROUTER } from "@/shared/constants/router";
 import { FilterButton } from "@/shared/features/filters/_components/filter-button/filter-button";
 import { FilterDataProvider } from "@/shared/features/filters/_contexts/filter-data/filter-data.context";
 import { NavigationBreadcrumb } from "@/shared/features/navigation/navigation.context";
-import { Translate } from "@/shared/translation/components/translate/translate";
+import { Input } from "@/shared/ui/input";
+import { Skeleton } from "@/shared/ui/skeleton";
 
 import { FilterData } from "./_components/filter-data/filter-data";
 import { useEcosystemProjectsFilterDataSidePanel } from "./_components/filter-data/filter-data.hooks";
@@ -53,12 +49,16 @@ function EcosystemProjectsPage({ params }: { params: { ecosystemSlug: string } }
 
   const renderProjects = useMemo(() => {
     if (isLoading) {
-      return Array.from({ length: 8 }).map((_, index) => <CardProjectMarketplaceLoading key={index} />);
+      return Array.from({ length: 8 }).map((_, index) => (
+        <div key={index} className="space-y-3">
+          <Skeleton className="h-[200px]" />
+        </div>
+      ));
     }
 
     if (isError) {
       return (
-        <div className="col-span-full p-lg">
+        <div className="col-span-full p-4">
           <ErrorState />
         </div>
       );
@@ -66,14 +66,14 @@ function EcosystemProjectsPage({ params }: { params: { ecosystemSlug: string } }
 
     if (!projects.length) {
       return (
-        <div className="col-span-full p-lg">
+        <div className="col-span-full p-4">
           <EmptyStateLite />
         </div>
       );
     }
 
     return projects.map(project => (
-      <CardProjectMarketplace
+      <CardProject
         key={project.id}
         as={BaseLink}
         htmlProps={{ href: NEXT_ROUTER.projects.details.root(project.slug) }}
@@ -102,9 +102,6 @@ function EcosystemProjectsPage({ params }: { params: { ecosystemSlug: string } }
             id: "root",
             label: "Ecosystems",
             href: NEXT_ROUTER.ecosystems.root,
-            iconProps: {
-              component: Orbit,
-            },
           },
           {
             id: "slug",
@@ -112,17 +109,27 @@ function EcosystemProjectsPage({ params }: { params: { ecosystemSlug: string } }
           },
           {
             id: "projects",
-            label: <Translate token={"ecosystems:details.tabs.projects"} />,
+            label: "Projects",
           },
         ]}
       />
-      <div className="flex h-full flex-col gap-lg overflow-hidden p-lg pb-0">
-        <nav className={"flex gap-md"}>
+      <div className="flex h-full flex-col gap-6 overflow-hidden p-4 pb-0">
+        <nav className="flex gap-4">
           <FilterButton onClick={openFilterPanel} />
-          <TableSearch value={search} onChange={setSearch} onDebouncedChange={setDebouncedSearch} />
+          <Input
+            type="search"
+            placeholder="Search projects..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            onKeyUp={e => {
+              if (e.key === "Enter") {
+                setDebouncedSearch(search);
+              }
+            }}
+          />
         </nav>
         <ScrollView>
-          <div className="grid w-full grid-cols-1 gap-lg overflow-hidden sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+          <div className="grid w-full grid-cols-1 gap-6 overflow-hidden sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
             {renderProjects}
             {hasNextPage ? (
               <div className="col-span-full">
@@ -131,11 +138,9 @@ function EcosystemProjectsPage({ params }: { params: { ecosystemSlug: string } }
             ) : null}
           </div>
         </ScrollView>
-        <div className="flex gap-md">
-          <Typo size={"sm"} color={"secondary"} translate={{ token: "ecosystems:details.projects.projectsCount" }} />
-          <Typo size={"sm"} color={"primary"}>
-            {totalItemNumber}
-          </Typo>
+        <div className="flex gap-4">
+          <p className="text-sm text-muted-foreground">Projects</p>
+          <p className="text-sm">{totalItemNumber}</p>
         </div>
       </div>
       <FilterData />

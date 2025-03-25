@@ -13,7 +13,7 @@ import {
   UnallocateFlowContextProps,
 } from "@/shared/panels/_flows/unallocate-flow/unallocate-flow.types";
 
-export const UnallocateFlowContext = createContext<UnallocateFlowContextInterface>({
+const UnallocateFlowContext = createContext<UnallocateFlowContextInterface>({
   programId: "",
   sponsor: undefined,
   selectSponsor: () => {},

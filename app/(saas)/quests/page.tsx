@@ -19,9 +19,6 @@ function QuestsPage() {
             {
               id: "root",
               label: "Quests",
-              iconProps: {
-                component: Target,
-              },
             },
           ]}
         />

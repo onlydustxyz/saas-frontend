@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type RewardListItemResponseV2 = components["schemas"]["RewardPageItemResponse"];
+type RewardListItemResponseV2 = components["schemas"]["RewardPageItemResponse"];
 
 export interface RewardListItemV2Interface extends RewardListItemResponseV2 {
   isBlocked(): boolean;

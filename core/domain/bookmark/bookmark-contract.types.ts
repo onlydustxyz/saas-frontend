@@ -9,7 +9,7 @@ import { BookmarkProject } from "./models/bookmark-project-model";
 /* ------------------------------ GET BOOKMARK ------------------------------ */
 export type GetBookmarkResponse = components["schemas"]["BookmarksResponse"];
 
-export type GetBookmarkModel = Omit<GetBookmarkResponse, "projects"> & {
+type GetBookmarkModel = Omit<GetBookmarkResponse, "projects"> & {
   projects: BookmarkProject[];
 };
 

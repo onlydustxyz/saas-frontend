@@ -1,8 +1,8 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type BookMarkProjectResponse = components["schemas"]["ProjectLinkResponse"];
+type BookMarkProjectResponse = components["schemas"]["ProjectLinkResponse"];
 
-export interface BookMarkProjectInterface extends BookMarkProjectResponse {}
+interface BookMarkProjectInterface extends BookMarkProjectResponse {}
 
 export class BookmarkProject implements BookMarkProjectInterface {
   id!: BookMarkProjectResponse["id"];

@@ -153,5 +153,3 @@ export const GithubRepositoryPage = () => {
     </MultiStepsForm>
   );
 };
-
-export default GithubRepositoryPage;

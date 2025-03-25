@@ -1,6 +1,6 @@
 import { PropsWithChildren, RefObject } from "react";
 
-export type SidePanelType = "drawer" | "container";
+type SidePanelType = "drawer" | "container";
 export interface SidePanelConfig {
   width?: number;
   closedWidth?: number;

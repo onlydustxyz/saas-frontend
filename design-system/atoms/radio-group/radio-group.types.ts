@@ -2,7 +2,7 @@ import { ComponentPropsWithoutRef, ElementType } from "react";
 
 import { TypoPort } from "@/design-system/atoms/typo";
 
-export interface Variants {
+interface Variants {
   isDisabled?: boolean;
 }
 

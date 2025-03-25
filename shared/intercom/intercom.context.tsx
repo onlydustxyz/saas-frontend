@@ -12,7 +12,7 @@ interface IntercomContextInterface {
   openIntercom: () => void;
 }
 
-export const IntercomContext = createContext<IntercomContextInterface>({
+const IntercomContext = createContext<IntercomContextInterface>({
   hideIntercomLauncher: () => {},
   showIntercomLauncher: () => {},
   openIntercom: () => {},

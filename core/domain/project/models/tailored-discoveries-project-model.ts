@@ -2,7 +2,7 @@ import { components } from "@/core/infrastructure/marketplace-api-client-adapter
 
 import { ProjectCategory, ProjectCategoryInterface } from "../../project-category/models/project-category-model";
 
-export type TailoredDiscoveriesProjectResponse = components["schemas"]["TailoredDiscoveriesProjectResponse"];
+type TailoredDiscoveriesProjectResponse = components["schemas"]["TailoredDiscoveriesProjectResponse"];
 
 export interface TailoredDiscoveriesProjectInterface extends TailoredDiscoveriesProjectResponse {
   categories: ProjectCategoryInterface[];

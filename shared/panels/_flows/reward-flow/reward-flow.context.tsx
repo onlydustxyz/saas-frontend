@@ -25,7 +25,7 @@ import {
 } from "@/shared/panels/_flows/reward-flow/reward-flow.types";
 import { Translate } from "@/shared/translation/components/translate/translate";
 
-export const RewardFlowContext = createContext<RewardFlowContextInterface>({
+const RewardFlowContext = createContext<RewardFlowContextInterface>({
   projectId: "",
   open: () => {},
   removeContribution: () => {},

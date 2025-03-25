@@ -2,7 +2,7 @@ import { components } from "@/core/infrastructure/marketplace-api-client-adapter
 
 import { UserRank, UserRankInterface } from "../../user/models/user-rank-model";
 
-export type EcosystemContributorsResponse = components["schemas"]["ContributorPageItemResponseV2"];
+type EcosystemContributorsResponse = components["schemas"]["ContributorPageItemResponseV2"];
 
 export interface EcosystemContributorsInterface extends EcosystemContributorsResponse {
   rank: UserRankInterface;

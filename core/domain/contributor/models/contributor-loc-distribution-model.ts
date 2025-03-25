@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type ContributorLocDistributionResponse = components["schemas"]["ContributorLocDistributionResponse"];
+type ContributorLocDistributionResponse = components["schemas"]["ContributorLocDistributionResponse"];
 
 export interface ContributorLocDistributionInterface extends ContributorLocDistributionResponse {}
 

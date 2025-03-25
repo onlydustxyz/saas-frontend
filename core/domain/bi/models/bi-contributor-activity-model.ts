@@ -2,7 +2,7 @@ import { setDay, setWeek, setYear } from "date-fns";
 
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type BiContributorActivityResponse = components["schemas"]["ContributorActivityGraphResponse"];
+type BiContributorActivityResponse = components["schemas"]["ContributorActivityGraphResponse"];
 type BiContributorActivityResponseDayaInterface = BiContributorActivityResponse["days"][0];
 
 interface BiContributorActivityDayInterface extends BiContributorActivityResponseDayaInterface {

@@ -2,7 +2,7 @@ import { components } from "@/core/infrastructure/marketplace-api-client-adapter
 
 type UserEcosystemItemResponse = components["schemas"]["UserProfileEcosystemPageItem"];
 
-export interface UserEcosystemItemInterface extends UserEcosystemItemResponse {}
+interface UserEcosystemItemInterface extends UserEcosystemItemResponse {}
 
 export class UserEcosystemItem implements UserEcosystemItemInterface {
   rank!: UserEcosystemItemResponse["rank"];

@@ -4,7 +4,7 @@ import {
 } from "@/core/domain/bi/models/bi-contributor-list-item-model";
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type BiContributorResponse = components["schemas"]["BiContributorResponse"];
+type BiContributorResponse = components["schemas"]["BiContributorResponse"];
 
 export interface BiContributorInterface extends BiContributorResponse, BiContributorListItemInterface {}
 

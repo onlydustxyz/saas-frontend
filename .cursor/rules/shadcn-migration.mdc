@@ -1,0 +1,507 @@
+---
+description: Guidelines for migrating from custom design system to @shadcn/ui with direct component replacement
+globs: 
+alwaysApply: false
+---
+
+# Design System to @shadcn/ui Direct Migration Strategy
+
+## Overview of Migration Strategy
+
+1. Take a page-by-page migration approach, working recursively through components
+2. Directly replace old design system components with @shadcn/ui equivalents
+3. Update props in-place according to the component mapping
+4. Maintain the existing page design and functionality
+5. Progressively migrate entire pages to ensure visual consistency
+
+## 🚨 CRITICAL INSTRUCTIONS FOR MIGRATION 🚨
+
+As a developer, you MUST NOT do any of the following, as they lead to inconsistent UI and technical debt:
+
+❌ NEVER DO THIS - try to replace component in shared/ folder
+❌ NEVER DO THIS - ask for install shadcn component
+
+```tsx
+// ❌ NEVER DO THIS - Mixing old and new design systems inconsistently on the same page
+function MixedPage() {
+  return (
+    <div>
+      <OldDesignSystemHeader />
+      <Button variant="outline">Shadcn Button</Button>
+      <OldDesignSystemButton>Old Button</OldDesignSystemButton>
+    </div>
+  )
+}
+
+// ❌ NEVER DO THIS - Incomplete component migration that forces type casting
+function PartialMigration() {
+  return (
+    <Select 
+      // @ts-ignore - Forcing old props into new component
+      items={options} 
+      selectedKeys={selectedValue}
+      onChange={handleChange} 
+    />
+  )
+}
+
+// ❌ NEVER DO THIS - Creating new adapter components
+// src/components/ui/button/index.tsx - DON'T CREATE THIS
+import { Button as ShadcnButton } from "@/components/shadcn/ui/button"
+// Don't create adapter components like this
+export function Button(props) {
+  // Don't create mapping logic here
+  return <ShadcnButton {...mappedProps} />
+}
+```
+
+Instead, you MUST ALWAYS follow this direct migration approach:
+
+```tsx
+// ✅ ALWAYS FOLLOW THIS PATTERN
+
+// 1. Directly replace components with their shadcn equivalents
+// Before:
+import { Button } from "@/old-design-system/button"
+
+function UserActions({ user }) {
+  return (
+    <div>
+      <Button 
+        size="md"
+        variant="primary"
+        theme="primary"
+        isDisabled={false}
+        startIcon={<EditIcon />}
+      >
+        Edit User
+      </Button>
+    </div>
+  )
+}
+
+// After:
+import { Button } from "@/components/ui/button"
+import { Pencil } from "lucide-react" 
+
+function UserActions({ user }) {
+  return (
+    <div>
+      <Button 
+        size="default"  // Changed from "md" to "default"
+        variant="default"  // Changed from "primary" to "default"
+        disabled={false}  // Changed from isDisabled to disabled
+        className="flex items-center gap-2"  // Added for icon spacing
+      >
+        <Pencil className="h-4 w-4" /> {/* Replaced startIcon with direct icon */}
+        Edit User
+      </Button>
+    </div>
+  )
+}
+
+// 2. Update form components with proper shadcn structure
+// Before:
+import { Input } from "@/old-design-system/input"
+
+function UserForm({ user }) {
+  return (
+    <form>
+      <Input
+        label="Email"
+        placeholder="Enter email"
+        value={user.email}
+        onChange={handleEmailChange}
+        isError={!!errors.email}
+        errorMessage={errors.email}
+      />
+    </form>
+  )
+}
+
+// After:
+import { Input } from "@/components/ui/input"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+
+function UserForm({ user, form }) {
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="Enter email" 
+                  {...field} 
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </form>
+    </Form>
+  )
+}
+
+// 3. Update complex components like dropdowns
+// Before:
+import { Dropdown } from "@/old-design-system/dropdown"
+
+function RoleSelector() {
+  return (
+    <Dropdown
+      items={[
+        { key: "admin", label: "Admin" },
+        { key: "user", label: "User" },
+      ]}
+      selectedKeys={new Set(["user"])}
+      onChange={handleRoleChange}
+    />
+  )
+}
+
+// After:
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+
+function RoleSelector() {
+  return (
+    <Select defaultValue="user" onValueChange={handleRoleChange}>
+      <SelectTrigger>
+        <SelectValue placeholder="Select a role" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="admin">Admin</SelectItem>
+        <SelectItem value="user">User</SelectItem>
+      </SelectContent>
+    </Select>
+  )
+}
+
+
+
+// 4. Update cn helpers import
+// Before:
+import { cn } from "@/shared/helpers/cn";
+
+// After:
+import { cn } from "@/shared/utils";
+
+```
+
+## ABSOLUTE REQUIREMENTS FOR MIGRATION
+
+1. You MUST migrate complete pages at a time to maintain visual consistency
+2. You MUST directly replace old components with shadcn components (no adapter layer)
+3. You MUST update props according to the component mapping document
+4. You MUST maintain the existing page design and functionality
+5. You MUST properly handle complex component transformations (e.g., forms, dropdowns)
+6. You MUST update import statements to point to shadcn components
+
+## COMPONENT MAPPING REFERENCE CHART
+
+### Form Controls
+
+| Old Component | @shadcn Component        | Prop Conversions                                                                                                                                                                                                                                                                 |
+| ------------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `button`      | `Button`                 | `size`: md → default, sm → sm, lg → lg<br>`variant`: primary → default, secondary → outline<br>`theme`: primary → default, destructive → destructive<br>`isDisabled` → `disabled`<br>`startIcon` → Place icon as child before text<br>`endIcon` → Place icon as child after text |
+| `input`       | `Input` with `FormField` | Form-related props (label, error) → Use FormField components<br>`isDisabled` → `disabled`<br>`placeholder` → `placeholder`<br>Icons → Place in FormControl with positioning                                                                                                      |
+| `dropdown`    | `Select`                 | `items` → Map to SelectItem components<br>`selectedKeys` → `defaultValue` or `value`<br>`onChange` → `onValueChange`                                                                                                                                                             |
+| `checkbox`    | `Checkbox`               | `isSelected` → `checked`<br>`onChange` → `onCheckedChange`<br>`isDisabled` → `disabled`                                                                                                                                                                                          |
+| `switch`      | `Switch`                 | `isSelected` → `checked`<br>`onChange` → `onCheckedChange`<br>`isDisabled` → `disabled`                                                                                                                                                                                          |
+| `date-picker` | `Calendar` + `Popover`   | Requires complete restructuring                                                                                                                                                                                                                                                  |
+
+### Display Components
+
+| Old Component | @shadcn Component | Prop Conversions                                                   |
+| ------------- | ----------------- | ------------------------------------------------------------------ |
+| `avatar`      | `Avatar`          | `src` → `src` on AvatarImage<br>`name` → Use with AvatarFallback   |
+| `badge`       | `Badge`           | `variant` → `variant`<br>`theme` → Map to appropriate variant      |
+| `tooltip`     | `Tooltip`         | `content` → Use TooltipContent<br>`placement` → `side` and `align` |
+| `typo`        | Typography styles | Replace with appropriate text styling                              |
+
+## CORRECT MIGRATION WORKFLOW
+
+### 2. Page-by-Page Migration
+
+For each page in your application:
+
+1. Identify all components from the old design system used on this page
+2. Install the corresponding shadcn components if not already installed
+3. Replace imports to point to shadcn components
+4. Update props according to the mapping chart
+5. Address any TypeScript errors or warnings
+6. Test the page for visual and functional parity
+7. Only move to the next page once current page is fully migrated
+
+### 3. Component Replacement Examples
+
+#### Button Replacement
+
+```tsx
+// BEFORE
+import { Button } from "@/old-design-system/button"
+
+<Button
+  size="md"
+  variant="primary"
+  isDisabled={isLoading}
+  isLoading={isLoading}
+  startIcon={<SaveIcon />}
+>
+  Save Changes
+</Button>
+
+// AFTER
+import { Button } from "@/components/ui/button"
+import { Save } from "lucide-react"
+
+<Button
+  size="default"
+  variant="default"
+  disabled={isLoading}
+  className="flex items-center gap-2"
+>
+  {isLoading && <Spinner className="h-4 w-4 mr-2" />}
+  <Save className="h-4 w-4" />
+  Save Changes
+</Button>
+```
+
+
+#### ShowMore Replacement
+
+```tsx
+// BEFORE
+import { ShowMore } from "@/shared/components/show-more/show-more";
+
+<ShowMore onNext={fetchNextPage} loading={isFetchingNextPage} />
+
+// AFTER
+import { ShowMore } from "@/shared/ui/show-more";
+
+<ShowMore onNext={fetchNextPage} loading={isFetchingNextPage} hasNextPage={hasNextPage} />
+```
+
+
+#### Input Replacement
+
+```tsx
+// BEFORE
+import { Input } from "@/old-design-system/input"
+
+<Input
+  label="Username"
+  placeholder="Enter username"
+  value={username}
+  onChange={setUsername}
+  isError={!!errors.username}
+  errorMessage={errors.username}
+  startIcon={<UserIcon />}
+/>
+
+// AFTER
+import { Input } from "@/components/ui/input"
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
+import { User } from "lucide-react"
+
+<FormField
+  control={form.control}
+  name="username"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Username</FormLabel>
+      <FormControl>
+        <div className="relative">
+          <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input 
+            className="pl-9" 
+            placeholder="Enter username" 
+            {...field} 
+          />
+        </div>
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+```
+
+#### Dropdown Replacement
+
+```tsx
+// BEFORE
+import { Dropdown } from "@/old-design-system/dropdown"
+
+<Dropdown
+  items={[
+    { key: "option1", label: "Option 1" },
+    { key: "option2", label: "Option 2" }
+  ]}
+  selectedKeys={new Set([selectedValue])}
+  onChange={(keys) => setSelectedValue(Array.from(keys)[0])}
+  placeholder="Select an option"
+/>
+
+// AFTER
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+
+<Select 
+  value={selectedValue} 
+  onValueChange={setSelectedValue}
+>
+  <SelectTrigger>
+    <SelectValue placeholder="Select an option" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="option1">Option 1</SelectItem>
+    <SelectItem value="option2">Option 2</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+## HANDLING COMPLEX COMPONENTS
+
+### DatePicker Example
+
+```tsx
+// BEFORE
+import { DatePicker } from "@/old-design-system/date-picker"
+
+<DatePicker
+  value={date}
+  onChange={setDate}
+  placeholder="Select a date"
+  isDisabled={isDisabled}
+/>
+
+// AFTER
+import { format } from "date-fns"
+import { Calendar } from "@/components/ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Button } from "@/components/ui/button"
+import { CalendarIcon } from "lucide-react"
+import { cn } from "@/lib/utils"
+
+<Popover>
+  <PopoverTrigger asChild>
+    <Button
+      variant="outline"
+      className={cn(
+        "w-full justify-start text-left font-normal",
+        !date && "text-muted-foreground"
+      )}
+      disabled={isDisabled}
+    >
+      <CalendarIcon className="mr-2 h-4 w-4" />
+      {date ? format(date, "PPP") : "Select a date"}
+    </Button>
+  </PopoverTrigger>
+  <PopoverContent className="w-auto p-0">
+    <Calendar
+      mode="single"
+      selected={date}
+      onSelect={setDate}
+      initialFocus
+    />
+  </PopoverContent>
+</Popover>
+```
+
+### Table Example
+
+```tsx
+// BEFORE
+import { Table, TableCell, TableRow, TableHeader } from "@/old-design-system/table"
+
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableCell>Name</TableCell>
+      <TableCell>Email</TableCell>
+    </TableRow>
+  </TableHeader>
+  <tbody>
+    {users.map(user => (
+      <TableRow key={user.id}>
+        <TableCell>{user.name}</TableCell>
+        <TableCell>{user.email}</TableCell>
+      </TableRow>
+    ))}
+  </tbody>
+</Table>
+
+// AFTER
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Name</TableHead>
+      <TableHead>Email</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    {users.map(user => (
+      <TableRow key={user.id}>
+        <TableCell>{user.name}</TableCell>
+        <TableCell>{user.email}</TableCell>
+      </TableRow>
+    ))}
+  </TableBody>
+</Table>
+```
+
+## CONSEQUENCES OF INCORRECT IMPLEMENTATION
+
+If you don't follow these guidelines:
+1. You'll have inconsistent UI with a mix of old and new design system components
+2. You'll face prop type errors and TypeScript warnings
+3. Components will lose functionality or behave unpredictably
+4. The migration will be harder to track and complete
+5. Pages will have visual inconsistencies
+6. You'll create technical debt that's difficult to resolve later
+
+## MIGRATION TRACKING TEMPLATE
+
+Create a migration tracking document:
+
+```markdown
+# Design System Migration Progress
+
+## Pages
+
+| Page         | Status        | Notes                              |
+| ------------ | ------------- | ---------------------------------- |
+| Dashboard    | ✅ Completed   | All components migrated and tested |
+| Users List   | ⏳ In Progress | Form components remaining          |
+| User Details | ❌ Not Started | -                                  |
+| Settings     | ❌ Not Started | -                                  |
+
+## Components Used Per Page
+
+### Dashboard
+- [x] Button
+- [x] Card
+- [x] Avatar
+- [ ] Table
+
+### Users List
+- [x] Input
+- [x] Button
+- [ ] Dropdown
+- [ ] Pagination
+```
+
+Remember: Migrate complete pages at a time, and directly replace components without creating adapter layers!

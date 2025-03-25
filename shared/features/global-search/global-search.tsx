@@ -18,7 +18,7 @@ import { SearchResultGroup } from "./_components/search-result-group/search-resu
 import { Filters } from "./_features/filters/filters";
 import { Result } from "./_features/result/result";
 
-export function SafeGlobalSearch({
+function SafeGlobalSearch({
   searchWidthClassName,
   containerClassName,
 }: {

@@ -2,7 +2,7 @@ import { ContributionItemDto } from "@/core/domain/contribution/dto/contribution
 import { Applicant, ApplicantInterface } from "@/core/domain/user/models/applicant-model";
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type ContributionActivityResponse = components["schemas"]["ContributionActivityPageItemResponse"];
+type ContributionActivityResponse = components["schemas"]["ContributionActivityPageItemResponse"];
 
 export interface ContributionActivityInterface
   extends Omit<ContributionActivityResponse, "applicants" | "contributors" | "assignees" | "uuid"> {

@@ -1,8 +1,8 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type ProjectAcquisitionTipResponse = components["schemas"]["ProjectAcquisitionTipResponse"];
+type ProjectAcquisitionTipResponse = components["schemas"]["ProjectAcquisitionTipResponse"];
 
-export interface ProjectAcquisitionTipInterface extends ProjectAcquisitionTipResponse {}
+interface ProjectAcquisitionTipInterface extends ProjectAcquisitionTipResponse {}
 
 export class ProjectAcquisitionTip implements ProjectAcquisitionTipInterface {
   identifier!: ProjectAcquisitionTipResponse["identifier"];

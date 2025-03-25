@@ -40,7 +40,7 @@ interface GlobalSearchContextInterface {
 }
 
 // Initialize context with default values
-export const GlobalSearchContext = createContext<GlobalSearchContextInterface>({
+const GlobalSearchContext = createContext<GlobalSearchContextInterface>({
   isOpen: false,
   onOpenChange: () => {},
   inputValue: "",

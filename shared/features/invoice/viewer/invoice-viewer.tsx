@@ -9,7 +9,7 @@ import { cn } from "@/shared/helpers/cn";
 import "../styles/annotation-layer.css";
 import "../styles/text-layer.css";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL("pdfjs-dist/build/pdf.worker.min.js", import.meta.url).toString();
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 export default function InvoiceViewer({ fileUrl, className }: { fileUrl: string; className?: string }) {
   const [numPages, setNumPages] = useState(0);

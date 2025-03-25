@@ -1,0 +1,346 @@
+---
+description: design-systems migration map to shadcn
+globs: 
+alwaysApply: false
+---
+
+# Design System to @shadcn Migration Map
+
+This document outlines the mapping between our current design system components and their @shadcn equivalents, including props mapping and implementation notes.
+
+## Form Controls
+
+### Button
+
+| Current Component | @shadcn Component   | Notes                 |
+| ----------------- | ------------------- | --------------------- |
+| `button`          | `@shadcn/ui/button` | Core button component |
+
+**Props Mapping:**
+- `size` (xs, sm, md, lg) → `size` (default, sm, lg)
+- `variant` (primary, secondary, tertiary) → `variant` (default, outline, ghost)
+- `theme` (primary, destructive) → `variant` (default, destructive)
+- `isDisabled` → `disabled`
+- `isLoading` → Needs custom implementation
+- `startIcon` → Needs implementation as `startIcon` or icon + children
+- `endIcon` → Needs implementation as `endIcon` or children + icon
+- `iconOnly` → Implement as variant or className
+- `canInteract` → Remove (use `disabled` instead)
+
+**Implementation Notes:**
+- Button Group needs custom implementation
+- More variants needed to match current system
+- Loading state needs implementation
+
+### Input
+
+| Current Component | @shadcn Component                      | Notes                                     |
+| ----------------- | -------------------------------------- | ----------------------------------------- |
+| `input`           | `@shadcn/ui/input` + `@shadcn/ui/form` | Split between base input and form control |
+
+**Props Mapping:**
+- `size` (sm, md, lg) → Implement custom sizes (shadcn has one default)
+- `isDisabled` → `disabled`
+- `isError` → Use with Form component validation
+- `placeholder` → `placeholder`
+- `startIcon`, `endIcon` → Custom implementation needed
+- `startContent`, `endContent` → Custom implementation needed
+- `isTransparent` → Custom variant needed
+
+**Implementation Notes:**
+- Current component includes field container with label/info/error
+- Need to compose Form components with Input
+
+### Dropdown / Select
+
+| Current Component | @shadcn Component                                 | Notes                                       |
+| ----------------- | ------------------------------------------------- | ------------------------------------------- |
+| `dropdown`        | `@shadcn/ui/dropdown-menu` or `@shadcn/ui/select` | Use appropriate component based on use case |
+
+**Props Mapping:**
+- `items` → MenuItem children or Select options
+- `selectedKeys` → `defaultValue` or controlled value
+- `onChange` → `onValueChange`
+- `isMultipleSelection` → Use MultiSelect implementation
+
+**Implementation Notes:**
+- For multi-selection, will need custom implementation
+- Different item rendering pattern (array vs children)
+
+### Checkbox
+
+| Current Component | @shadcn Component     | Notes             |
+| ----------------- | --------------------- | ----------------- |
+| `checkbox`        | `@shadcn/ui/checkbox` | Selection control |
+
+**Props Mapping:**
+- `isSelected` → `checked`
+- `onChange` → `onCheckedChange`
+- `isDisabled` → `disabled`
+
+### Switch
+
+| Current Component | @shadcn Component   | Notes          |
+| ----------------- | ------------------- | -------------- |
+| `switch`          | `@shadcn/ui/switch` | Toggle control |
+
+**Props Mapping:**
+- `isSelected` → `checked`
+- `onChange` → `onCheckedChange`
+- `size` → Custom implementation needed
+
+### Radio Group
+
+| Current Component | @shadcn Component        | Notes                   |
+| ----------------- | ------------------------ | ----------------------- |
+| `radio-group`     | `@shadcn/ui/radio-group` | Radio selection control |
+
+**Props Mapping:**
+- `value` → `value` or `defaultValue`
+- `onChange` → `onValueChange` 
+- `isDisabled` → `disabled`
+- `orientation` → Custom implementation needed
+
+### Textarea
+
+| Current Component | @shadcn Component     | Notes                 |
+| ----------------- | --------------------- | --------------------- |
+| `textarea`        | `@shadcn/ui/textarea` | Multi-line text input |
+
+**Props Mapping:**
+- `value` → `value`
+- `onChange` → `onChange`
+- `isDisabled` → `disabled`
+- `placeholder` → `placeholder`
+
+### DatePicker / DateRangePicker
+
+| Current Component                  | @shadcn Component                            | Notes                |
+| ---------------------------------- | -------------------------------------------- | -------------------- |
+| `date-picker`, `date-range-picker` | `@shadcn/ui/calendar` + `@shadcn/ui/popover` | Requires composition |
+
+**Props Mapping:**
+- Custom implementation needed - shadcn provides primitives only
+
+**Implementation Notes:**
+- Need to build higher-level component from primitives
+- Translation support needs custom implementation
+
+## Display Components
+
+### Avatar
+
+| Current Component | @shadcn Component   | Notes                               |
+| ----------------- | ------------------- | ----------------------------------- |
+| `avatar`          | `@shadcn/ui/avatar` | Person/entity visual representation |
+
+**Props Mapping:**
+- `name` → Use with AvatarFallback
+- `src` → `src` on AvatarImage
+- `size` → Custom size variants needed
+- `fallback` → `AvatarFallback` component
+
+### Badge & Badge Close
+
+| Current Component | @shadcn Component  | Notes                   |
+| ----------------- | ------------------ | ----------------------- |
+| `badge`           | `@shadcn/ui/badge` | Status indicator        |
+| `badge-close`     | Custom composition | Badge with close button |
+
+**Props Mapping:**
+- `variant` → `variant`
+- `size` → Custom implementation needed
+- `theme` → Map to `variant` options
+
+**Implementation Notes:**
+- Badge-close needs custom implementation with Badge + Button
+
+### Icon
+
+| Current Component | @shadcn Component | Notes        |
+| ----------------- | ----------------- | ------------ |
+| `icon`            | Lucide React      | Icon library |
+
+**Props Mapping:**
+- Custom adapter needed for icon libraries
+- Map size and color props
+
+### Tag
+
+| Current Component | @shadcn Component           | Notes                 |
+| ----------------- | --------------------------- | --------------------- |
+| `tag`             | Extended `@shadcn/ui/badge` | Interactive badge/tag |
+
+**Props Mapping:**
+- Create extended badge component with onClick support
+- `onClose` → Custom implementation needed
+
+### Tooltip
+
+| Current Component | @shadcn Component    | Notes               |
+| ----------------- | -------------------- | ------------------- |
+| `tooltip`         | `@shadcn/ui/tooltip` | Information tooltip |
+
+**Props Mapping:**
+- `content` → Use TooltipContent component
+- `placement` → `side` and `align`
+
+### Typography
+
+| Current Component | @shadcn Component       | Notes               |
+| ----------------- | ----------------------- | ------------------- |
+| `typo`            | `@shadcn/ui/typography` | Text styling system |
+
+**Props Mapping:**
+- `variant` → Custom mapping to typography styles
+- `weight` → Custom implementation 
+- `size` → Custom implementation
+
+**Implementation Notes:**
+- Create consistent typography system based on shadcn defaults
+
+## Feedback Components
+
+### Spinner
+
+| Current Component | @shadcn Component     | Notes           |
+| ----------------- | --------------------- | --------------- |
+| `spinner`         | Custom implementation | Loading spinner |
+
+**Props Mapping:**
+- `size` → Custom implementation
+- `color` → Custom implementation
+
+### Progress Bar
+
+| Current Component | @shadcn Component     | Notes              |
+| ----------------- | --------------------- | ------------------ |
+| `progress-bar`    | `@shadcn/ui/progress` | Progress indicator |
+
+**Props Mapping:**
+- `value` → `value`
+- `max` → Custom implementation
+- `showValueLabel` → Custom implementation
+
+### Skeleton
+
+| Current Component | @shadcn Component     | Notes               |
+| ----------------- | --------------------- | ------------------- |
+| `skeleton`        | `@shadcn/ui/skeleton` | Loading placeholder |
+
+**Props Mapping:**
+- `width`, `height` → Style props
+
+## Layout Components
+
+### Paper
+
+| Current Component | @shadcn Component                 | Notes             |
+| ----------------- | --------------------------------- | ----------------- |
+| `paper`           | `@shadcn/ui/card` with extensions | Surface container |
+
+**Props Mapping:**
+- `variant` → Custom Card variants
+- `padding` → Custom implementation
+- `radius` → Custom implementation
+
+### Scroll
+
+| Current Component | @shadcn Component     | Notes                |
+| ----------------- | --------------------- | -------------------- |
+| `scroll`          | Custom implementation | Scrollable container |
+
+**Props Mapping:**
+- Custom implementation with CSS utilities
+
+### Field Container
+
+| Current Component | @shadcn Component            | Notes                |
+| ----------------- | ---------------------------- | -------------------- |
+| `field-container` | `@shadcn/ui/form` components | Form field container |
+
+**Props Mapping:**
+- `label` → FormLabel
+- `description` → FormDescription
+- `errorMessage` → FormMessage
+- `isRequired` → Custom implementation with FormLabel
+
+### Popover
+
+| Current Component | @shadcn Component    | Notes                     |
+| ----------------- | -------------------- | ------------------------- |
+| `popover`         | `@shadcn/ui/popover` | Contextual floating panel |
+
+**Props Mapping:**
+- `trigger` → PopoverTrigger
+- `content` → PopoverContent
+- `placement` → Custom implementation
+
+## Navigation Components
+
+### Breadcrumbs
+
+| Current Component | @shadcn Component     | Notes                       |
+| ----------------- | --------------------- | --------------------------- |
+| `breadcrumbs`     | Custom implementation | Navigation breadcrumb trail |
+
+**Props Mapping:**
+- Custom implementation needed
+- Use shadcn styling patterns
+
+### Link
+
+| Current Component | @shadcn Component                              | Notes     |
+| ----------------- | ---------------------------------------------- | --------- |
+| `link`            | Extended `@shadcn/ui/button` with link variant | Hyperlink |
+
+**Props Mapping:**
+- `href` → `href` or `asChild` with Link component
+- `target` → Pass through to underlying element
+- `variant` → Map to button variants
+
+
+### Table Cell KPI
+
+| Current Component | @shadcn Component                    | Notes                  |
+| ----------------- | ------------------------------------ | ---------------------- |
+| `table-cell-kpi`  | Custom component with shadcn styling | Specialized table cell |
+
+**Props Mapping:**
+- Custom implementation based on TableCell
+
+## Data Visualization
+
+### Chart Legend
+
+| Current Component | @shadcn Component     | Notes             |
+| ----------------- | --------------------- | ----------------- |
+| `chart-legend`    | Custom implementation | Legend for charts |
+
+**Props Mapping:**
+- Custom implementation using shadcn styling system
+
+## Migration Strategy
+
+1. Start with primitive components (Button, Input)
+2. Create compatibility layer for prop mapping
+3. Extend shadcn components with missing variants
+4. Implement composition patterns for complex components
+5. Gradually replace components starting with simpler ones
+
+## Implementation Challenges
+
+- Current design uses adapter pattern; shadcn doesn't
+- Current system uses tailwind-variants; shadcn uses class-variance-authority
+- More granular variants/themes in current system
+- Loading states need custom implementation in shadcn
+- Current components often have more integrated features
+
+## Component Dependencies Map
+
+```
+Base Components → Form Controls → Composite Components → Complex Components
+    ↓                  ↓                   ↓                     ↓
+Button, Input    →  DatePicker      →  Field Forms      →  Data Tables
+Typography       →  Dropdown        →  Badge-Avatar     →  Visualizations  
+```

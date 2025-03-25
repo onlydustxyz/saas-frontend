@@ -13,7 +13,7 @@ import {
   UngrantFlowContextProps,
 } from "@/shared/panels/_flows/ungrant-flow/ungrant-flow.types";
 
-export const UngrantFlowContext = createContext<UngrantFlowContextInterface>({
+const UngrantFlowContext = createContext<UngrantFlowContextInterface>({
   projectId: "",
   program: undefined,
   selectProgram: () => {},

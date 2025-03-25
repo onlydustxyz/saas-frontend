@@ -22,7 +22,7 @@ export type GetContributionsPortParams = HttpClientParameters<{ QueryParams: Get
 /* ------------------------------ Get Contributions By Id ------------------------------ */
 
 export type GetContributionByIdResponse = components["schemas"]["ContributionActivityPageItemResponse"];
-export type GetContributionByIdModel = ContributionActivityInterface;
+type GetContributionByIdModel = ContributionActivityInterface;
 
 type GetContributionByIdPathParams = operations["getContributionById"]["parameters"]["path"];
 
@@ -35,7 +35,7 @@ export type GetContributionByIdPortParams = HttpClientParameters<{
 /* ------------------------------ Get Contributions events ------------------------------ */
 
 export type GetContributionEventsResponse = components["schemas"]["ContributionEventListResponse"];
-export type GetContributionEventsModel = ContributionEvent[];
+type GetContributionEventsModel = ContributionEvent[];
 
 type GetContributionEventsQueryParams = operations["getContributionEvents"]["parameters"]["query"];
 type GetContributionEventsPathParams = operations["getContributionEvents"]["parameters"]["path"];

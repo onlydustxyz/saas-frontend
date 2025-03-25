@@ -64,5 +64,3 @@ export const ProjectInformationsPage = () => {
     </MultiStepsForm>
   );
 };
-
-export default ProjectInformationsPage;

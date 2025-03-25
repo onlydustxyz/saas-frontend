@@ -6,7 +6,7 @@ export interface ActionableTipsProps {
 
 export type AcquisitionTipIdentifier = components["schemas"]["ProjectAcquisitionTipResponse"]["identifier"];
 
-export type ActionHandler = (projectId: string) => void;
+type ActionHandler = (projectId: string) => void;
 
 export interface TipAction {
   actionLabel: string;

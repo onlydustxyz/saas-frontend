@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type EcosystemResponse = components["schemas"]["EcosystemResponseV2"];
+type EcosystemResponse = components["schemas"]["EcosystemResponseV2"];
 
 export interface EcosystemInterface extends EcosystemResponse {}
 

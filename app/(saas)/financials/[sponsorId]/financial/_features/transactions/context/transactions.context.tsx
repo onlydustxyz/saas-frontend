@@ -14,7 +14,7 @@ import {
   TransactionsContextReturn,
 } from "./transactions.context.types";
 
-export const TransactionsContext = createContext<TransactionsContextReturn>({
+const TransactionsContext = createContext<TransactionsContextReturn>({
   sponsorId: "",
   monthlyTransactions: undefined,
   queryParams: {},

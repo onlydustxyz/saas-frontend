@@ -8,7 +8,7 @@ import { GithubOrganizationPage } from "./views/GithubOrganizations/GithubOrgani
 import { GithubRepositoryPage } from "./views/GithubRepository";
 import { ProjectInformationsPage } from "./views/ProjectInformations/ProjectInformations";
 
-export const SafeProjectCreation = () => {
+const SafeProjectCreation = () => {
   const { currentStep } = useContext(CreateProjectContext);
 
   const ActiveStep = () => {
@@ -32,5 +32,3 @@ export const ProjectCreation = () => {
     </CreateProjectProvider>
   );
 };
-
-export default ProjectCreation;

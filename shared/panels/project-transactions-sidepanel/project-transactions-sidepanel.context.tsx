@@ -14,7 +14,7 @@ import {
   ProjectTransactionsContextReturn,
 } from "@/shared/panels/project-transactions-sidepanel/project-transactions-sidepanel.types";
 
-export const ProjectTransactionsContext = createContext<ProjectTransactionsContextReturn>({
+const ProjectTransactionsContext = createContext<ProjectTransactionsContextReturn>({
   projectSlug: "",
   monthlyTransactions: undefined,
   queryParams: {},

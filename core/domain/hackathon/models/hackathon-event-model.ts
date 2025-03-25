@@ -3,7 +3,7 @@ import { components } from "@/core/infrastructure/marketplace-api-client-adapter
 
 import { HackathonEventStatus } from "./hackathon.types";
 
-export type HackathonEventResponse = components["schemas"]["HackathonsEventItemResponse"];
+type HackathonEventResponse = components["schemas"]["HackathonsEventItemResponse"];
 
 export interface HackathonEventInterface extends HackathonEventResponse {
   isComingSoon(): boolean;

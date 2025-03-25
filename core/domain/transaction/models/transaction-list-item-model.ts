@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type TransactionListItemResponse = components["schemas"]["ProgramTransactionPageItemResponse"];
+type TransactionListItemResponse = components["schemas"]["ProgramTransactionPageItemResponse"];
 
 export interface TransactionListItemInterface extends TransactionListItemResponse {}
 

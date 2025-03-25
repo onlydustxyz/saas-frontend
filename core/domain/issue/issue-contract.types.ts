@@ -14,7 +14,7 @@ export type GetIssueModel = IssueInterface;
 
 export type GetIssuePortResponse = HttpStorageResponse<GetIssueModel>;
 
-export type GetIssuePathParams = operations["getIssue"]["parameters"]["path"];
+type GetIssuePathParams = operations["getIssue"]["parameters"]["path"];
 
 export type GetIssuePortParams = HttpClientParameters<{
   PathParams: GetIssuePathParams;
@@ -30,7 +30,7 @@ export type GetIssueApplicantsModel = Omit<GetIssueApplicantsResponse, "applican
 
 export type GetIssueApplicantsPortResponse = HttpStorageResponse<GetIssueApplicantsModel>;
 
-export type GetIssueApplicantsPathParams = operations["getIssueApplicants"]["parameters"]["path"];
+type GetIssueApplicantsPathParams = operations["getIssueApplicants"]["parameters"]["path"];
 export type GetIssueApplicantsQueryParams = operations["getIssueApplicants"]["parameters"]["query"]["params"];
 
 export type GetIssueApplicantsPortParams = HttpClientParameters<{

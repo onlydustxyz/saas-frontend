@@ -2,7 +2,7 @@ import { components } from "@/core/infrastructure/marketplace-api-client-adapter
 
 type UserLanguageItemResponse = components["schemas"]["UserProfileLanguagePageItem"];
 
-export interface UserLanguageItemInterface extends UserLanguageItemResponse {}
+interface UserLanguageItemInterface extends UserLanguageItemResponse {}
 
 export class UserLanguageItem implements UserLanguageItemInterface {
   rank!: UserLanguageItemResponse["rank"];

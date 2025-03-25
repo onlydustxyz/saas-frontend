@@ -8,7 +8,7 @@ import {
 
 export type PatchApplicationBody = components["schemas"]["ProjectApplicationPatchRequest"];
 
-export type PatchApplicationPathParams = operations["patchProjectApplication"]["parameters"]["path"];
+type PatchApplicationPathParams = operations["patchProjectApplication"]["parameters"]["path"];
 
 export type PatchApplicationPortParams = HttpClientParameters<{ PathParams: PatchApplicationPathParams }>;
 
@@ -16,7 +16,7 @@ export type PatchApplicationPortResponse = HttpStorageResponse;
 
 /* ---------------------------- Accept Application --------------------------- */
 
-export type AcceptApplicationPathParams = operations["acceptProjectApplication"]["parameters"]["path"];
+type AcceptApplicationPathParams = operations["acceptProjectApplication"]["parameters"]["path"];
 
 export type AcceptApplicationPortParams = HttpClientParameters<{ PathParams: AcceptApplicationPathParams }>;
 
@@ -24,7 +24,7 @@ export type AcceptApplicationPortResponse = HttpStorageResponse;
 
 /* ----------------------------- Get application ---------------------------- */
 
-export type GetApplicationByIdPathParams = operations["getProjectApplication"]["parameters"]["path"];
+type GetApplicationByIdPathParams = operations["getProjectApplication"]["parameters"]["path"];
 
 export type GetApplicationByIdPortParams = HttpClientParameters<{ PathParams: GetApplicationByIdPathParams }>;
 
@@ -36,7 +36,7 @@ export type GetApplicationByIdPortResponse = HttpStorageResponse<GetApplicationB
 
 export type DeleteApplicationBody = components["schemas"]["ProjectApplicationDeleteRequest"];
 
-export type DeleteApplicationPathParams = operations["withdrawProjectApplication"]["parameters"]["path"];
+type DeleteApplicationPathParams = operations["withdrawProjectApplication"]["parameters"]["path"];
 
 export type DeleteApplicationPortParams = HttpClientParameters<{ PathParams: DeleteApplicationPathParams }>;
 

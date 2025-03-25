@@ -1,3 +1,3 @@
-export function ImageInputLoading() {
+function ImageInputLoading() {
   return <div />;
 }

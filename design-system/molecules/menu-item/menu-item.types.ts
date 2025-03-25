@@ -18,7 +18,7 @@ interface DataAttributes {
 
 export type MenuItemId<T = string> = T;
 
-export interface MenuItemBasePort<T extends AnyType> extends Partial<Variants> {
+interface MenuItemBasePort<T extends AnyType> extends Partial<Variants> {
   classNames?: Partial<ClassNames>;
   id: MenuItemId<T>;
   label: ReactNode;

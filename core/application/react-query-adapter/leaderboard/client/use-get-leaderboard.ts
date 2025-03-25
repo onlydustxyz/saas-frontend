@@ -5,13 +5,13 @@ import {
   useQueryAdapter,
 } from "@/core/application/react-query-adapter/helpers/use-query-adapter";
 import { bootstrap } from "@/core/bootstrap";
+import { LeaderboardFacadePort } from "@/core/domain/leaderboard/input/leaderboard-facade-port";
 import { GetLeaderboardModel } from "@/core/domain/leaderboard/leaderboard-contract.types";
-import { LeaderboardStoragePort } from "@/core/domain/leaderboard/outputs/leaderboard-storage-port";
 
 export function useGetLeaderboard({
   options,
   queryParams,
-}: UseQueryFacadeParams<LeaderboardStoragePort["getLeaderboard"], GetLeaderboardModel>) {
+}: UseQueryFacadeParams<LeaderboardFacadePort["getLeaderboard"], GetLeaderboardModel>) {
   const leaderboardStoragePort = bootstrap.getLeaderboardStoragePortForClient();
 
   return useQuery(

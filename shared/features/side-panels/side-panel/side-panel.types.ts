@@ -34,11 +34,3 @@ export interface SidePanelRef<T = AnyType> {
   getData: () => T | undefined;
   getConfig: () => SidePanelConfig;
 }
-
-export interface SidePanelContextInterface<Data extends AnyType> {
-  data: Data;
-}
-
-export interface SidePanelContextProps extends PropsWithChildren {
-  classNames?: Partial<classNames>;
-}

@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type BillingProfileCoworkerResponse = components["schemas"]["BillingProfileCoworkersPageItemResponse"];
+type BillingProfileCoworkerResponse = components["schemas"]["BillingProfileCoworkersPageItemResponse"];
 
 export type ActionType = "cancel" | "delete" | "none";
 

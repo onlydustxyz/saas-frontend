@@ -1,9 +1,9 @@
 import { ProjectCategory } from "@/core/domain/project-category/models/project-category-model";
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type ProjectCategoriesListResponse = components["schemas"]["ProjectCategoriesResponse"];
+type ProjectCategoriesListResponse = components["schemas"]["ProjectCategoriesResponse"];
 
-export interface ProjectCategoriesListInterface extends ProjectCategoriesListResponse {}
+interface ProjectCategoriesListInterface extends ProjectCategoriesListResponse {}
 
 export class ProjectCategoriesList implements ProjectCategoriesListInterface {
   categories!: ProjectCategoriesListResponse["categories"];

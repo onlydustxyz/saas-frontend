@@ -1,5 +1,4 @@
 import { ApplicationStoragePort } from "@/core/domain/application/outputs/application-storage-port";
-import { BannerStoragePort } from "@/core/domain/banner/outputs/banner-storage-port";
 import { BiStoragePort } from "@/core/domain/bi/outputs/bi-storage-port";
 import { BillingProfileStoragePort } from "@/core/domain/billing-profile/outputs/billing-profile-storage-port";
 import { ContributionStoragePort } from "@/core/domain/contribution/output/contribution-storage-port";
@@ -13,7 +12,6 @@ import { LanguageStoragePort } from "@/core/domain/language/outputs/language-sto
 import { MeStoragePort } from "@/core/domain/me/outputs/me-storage-port";
 import { NotificationStoragePort } from "@/core/domain/notification/outputs/notification-storage-port";
 import { ProgramStoragePort } from "@/core/domain/program/outputs/program-storage-port";
-import { ProjectBannerStoragePort } from "@/core/domain/project-banner/outputs/project-banner-storage-port";
 import { ProjectCategoryStoragePort } from "@/core/domain/project-category/outputs/project-category-storage-port";
 import { ProjectStoragePort } from "@/core/domain/project/outputs/project-storage-port";
 import { RecoStoragePort } from "@/core/domain/reco/output/reco-storage-port";
@@ -21,9 +19,7 @@ import { RewardStoragePort } from "@/core/domain/reward/outputs/reward-storage-p
 import { SearchStoragePort } from "@/core/domain/search/outputs/search-storage-port";
 import { SponsorStoragePort } from "@/core/domain/sponsor/outputs/sponsor-storage-port";
 import { UserStoragePort } from "@/core/domain/user/outputs/user-storage-port";
-import { ProjectBannerClientAdapter } from "@/core/infrastructure/json-storage-client-adapter/adapters/project-banner-client-adapter";
 import { ApplicationClientAdapter } from "@/core/infrastructure/marketplace-api-client-adapter/adapters/application-client-adapter";
-import { BannerClientAdapter } from "@/core/infrastructure/marketplace-api-client-adapter/adapters/banner-client-adapter";
 import { BiClientAdapter } from "@/core/infrastructure/marketplace-api-client-adapter/adapters/bi-client-adapter";
 import { BillingProfileClientAdapter } from "@/core/infrastructure/marketplace-api-client-adapter/adapters/billing-profile-client-adapter";
 import { ContributionClientAdapter } from "@/core/infrastructure/marketplace-api-client-adapter/adapters/contribution-client-adapter";
@@ -84,8 +80,6 @@ export interface BootstrapConstructor {
   meStoragePortForServer: MeStoragePort;
   userStoragePortForClient: UserStoragePort;
   userStoragePortForServer: UserStoragePort;
-  bannerStoragePortForClient: BannerStoragePort;
-  bannerStoragePortForServer: BannerStoragePort;
   programStoragePortForClient: ProgramStoragePort;
   programStoragePortForServer: ProgramStoragePort;
   projectStoragePortForClient: ProjectStoragePort;
@@ -142,8 +136,6 @@ export interface BootstrapConstructor {
   styleKernelPort: StyleFacadePort;
   searchStoragePortForClient: SearchStoragePort;
   searchStoragePortForServer: SearchStoragePort;
-  projectBannerStoragePortForClient: ProjectBannerStoragePort;
-  projectBannerStoragePortForServer: ProjectBannerStoragePort;
   leaderboardStoragePortForClient: LeaderboardStoragePort;
   leaderboardStoragePortForServer: LeaderboardStoragePort;
 }
@@ -156,8 +148,6 @@ export class Bootstrap {
   meStoragePortForServer: MeStoragePort;
   userStoragePortForClient: UserStoragePort;
   userStoragePortForServer: UserStoragePort;
-  bannerStoragePortForClient: BannerStoragePort;
-  bannerStoragePortForServer: BannerStoragePort;
   programStoragePortForClient: ProgramStoragePort;
   programStoragePortForServer: ProgramStoragePort;
   projectStoragePortForClient: ProjectStoragePort;
@@ -214,8 +204,6 @@ export class Bootstrap {
   styleKernelPort: StyleFacadePort;
   searchStoragePortForClient: SearchStoragePort;
   searchStoragePortForServer: SearchStoragePort;
-  projectBannerStoragePortForClient: ProjectBannerStoragePort;
-  projectBannerStoragePortForServer: ProjectBannerStoragePort;
   leaderboardStoragePortForClient: LeaderboardStoragePort;
   leaderboardStoragePortForServer: LeaderboardStoragePort;
 
@@ -224,8 +212,6 @@ export class Bootstrap {
     this.meStoragePortForServer = constructor.meStoragePortForServer;
     this.userStoragePortForClient = constructor.userStoragePortForClient;
     this.userStoragePortForServer = constructor.userStoragePortForServer;
-    this.bannerStoragePortForClient = constructor.bannerStoragePortForClient;
-    this.bannerStoragePortForServer = constructor.bannerStoragePortForServer;
     this.programStoragePortForClient = constructor.programStoragePortForClient;
     this.programStoragePortForServer = constructor.programStoragePortForServer;
     this.projectStoragePortForClient = constructor.projectStoragePortForClient;
@@ -282,8 +268,6 @@ export class Bootstrap {
     this.styleKernelPort = constructor.styleKernelPort;
     this.searchStoragePortForClient = constructor.searchStoragePortForClient;
     this.searchStoragePortForServer = constructor.searchStoragePortForServer;
-    this.projectBannerStoragePortForClient = constructor.projectBannerStoragePortForClient;
-    this.projectBannerStoragePortForServer = constructor.projectBannerStoragePortForServer;
     this.leaderboardStoragePortForClient = constructor.leaderboardStoragePortForClient;
     this.leaderboardStoragePortForServer = constructor.leaderboardStoragePortForServer;
   }
@@ -318,14 +302,6 @@ export class Bootstrap {
 
   getUserStoragePortForServer() {
     return this.userStoragePortForServer;
-  }
-
-  getBannerStoragePortForClient() {
-    return this.bannerStoragePortForClient;
-  }
-
-  getBannerStoragePortForServer() {
-    return this.bannerStoragePortForServer;
   }
 
   getProgramStoragePortForClient() {
@@ -552,14 +528,6 @@ export class Bootstrap {
     return this.searchStoragePortForServer;
   }
 
-  getProjectBannerStoragePortForClient() {
-    return this.projectBannerStoragePortForClient;
-  }
-
-  getProjectBannerStoragePortForServer() {
-    return this.projectBannerStoragePortForServer;
-  }
-
   getLeaderboardStoragePortForClient() {
     return this.leaderboardStoragePortForClient;
   }
@@ -575,8 +543,6 @@ export class Bootstrap {
         meStoragePortForServer: new MeClientAdapter(new FetchHttpClient()),
         userStoragePortForClient: new UserClientAdapter(new FetchHttpClient()),
         userStoragePortForServer: new UserClientAdapter(new FetchHttpClient()),
-        bannerStoragePortForClient: new BannerClientAdapter(new FetchHttpClient()),
-        bannerStoragePortForServer: new BannerClientAdapter(new FetchHttpClient()),
         programStoragePortForClient: new ProgramClientAdapter(new FetchHttpClient()),
         programStoragePortForServer: new ProgramClientAdapter(new FetchHttpClient()),
         projectStoragePortForClient: new ProjectClientAdapter(new FetchHttpClient()),
@@ -633,8 +599,6 @@ export class Bootstrap {
         styleKernelPort: StyleAdapter,
         searchStoragePortForClient: new SearchClientAdapter(new FetchHttpClient()),
         searchStoragePortForServer: new SearchClientAdapter(new FetchHttpClient()),
-        projectBannerStoragePortForClient: new ProjectBannerClientAdapter(),
-        projectBannerStoragePortForServer: new ProjectBannerClientAdapter(),
         leaderboardStoragePortForClient: new LeaderboardClientAdapter(new FetchHttpClient()),
         leaderboardStoragePortForServer: new LeaderboardClientAdapter(new FetchHttpClient()),
       });

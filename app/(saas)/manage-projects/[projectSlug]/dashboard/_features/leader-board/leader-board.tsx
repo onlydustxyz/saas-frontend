@@ -1,7 +1,5 @@
 import { useMemo } from "react";
 
-import { ProjectCard } from "@/app/(saas)/projects/[projectSlug]/overview/_features/similar-projects/components/project-card/project-card";
-
 import { ProjectReactQueryAdapter } from "@/core/application/react-query-adapter/project";
 
 import { usePosthog } from "@/shared/tracking/posthog/use-posthog";
@@ -9,6 +7,7 @@ import { Card } from "@/shared/ui/card";
 import { Skeleton } from "@/shared/ui/skeleton";
 import { TypographyH3, TypographyMuted } from "@/shared/ui/typography";
 
+import { ProjectCard } from "../project-card/project-card";
 import { LeaderBoardProps } from "./leader-board.types";
 
 export function LeaderBoard({ projectId }: LeaderBoardProps) {

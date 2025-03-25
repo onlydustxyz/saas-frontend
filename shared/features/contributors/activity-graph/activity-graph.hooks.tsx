@@ -102,12 +102,12 @@ const useGetLevel = (count: number, levels: ActivityGraphLevelRange): ActivityGr
   }
 };
 
-export const useGetData = (data: ActivityGraphData[], date: Date) => {
+const useGetData = (data: ActivityGraphData[], date: Date) => {
   const dateKernel = bootstrap.getDateKernelPort();
   return data?.find(d => dateKernel.isSameDay(date, new Date(d.date)));
 };
 
-export const useGetMonthsSeparator = (days: Date[]) => {
+const useGetMonthsSeparator = (days: Date[]) => {
   const dateKernel = bootstrap.getDateKernelPort();
   const columns = useActivityColumns(days);
   const months: { month: Date; col: number }[] = [];

@@ -2,17 +2,14 @@ import { CornerDownLeft, Folder, UserRound } from "lucide-react";
 
 import { EcosystemReactQueryAdapter } from "@/core/application/react-query-adapter/ecosystem";
 
-import { Avatar } from "@/design-system/atoms/avatar/variants/avatar-default";
-import { Badge } from "@/design-system/atoms/badge";
-import { Icon } from "@/design-system/atoms/icon";
-import { PaperLoading } from "@/design-system/atoms/paper/paper.loading";
-import { Paper } from "@/design-system/atoms/paper/variants/paper-default";
-import { Typo } from "@/design-system/atoms/typo/variants/typo-default";
-
-import { BaseLink } from "@/shared/components/base-link/base-link";
 import { Languages } from "@/shared/features/projects/languages/languages";
 import { Metric } from "@/shared/features/projects/metric/metric";
-import { cn } from "@/shared/helpers/cn";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
+import { Badge } from "@/shared/ui/badge";
+import { Card } from "@/shared/ui/card";
+import { Skeleton } from "@/shared/ui/skeleton";
+import { TypographyH4 } from "@/shared/ui/typography";
+import { cn } from "@/shared/utils";
 
 import { EcosystemSummaryProps } from "./ecosystem-summary.types";
 
@@ -31,7 +28,11 @@ export function EcosystemSummary({ ecosystemSlug }: EcosystemSummaryProps) {
   });
 
   if (isLoading) {
-    return <PaperLoading classNames={{ base: "h-[200px]" }} />;
+    return (
+      <Card className="h-[200px]">
+        <Skeleton className="h-full w-full" />
+      </Card>
+    );
   }
 
   if (isError || !ecosystem) return null;
@@ -39,55 +40,44 @@ export function EcosystemSummary({ ecosystemSlug }: EcosystemSummaryProps) {
   const { description, logoUrl, name, projectCount, contributorCount, languages, links } = ecosystem;
 
   return (
-    <Paper background="glass" border="primary" size="none">
+    <Card>
       <div className="flex flex-col divide-y divide-border-primary">
-        <div className="flex flex-row gap-lg p-xl">
-          <Avatar src={logoUrl ?? ""} alt={name} size="xl" shape="squared" />
+        <div className="flex flex-row items-center gap-6 p-6 py-4">
+          <Avatar className="h-14 w-14 rounded-lg">
+            <AvatarImage src={logoUrl ?? ""} alt={name} />
+            <AvatarFallback>{name[0]}</AvatarFallback>
+          </Avatar>
           <div className="flex h-full flex-col justify-between overflow-hidden">
-            <Typo variant="heading" size="xs" weight="medium" color="primary" classNames={{ base: "truncate" }}>
-              {name}
-            </Typo>
+            <h3 className="truncate text-lg font-medium text-foreground">{name}</h3>
 
-            <div className="flex items-center gap-md">
+            <div className="flex items-center gap-4">
               <Metric icon={Folder} count={projectCount} />
               <Metric icon={UserRound} count={contributorCount} />
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-lg p-xl">
-          <div className="flex flex-col gap-lg">
+        <div className="flex flex-col gap-6 p-6">
+          <div className="flex flex-col gap-6">
             {description ? (
-              <div className="flex flex-col gap-sm">
-                <Typo
-                  size="xs"
-                  weight="medium"
-                  color="primary"
-                  translate={{ token: "features:cardProjectOverview.description" }}
-                />
-                <Typo size="xs" color="primary" classNames={{ base: "line-clamp-3" }}>
-                  {description}
-                </Typo>
+              <div className="flex flex-col gap-2">
+                <TypographyH4>Description</TypographyH4>
+                <p className="line-clamp-3 text-sm text-foreground">{description}</p>
               </div>
             ) : null}
           </div>
 
           {languages?.length ? (
-            <div className="flex flex-col gap-lg">
-              <Typo
-                size="xs"
-                weight="medium"
-                color="primary"
-                translate={{ token: "features:cardProjectOverview.languages" }}
-              />
+            <div className="flex flex-col gap-6">
+              <TypographyH4>Languages</TypographyH4>
               <Languages languages={languages} />
             </div>
           ) : null}
 
           {links?.length ? (
-            <div className="flex flex-col gap-lg">
-              <Typo size="xs" weight="medium" color="primary" translate={{ token: "osw:details.summary.links" }} />
+            <div className="flex flex-col gap-6">
+              <TypographyH4>Links</TypographyH4>
 
-              <div className="grid gap-md mobile:grid-cols-2">
+              <div className="grid gap-4 mobile:grid-cols-2">
                 {links.map((link, index) => {
                   const isFirst = index === 0;
 
@@ -100,43 +90,27 @@ export function EcosystemSummary({ ecosystemSlug }: EcosystemSummaryProps) {
                   }
 
                   return (
-                    <Paper
-                      key={link.url}
-                      as={BaseLink}
-                      htmlProps={{ href: link.url }}
-                      py="lg"
-                      px="xl"
-                      background={isFirst ? "transparent" : "secondary"}
-                      border={isFirst ? "primary" : "none"}
-                      classNames={{
-                        base: cn("overflow-hidden", {
-                          "purple-halo-gradient": isFirst,
-                        }),
-                      }}
-                    >
-                      <div className="relative z-[1] flex items-center gap-sm">
-                        <div className="flex flex-1 flex-col gap-xl">
-                          <Typo weight="medium" size="sm">
-                            {link.value}
-                          </Typo>
+                    <Card key={link.url} className={"overflow-hidden"}>
+                      <a href={link.url} target="_blank" className="block px-6 py-4" rel="noreferrer">
+                        <div className="relative z-[1] flex items-center gap-2">
+                          <div className="flex flex-1 flex-col gap-6">
+                            <p className="text-sm font-medium">{link.value}</p>
 
-                          <Badge
-                            size="xs"
-                            shape="squared"
-                            variant={isFirst ? "solid" : "outline"}
-                            color={isFirst ? "brand" : "grey"}
-                            classNames={{
-                              base: "w-fit max-w-full",
-                              label: "truncate",
-                            }}
-                          >
-                            {domain}
-                          </Badge>
+                            <Badge
+                              variant={isFirst ? "default" : "outline"}
+                              className={cn(
+                                "w-fit max-w-full rounded-sm",
+                                isFirst ? "bg-primary" : "text-muted-foreground"
+                              )}
+                            >
+                              <span className="truncate">{domain}</span>
+                            </Badge>
+                          </div>
+
+                          <CornerDownLeft className="h-4 w-4 text-muted-foreground" />
                         </div>
-
-                        <Icon component={CornerDownLeft} color="quaternary" />
-                      </div>
-                    </Paper>
+                      </a>
+                    </Card>
                   );
                 })}
               </div>
@@ -144,6 +118,6 @@ export function EcosystemSummary({ ecosystemSlug }: EcosystemSummaryProps) {
           ) : null}
         </div>
       </div>
-    </Paper>
+    </Card>
   );
 }

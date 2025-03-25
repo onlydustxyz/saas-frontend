@@ -21,7 +21,7 @@ import { Translate } from "@/shared/translation/components/translate/translate";
 import { useAcceptInvoicingMandate } from "../accept-invoicing-mandate/accept-invoicing-mandate.hooks";
 import { useGenerateInvoice } from "../generate-invoice/generate-invoice.hooks";
 
-export function Content() {
+function Content() {
   const { billingProfileId = "", rewardIds } = useRequestPaymentFlow();
   const [isAddressWarningOpen, setIsAddressWarningOpen] = useState(true);
   const { open: openAcceptMandate } = useAcceptInvoicingMandate();

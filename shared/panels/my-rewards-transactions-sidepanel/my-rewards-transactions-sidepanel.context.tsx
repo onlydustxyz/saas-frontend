@@ -15,7 +15,7 @@ import {
   MyRewardsTransactionsContextReturn,
 } from "@/shared/panels/my-rewards-transactions-sidepanel/my-rewards-transactions-sidepanel.types";
 
-export const MyRewardsTransactionsContext = createContext<MyRewardsTransactionsContextReturn>({
+const MyRewardsTransactionsContext = createContext<MyRewardsTransactionsContextReturn>({
   githubUserId: 0,
   monthlyTransactions: undefined,
   queryParams: {},

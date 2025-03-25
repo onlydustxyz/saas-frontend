@@ -4,7 +4,7 @@ import {
 } from "@/core/domain/user/models/contributor-overview-model";
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type IssueApplicantResponse = components["schemas"]["IssueApplicantsPageItemResponse"];
+type IssueApplicantResponse = components["schemas"]["IssueApplicantsPageItemResponse"];
 
 export interface IssueApplicantInterface extends IssueApplicantResponse {
   contributor: ContributorOverviewInterface;

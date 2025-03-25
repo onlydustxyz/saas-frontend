@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 
 import { UserReactQueryAdapter } from "@/core/application/react-query-adapter/user";
-import { GetBiContributorsPortParams } from "@/core/domain/bi/bi-contract.types";
 
 import { Accordion } from "@/design-system/molecules/accordion";
 import { TableSearch } from "@/design-system/molecules/table-search";
@@ -10,11 +9,6 @@ import { ContributorProfileCheckbox } from "@/shared/features/contributors/contr
 import { ContributorProfileCheckboxLoading } from "@/shared/features/contributors/contributor-profile-checkbox/contributor-profile-checkbox.loading";
 import { useRewardFlow } from "@/shared/panels/_flows/reward-flow/reward-flow.context";
 import { TypographyMuted } from "@/shared/ui/typography";
-
-export type SelectableContributorsFilters = Omit<
-  NonNullable<GetBiContributorsPortParams["queryParams"]>,
-  "pageSize" | "pageIndex"
->;
 
 export function SelectableContributorsAccordion() {
   const { selectedGithubUserIds, addContributorId, removeContributorId } = useRewardFlow();

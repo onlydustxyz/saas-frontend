@@ -3,7 +3,7 @@ import { components } from "@/core/infrastructure/marketplace-api-client-adapter
 
 import { HackathonStatus } from "./hackathon.types";
 
-export type HackathonResponse = components["schemas"]["HackathonResponseV2"];
+type HackathonResponse = components["schemas"]["HackathonResponseV2"];
 
 export interface HackathonInterface extends HackathonResponse {
   isComingSoon(): boolean;
@@ -16,6 +16,7 @@ export interface HackathonInterface extends HackathonResponse {
     startTime: string;
     endTime: string;
   };
+  getBackgroundImage(): string;
 }
 
 export class Hackathon implements HackathonInterface {
@@ -75,5 +76,13 @@ export class Hackathon implements HackathonInterface {
       startTime: this.dateKernelPort.format(startDate, "h:mmaa (OOO)"),
       endTime: this.dateKernelPort.format(endDate, "h:mmaa (OOO)"),
     };
+  }
+
+  getBackgroundImage() {
+    const NB_AVAILABLE_BACKGROUNDS = 16;
+
+    const backgroundIndex = Math.floor(Math.random() * NB_AVAILABLE_BACKGROUNDS);
+
+    return `${process.env.NEXT_PUBLIC_METADATA_ASSETS_S3_BUCKET}/cover-${backgroundIndex + 1}.png`;
   }
 }

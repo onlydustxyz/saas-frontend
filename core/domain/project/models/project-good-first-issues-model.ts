@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type ProjectGoodFirstIssuesResponse = components["schemas"]["GithubIssuePageItemResponse"];
+type ProjectGoodFirstIssuesResponse = components["schemas"]["GithubIssuePageItemResponse"];
 
 export interface ProjectGoodFirstIssuesInterface extends ProjectGoodFirstIssuesResponse {}
 

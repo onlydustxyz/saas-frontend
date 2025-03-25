@@ -7,8 +7,8 @@ import { DrawerPort } from "@/design-system/molecules/drawer";
 import { DrawerNextUiVariants } from "@/design-system/molecules/drawer/adapters/next-ui/next-ui.variants";
 
 import { ScrollView } from "@/shared/components/scroll-view/scroll-view";
-import { cn } from "@/shared/helpers/cn";
-import { useIsMobile } from "@/shared/hooks/ui/use-media-query";
+import { useIsMobile } from "@/shared/hooks/use-mobile";
+import { cn } from "@/shared/utils";
 
 export function DrawerNextUiAdapter<C extends ElementType = "div">({
   htmlProps,
@@ -24,9 +24,9 @@ export function DrawerNextUiAdapter<C extends ElementType = "div">({
 }: DrawerPort<C>) {
   const Inner = as || "div";
   const slots = DrawerNextUiVariants({ size });
-  const isGreaterThanMobile = useIsMobile("greater");
+  const isMobile = useIsMobile();
   const motionProps = useMemo(() => {
-    if (!isGreaterThanMobile) return undefined;
+    if (isMobile) return undefined;
 
     return {
       variants: {
@@ -47,7 +47,7 @@ export function DrawerNextUiAdapter<C extends ElementType = "div">({
         },
       },
     };
-  }, [isGreaterThanMobile]);
+  }, [isMobile]);
 
   return (
     <Modal

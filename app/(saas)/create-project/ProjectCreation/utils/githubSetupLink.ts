@@ -1,4 +1,4 @@
-export interface GetGithubSetupLinkProps {
+interface GetGithubSetupLinkProps {
   login?: string;
   id: number;
   installed?: boolean;
@@ -12,12 +12,12 @@ const baseUrl = "https://github.com/";
 
 export const OAuthGithubConfigLink = `https://github.com/settings/connections/applications/${process.env.NEXT_PUBLIC_GITHUB_OAUTH_APP_ID}`;
 
-export const GithubState = {
+const GithubState = {
   claim: "claim-state-",
   edit: "edit-state-",
   generic: "generic-state-",
 };
-export const GithubSetupLinks = {
+const GithubSetupLinks = {
   alreadyInstalled: (props: { login: string; installationId: number }) =>
     `${baseUrl}organizations/${props.login}/settings/installations/${props.installationId}`,
   alreadyInstalledPersonnal: (props: { installationId: number }) =>

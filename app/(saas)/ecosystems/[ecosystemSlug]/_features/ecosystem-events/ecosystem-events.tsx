@@ -1,17 +1,15 @@
 import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 import { EcosystemReactQueryAdapter } from "@/core/application/react-query-adapter/ecosystem";
 import { bootstrap } from "@/core/bootstrap";
 
-import { Icon } from "@/design-system/atoms/icon";
-import { PaperLoading } from "@/design-system/atoms/paper/paper.loading";
-import { Paper } from "@/design-system/atoms/paper/variants/paper-default";
-import { Typo } from "@/design-system/atoms/typo";
-
-import { BaseLink } from "@/shared/components/base-link/base-link";
 import { EmptyStateLite } from "@/shared/components/empty-state-lite/empty-state-lite";
-import { cn } from "@/shared/helpers/cn";
+import { Card } from "@/shared/ui/card";
+import { Skeleton } from "@/shared/ui/skeleton";
+import { TypographyH4 } from "@/shared/ui/typography";
+import { cn } from "@/shared/utils";
 
 import { EcosystemEventMenu } from "../../_components/ecosystem-event-menu/ecosystem-event-menu";
 import { EcosystemEventMenuItem } from "../../_components/ecosystem-event-menu/ecosystem-event-menu.types";
@@ -51,26 +49,19 @@ export function EcosystemEvents({ ecosystemSlug }: EcosystemEventsProps) {
   });
 
   if (isLoading) {
-    return <PaperLoading classNames={{ base: "h-[200px]" }} />;
+    return (
+      <Card className="h-[200px]">
+        <Skeleton className="h-full w-full" />
+      </Card>
+    );
   }
 
   if (isError || !data) return null;
 
   return (
-    <Paper
-      background="glass"
-      border="primary"
-      classNames={{ base: "flex flex-col divide-y divide-border-primary" }}
-      size="none"
-    >
-      <div className="flex items-center justify-between p-xl">
-        <Typo
-          variant="heading"
-          size="xs"
-          weight="medium"
-          classNames={{ base: "text-sm" }}
-          translate={{ token: "ecosystems:details.events.title" }}
-        />
+    <Card className="flex flex-col divide-y divide-border-primary">
+      <div className="flex items-center justify-between p-6">
+        <TypographyH4>Events</TypographyH4>
 
         <EcosystemEventMenu selectedEvent={selectedEvent} onAction={setSelectedEvent} />
       </div>
@@ -80,46 +71,40 @@ export function EcosystemEvents({ ecosystemSlug }: EcosystemEventsProps) {
           const formattedDates = event.formatDisplayDates();
 
           return (
-            <BaseLink href={event.link} key={event.name}>
+            <Link href={event.link} key={event.name}>
               <div
-                className={cn("flex items-start gap-xl p-xl", {
+                className={cn("flex items-start gap-6 p-6", {
                   "opacity-50": event.isPast(),
                 })}
               >
-                <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-md bg-[#121212]">
+                <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-md bg-muted">
                   <div className="flex flex-col text-center">
-                    <Typo size="xs">{formattedDates.startMonth}</Typo>
-                    <Typo size="xs" weight="medium">
-                      {formattedDates.startDay}
-                    </Typo>
+                    <p className="text-sm text-foreground">{formattedDates.startMonth}</p>
+                    <p className="text-sm font-medium text-foreground">{formattedDates.startDay}</p>
                   </div>
                 </div>
 
-                <div className="flex flex-1 flex-col gap-md">
+                <div className="flex flex-1 flex-col gap-4">
                   <div className="flex flex-col">
-                    <Typo size="sm" weight="bold">
-                      {event.name}
-                    </Typo>
-                    <Typo size="xs" color="tertiary">
-                      {event.description}
-                    </Typo>
+                    <p className="text-sm font-bold text-foreground">{event.name}</p>
+                    <p className="text-sm text-muted-foreground">{event.description}</p>
                   </div>
 
-                  <Typo size="xs">
+                  <p className="text-sm text-foreground">
                     {formattedDates.startDate} - {formattedDates.startTime}
-                  </Typo>
+                  </p>
                 </div>
 
                 <div className="flex items-center self-center">
-                  <Icon component={ChevronRight} />
+                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
                 </div>
               </div>
-            </BaseLink>
+            </Link>
           );
         })
       ) : (
         <EmptyStateLite />
       )}
-    </Paper>
+    </Card>
   );
 }

@@ -7,7 +7,7 @@ import { IconPort } from "@/design-system/atoms/icon";
 
 type htmlInputProps = Omit<ComponentPropsWithoutRef<"input">, "size" | "name">;
 
-export type InputSize = "sm" | "md" | "lg";
+type InputSize = "sm" | "md" | "lg";
 interface Variants {
   isDisabled: boolean;
   isError: boolean;

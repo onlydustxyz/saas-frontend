@@ -5,7 +5,7 @@ import { DetailedTotalMoney } from "@/core/kernel/money/money.types";
 export type PanelMaintainerType = "totalAllocated" | "totalAvailable" | "totalGranted" | "totalRewarded";
 export type PanelContributorType = "rewardedAmount" | "rewardPendingAmount" | "rewardPaid";
 
-export type PanelType = PanelMaintainerType | PanelContributorType;
+type PanelType = PanelMaintainerType | PanelContributorType;
 
 export interface FinancialDetailSidepanelData {
   panelType: PanelType;

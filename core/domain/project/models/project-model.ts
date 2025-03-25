@@ -1,7 +1,7 @@
 import { GithubOrganization, GithubOrganizationInterface } from "@/core/domain/github/models/github-organization-model";
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type ProjectResponse = components["schemas"]["ProjectResponse"];
+type ProjectResponse = components["schemas"]["ProjectResponse"];
 
 export interface ProjectInterface extends ProjectResponse {
   organizations: GithubOrganizationInterface[];

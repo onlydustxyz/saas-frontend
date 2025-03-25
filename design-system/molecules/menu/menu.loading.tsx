@@ -1,3 +1,3 @@
-export function MenuLoading() {
+function MenuLoading() {
   return <div />;
 }

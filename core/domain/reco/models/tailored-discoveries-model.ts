@@ -9,7 +9,7 @@ import {
   TailoredDiscoveriesProjectInterface,
 } from "../../project/models/tailored-discoveries-project-model";
 
-export type TailoredDiscoveriesResponse = components["schemas"]["TailoredDiscoveriesResponse"];
+type TailoredDiscoveriesResponse = components["schemas"]["TailoredDiscoveriesResponse"];
 
 export interface TailoredDiscoveriesInterface extends TailoredDiscoveriesResponse {
   sections: TailoredDiscoveriesSectionInterface[];
@@ -25,9 +25,9 @@ export class TailoredDiscoveries implements TailoredDiscoveriesInterface {
   }
 }
 
-export type TailoredDiscoveriesSectionResponse = components["schemas"]["TailoredDiscoveriesSectionResponse"];
+type TailoredDiscoveriesSectionResponse = components["schemas"]["TailoredDiscoveriesSectionResponse"];
 
-export interface TailoredDiscoveriesSectionInterface extends TailoredDiscoveriesSectionResponse {
+interface TailoredDiscoveriesSectionInterface extends TailoredDiscoveriesSectionResponse {
   projects: TailoredDiscoveriesProjectInterface[];
   issues: TailoredDiscoveriesIssueInterface[];
   getResourceType(): "project" | "issue";

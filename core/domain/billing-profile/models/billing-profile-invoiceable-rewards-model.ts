@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type BillingProfileInvoiceableRewardResponse = components["schemas"]["MyRewardPageItemResponse"];
+type BillingProfileInvoiceableRewardResponse = components["schemas"]["MyRewardPageItemResponse"];
 
 export interface BillingProfileInvoiceableRewardInterface extends BillingProfileInvoiceableRewardResponse {}
 

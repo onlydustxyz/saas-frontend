@@ -8,7 +8,7 @@ import { TypographyLarge, TypographyMuted } from "@/shared/ui/typography";
 import { OAuthGithubConfigLink } from "../../../utils/githubSetupLink";
 import { GithubWorkflowTutorialSidepanel } from "./github-workflow-tutorial-side-panel/GithubWorkflowTutorialSidepanel";
 
-export interface GithubSyncSettingsProps {
+interface GithubSyncSettingsProps {
   title: string;
   message?: string;
   showButton?: string;

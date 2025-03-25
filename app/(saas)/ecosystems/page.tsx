@@ -4,8 +4,6 @@ import { Orbit } from "lucide-react";
 
 import { EcosystemsList } from "@/app/(saas)/ecosystems/_features/ecosystems-list/ecosystems-list";
 
-import { Icon } from "@/design-system/atoms/icon";
-
 import { withClientOnly } from "@/shared/components/client-only/client-only";
 import { ListBanner } from "@/shared/features/list-banner/list-banner";
 import { NavigationBreadcrumb } from "@/shared/features/navigation/navigation.context";
@@ -20,9 +18,6 @@ function EcosystemsPage() {
             {
               id: "root",
               label: "Ecosystems",
-              iconProps: {
-                component: Orbit,
-              },
             },
           ]}
         />
@@ -33,7 +28,7 @@ function EcosystemsPage() {
             children:
               "Explore a wide range of projects shaping the future of digital communities and driving transformative change.",
           }}
-          logo={<Icon component={Orbit} classNames={{ base: "size-16" }} />}
+          logo={<Orbit className="size-16" />}
         />
 
         <EcosystemsList />

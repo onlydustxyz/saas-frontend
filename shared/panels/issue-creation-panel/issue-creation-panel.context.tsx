@@ -25,7 +25,7 @@ interface Issue {
   additionalQuestions?: string;
 }
 
-export const IssueCreationPanelContext = createContext<IssueCreationPanelContextInterface>({
+const IssueCreationPanelContext = createContext<IssueCreationPanelContextInterface>({
   open: false,
   setOpen: () => {},
   step: "definition",

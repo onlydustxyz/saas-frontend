@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type MyProjectsAsContributorPageItemResponse = components["schemas"]["MyProjectsAsContributorPageItemResponse"];
+type MyProjectsAsContributorPageItemResponse = components["schemas"]["MyProjectsAsContributorPageItemResponse"];
 
 export interface MeContributorProjectsInterface extends MyProjectsAsContributorPageItemResponse {}
 

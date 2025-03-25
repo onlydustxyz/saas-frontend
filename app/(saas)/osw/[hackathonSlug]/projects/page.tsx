@@ -144,7 +144,7 @@ function HackathonProjectsPage({ params }: { params: { hackathonSlug: string } }
         as={BaseLink}
         htmlProps={{
           href: hackathon?.isLive()
-            ? `${NEXT_ROUTER.projects.details.issues.root(project.slug)}?${urlSearchParams.toString()}`
+            ? `${NEXT_ROUTER.projects.details.root(project.slug)}?${urlSearchParams.toString()}`
             : NEXT_ROUTER.projects.details.root(project.slug),
         }}
         name={project.name}

@@ -1,7 +1,7 @@
 "use client";
 
 import { OnChangeFn, RowSelectionState } from "@tanstack/react-table";
-import { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
+import { PropsWithChildren, createContext, useEffect, useState } from "react";
 
 import { ContributorsBulkSidepanel } from "@/app/(saas)/manage-projects/[projectSlug]/contributors/_features/contributors-table/_features/contributors-bulk-sidepanel/contributors-bulk-sidepanel";
 import { useContributorsBulkSidePanel } from "@/app/(saas)/manage-projects/[projectSlug]/contributors/_features/contributors-table/_features/contributors-bulk-sidepanel/contributors-bulk-sidepanel.hooks";
@@ -54,8 +54,4 @@ export function ContributorsTableProvider({ children, projectSlug }: PropsWithCh
       <ContributorsBulkSidepanel />
     </ContributorsTableContext.Provider>
   );
-}
-
-export function useContributorsTable() {
-  return useContext(ContributorsTableContext);
 }

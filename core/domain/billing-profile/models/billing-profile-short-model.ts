@@ -1,7 +1,7 @@
 import { BillingProfileType } from "@/core/domain/billing-profile/billing-profile.types";
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type BillingProfileShortResponse = components["schemas"]["ShortBillingProfileResponse"];
+type BillingProfileShortResponse = components["schemas"]["ShortBillingProfileResponse"];
 
 export interface BillingProfileShortInterface extends BillingProfileShortResponse {
   getTypeLabel(): string | undefined;

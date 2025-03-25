@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type ContributionItemBody = components["schemas"]["RewardItemRequest"];
+type ContributionItemBody = components["schemas"]["RewardItemRequest"];
 
 export interface ContributionItemDtoInterface extends ContributionItemBody {
   isEqualTo(other: ContributionItemDtoInterface): boolean;

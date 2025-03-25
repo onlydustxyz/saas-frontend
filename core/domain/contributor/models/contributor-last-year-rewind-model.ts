@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type ContributorLastYearRewindResponse = components["schemas"]["ContributorRewindResponse"];
+type ContributorLastYearRewindResponse = components["schemas"]["ContributorRewindResponse"];
 
 export interface ContributorLastYearRewindInterface extends ContributorLastYearRewindResponse {}
 

@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type LanguageResponse = components["schemas"]["LanguageResponse"];
+type LanguageResponse = components["schemas"]["LanguageResponse"];
 
 export interface LanguageInterface extends LanguageResponse {}
 

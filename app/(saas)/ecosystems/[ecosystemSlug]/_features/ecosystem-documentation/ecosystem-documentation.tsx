@@ -1,15 +1,13 @@
 import { CornerDownLeft } from "lucide-react";
+import Link from "next/link";
 import { useMemo } from "react";
 
 import { EcosystemReactQueryAdapter } from "@/core/application/react-query-adapter/ecosystem";
 
-import { Icon } from "@/design-system/atoms/icon";
-import { PaperLoading } from "@/design-system/atoms/paper/paper.loading";
-import { Paper } from "@/design-system/atoms/paper/variants/paper-default";
-import { Typo } from "@/design-system/atoms/typo/variants/typo-default";
-
-import { BaseLink } from "@/shared/components/base-link/base-link";
 import { ErrorState } from "@/shared/components/error-state/error-state";
+import { Card } from "@/shared/ui/card";
+import { Skeleton } from "@/shared/ui/skeleton";
+import { TypographyH4 } from "@/shared/ui/typography";
 
 import { EcosystemDocumentationProps } from "./ecosystem-documentation.types";
 
@@ -29,7 +27,11 @@ export function EcosystemDocumentation({ ecosystemSlug }: EcosystemDocumentation
 
   const renderDocumentations = useMemo(() => {
     if (isLoading) {
-      return <PaperLoading classNames={{ base: "h-[200px]" }} />;
+      return (
+        <Card className="h-[200px]">
+          <Skeleton className="h-full w-full" />
+        </Card>
+      );
     }
 
     if (isError) {
@@ -37,24 +39,15 @@ export function EcosystemDocumentation({ ecosystemSlug }: EcosystemDocumentation
     }
 
     return ecosystem?.documentations.map(documentation => (
-      <Paper
-        as={BaseLink}
-        key={documentation.name}
-        background="secondary"
-        border="primary"
-        classNames={{ base: "flex gap-md p-xl items-center justify-between hover:opacity-80" }}
-        htmlProps={{ href: documentation.url, target: "_blank" }}
-      >
-        <div className="flex flex-col gap-sm overflow-hidden">
-          <Typo size="sm" weight="medium" color="primary" classNames={{ base: "truncate" }}>
-            {documentation.name}
-          </Typo>
-          <Typo size="xs" color="tertiary" classNames={{ base: "line-clamp-3" }}>
-            {documentation.description}
-          </Typo>
-        </div>
-        <Icon component={CornerDownLeft} size="sm" classNames={{ base: "shrink-0" }} />
-      </Paper>
+      <Link key={documentation.name} href={documentation.url} target="_blank">
+        <Card className="flex items-center justify-between gap-4 bg-muted p-6 hover:opacity-80">
+          <div className="flex flex-col gap-2 overflow-hidden">
+            <p className="truncate text-sm font-medium text-foreground">{documentation.name}</p>
+            <p className="line-clamp-3 text-sm text-muted-foreground">{documentation.description}</p>
+          </div>
+          <CornerDownLeft className="h-4 w-4 shrink-0 text-muted-foreground" />
+        </Card>
+      </Link>
     ));
   }, [isLoading, isError, ecosystem]);
 
@@ -63,22 +56,11 @@ export function EcosystemDocumentation({ ecosystemSlug }: EcosystemDocumentation
   }
 
   return (
-    <Paper
-      background="glass"
-      border="primary"
-      classNames={{ base: "flex flex-col divide-y divide-border-primary" }}
-      size="none"
-    >
-      <div className="flex flex-col p-xl">
-        <Typo
-          variant="heading"
-          size="xs"
-          weight="medium"
-          classNames={{ base: "text-sm" }}
-          translate={{ token: "ecosystems:details.documentation.title" }}
-        />
+    <Card className="flex flex-col divide-y divide-border-primary">
+      <div className="flex flex-col p-6">
+        <TypographyH4 className="text-sm">Documentation</TypographyH4>
       </div>
-      <div className="flex flex-col gap-md p-xl">{renderDocumentations}</div>
-    </Paper>
+      <div className="flex flex-col gap-4 p-6">{renderDocumentations}</div>
+    </Card>
   );
 }

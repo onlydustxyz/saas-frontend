@@ -7,14 +7,13 @@ import { bootstrap } from "@/core/bootstrap";
 import { Button } from "@/design-system/atoms/button/variants/button-default";
 
 import { SocialContactProps } from "@/shared/features/social/social-contact/social-contact.types";
-import { Translate } from "@/shared/translation/components/translate/translate";
 
 export function SocialContact({ contact, buttonProps }: SocialContactProps) {
   const socialKernelPort = bootstrap.getSocialKernelPort();
 
   function handleCopy(url: string) {
     copy(url);
-    toast.success(<Translate token={"features:socialLink.toast.copied"} />);
+    toast.success("Social link copied to clipboard");
   }
 
   const { icon, url, label } = socialKernelPort.getSocialPlatformByChannel(contact.channel);

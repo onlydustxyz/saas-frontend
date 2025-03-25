@@ -2,7 +2,7 @@ import { UserPublic, UserPublicInterface } from "@/core/domain/user/models/user-
 import { UserRank, UserRankInterface } from "@/core/domain/user/models/user-rank-model";
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type BiContributorListItemResponse = components["schemas"]["BiContributorsPageItemResponse"];
+type BiContributorListItemResponse = components["schemas"]["BiContributorsPageItemResponse"];
 
 export interface BiContributorListItemInterface extends BiContributorListItemResponse {
   rank: UserRankInterface;

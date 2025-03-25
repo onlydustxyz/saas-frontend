@@ -1,6 +1,6 @@
 import { DetailedTotalMoneyTotalPerCurrency } from "@/core/kernel/money/money.types";
 
-export type AmountSelectorActionsTypes = "USD" | "PERCENT";
+type AmountSelectorActionsTypes = "USD" | "PERCENT";
 
 export interface AmountSelectorActions {
   type: AmountSelectorActionsTypes;

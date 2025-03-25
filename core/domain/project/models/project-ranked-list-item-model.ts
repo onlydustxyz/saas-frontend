@@ -2,7 +2,7 @@ import { components } from "@/core/infrastructure/marketplace-api-client-adapter
 
 import { ProjectCategory, ProjectCategoryInterface } from "../../project-category/models/project-category-model";
 
-export type ProjectRankedListItemResponse = components["schemas"]["RankedProjectListItem"];
+type ProjectRankedListItemResponse = components["schemas"]["RankedProjectListItem"];
 
 export interface ProjectRankedListItemInterface extends ProjectRankedListItemResponse {
   categories: ProjectCategoryInterface[];

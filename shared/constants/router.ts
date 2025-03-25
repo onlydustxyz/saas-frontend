@@ -88,18 +88,6 @@ export const NEXT_ROUTER = {
     root: "/projects",
     details: {
       root: (slug: string) => `/projects/${slug}`,
-      overview: {
-        root: (slug: string) => `/projects/${slug}/overview`,
-      },
-      issues: {
-        root: (slug: string) => `/projects/${slug}/issues`,
-      },
-      contributors: {
-        root: (slug: string) => `/projects/${slug}/contributors`,
-      },
-      rewards: {
-        root: (slug: string) => `/projects/${slug}/rewards`,
-      },
     },
   },
   osw: {

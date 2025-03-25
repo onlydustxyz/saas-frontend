@@ -1,9 +1,7 @@
 import { CircleDot, Folder, GitPullRequest, User } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-import { Typo } from "@/design-system/atoms/typo";
-
-import { Stat } from "@/shared/components/stat/stat";
+import { Stat } from "@/shared/components/stat";
 import { useStatDiffFormatter } from "@/shared/hooks/stats/use-stat-diff-formatter";
 
 import { EcosystemStatsProps } from "./ecosystem-stats.types";
@@ -15,11 +13,11 @@ export function EcosystemStats({
   mergedPullRequestsCount,
 }: EcosystemStatsProps) {
   const { t } = useTranslation();
-  const { formatDiff, getBadgeColor } = useStatDiffFormatter();
+  const { formatDiff, getBadgeShadcnColor } = useStatDiffFormatter();
 
   return (
-    <div className="grid w-full grid-cols-2 gap-y-xl border-b-1 border-border-primary py-lg tablet:grid-cols-4 tablet:gap-0">
-      <div className="border-r-1 border-border-primary px-lg">
+    <div className="grid w-full grid-cols-2 gap-y-6 border-b border-border-primary py-4 tablet:grid-cols-4 tablet:gap-0">
+      <div className="border-r border-border-primary px-4">
         <Stat
           label={t("ecosystems:details.stats.activeContributors")}
           value={Intl.NumberFormat().format(activeContributorsCount?.value ?? 0)}
@@ -32,13 +30,8 @@ export function EcosystemStats({
           badgeProps={
             activeContributorsCount !== undefined
               ? {
-                  children: (
-                    <Typo size="xs" classNames={{ base: "text-inherit" }}>
-                      {formatDiff(activeContributorsCount.diff)}
-                    </Typo>
-                  ),
-                  color: getBadgeColor(activeContributorsCount.diff),
-                  variant: "solid",
+                  children: <span className="text-sm text-inherit">{formatDiff(activeContributorsCount.diff)}</span>,
+                  variant: getBadgeShadcnColor(activeContributorsCount.diff),
                   classNames: {
                     base: "h-fit min-w-fit",
                   },
@@ -47,7 +40,7 @@ export function EcosystemStats({
           }
         />
       </div>
-      <div className="border-border-primary px-lg tablet:border-r-1">
+      <div className="border-border-primary px-4 tablet:border-r">
         <Stat
           label={t("ecosystems:details.stats.activeProjects")}
           value={Intl.NumberFormat().format(activeProjectsCount?.value ?? 0)}
@@ -60,12 +53,8 @@ export function EcosystemStats({
           badgeProps={
             activeProjectsCount !== undefined
               ? {
-                  children: (
-                    <Typo size="xs" classNames={{ base: "text-inherit" }}>
-                      {formatDiff(activeProjectsCount.diff)}
-                    </Typo>
-                  ),
-                  color: getBadgeColor(activeProjectsCount.diff),
+                  children: <span className="text-sm text-inherit">{formatDiff(activeProjectsCount.diff)}</span>,
+                  variant: getBadgeShadcnColor(activeProjectsCount.diff),
                   classNames: {
                     base: "h-fit min-w-fit",
                   },
@@ -74,7 +63,7 @@ export function EcosystemStats({
           }
         />
       </div>
-      <div className="border-border-primary px-lg tablet:border-r-1">
+      <div className="border-border-primary px-4 tablet:border-r">
         <Stat
           label={t("ecosystems:details.stats.availableIssues")}
           value={Intl.NumberFormat().format(availableIssuesCount?.value ?? 0)}
@@ -87,12 +76,8 @@ export function EcosystemStats({
           badgeProps={
             availableIssuesCount !== undefined
               ? {
-                  children: (
-                    <Typo size="xs" classNames={{ base: "text-inherit" }}>
-                      {formatDiff(availableIssuesCount.diff)}
-                    </Typo>
-                  ),
-                  color: getBadgeColor(availableIssuesCount.diff),
+                  children: <span className="text-sm text-inherit">{formatDiff(availableIssuesCount.diff)}</span>,
+                  variant: getBadgeShadcnColor(availableIssuesCount.diff),
                   classNames: {
                     base: "h-fit min-w-fit",
                   },
@@ -101,7 +86,7 @@ export function EcosystemStats({
           }
         />
       </div>
-      <div className="border-border-primary px-lg tablet:border-r-1">
+      <div className="border-border-primary px-4 tablet:border-r">
         <Stat
           label={t("ecosystems:details.stats.mergedPullRequests")}
           value={Intl.NumberFormat().format(mergedPullRequestsCount?.value ?? 0)}
@@ -114,12 +99,8 @@ export function EcosystemStats({
           badgeProps={
             mergedPullRequestsCount !== undefined
               ? {
-                  children: (
-                    <Typo size="xs" classNames={{ base: "text-inherit" }}>
-                      {formatDiff(mergedPullRequestsCount.diff)}
-                    </Typo>
-                  ),
-                  color: getBadgeColor(mergedPullRequestsCount.diff),
+                  children: <span className="text-sm text-inherit">{formatDiff(mergedPullRequestsCount.diff)}</span>,
+                  variant: getBadgeShadcnColor(mergedPullRequestsCount.diff),
                   classNames: {
                     base: "h-fit min-w-fit",
                   },

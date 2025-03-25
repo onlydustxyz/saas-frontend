@@ -1,8 +1,8 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type ProjectLinkV2Response = components["schemas"]["ProjectShortResponseV2"];
+type ProjectLinkV2Response = components["schemas"]["ProjectShortResponseV2"];
 
-export interface ProjectLinkV2Interface extends ProjectLinkV2Response {}
+interface ProjectLinkV2Interface extends ProjectLinkV2Response {}
 
 export class ProjectLinkV2 implements ProjectLinkV2Interface {
   id!: ProjectLinkV2Response["id"];

@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type ProjectProgramListItemResponse = components["schemas"]["ProjectProgramPageItemResponse"];
+type ProjectProgramListItemResponse = components["schemas"]["ProjectProgramPageItemResponse"];
 
 export interface ProjectProgramListItemInterface extends ProjectProgramListItemResponse {}
 

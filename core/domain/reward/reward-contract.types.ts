@@ -33,7 +33,7 @@ export type GetRewardsCsvPortResponse = HttpStorageResponse<Blob>;
 
 export type GetRewardByIdResponse = components["schemas"]["RewardPageItemResponse"];
 
-export type GetRewardByIdModel = RewardListItemV2Interface;
+type GetRewardByIdModel = RewardListItemV2Interface;
 
 type GetRewardByIdPathParams = operations["getReward"]["parameters"]["path"];
 
@@ -66,7 +66,7 @@ export type GetProjectRewardsPortParams = HttpClientParameters<{
 
 export type GetProjectRewardResponse = components["schemas"]["RewardDetailsResponse"];
 
-export type GetProjectRewardModel = RewardInterface;
+type GetProjectRewardModel = RewardInterface;
 
 type GetProjectRewardPathParams = operations["getProjectReward"]["parameters"]["path"];
 
@@ -80,7 +80,7 @@ export type GetProjectRewardPortParams = HttpClientParameters<{
 
 export type GetProjectRewardItemsResponse = components["schemas"]["RewardItemsPageResponse"];
 
-export type GetProjectRewardItemsModel = Omit<GetProjectRewardItemsResponse, "rewardItems"> & {
+type GetProjectRewardItemsModel = Omit<GetProjectRewardItemsResponse, "rewardItems"> & {
   rewardItems: RewardItemInterface[];
 };
 

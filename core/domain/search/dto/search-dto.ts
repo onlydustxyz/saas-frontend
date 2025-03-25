@@ -8,7 +8,7 @@ import {
 
 export type SearchBody = Omit<components["schemas"]["SearchPostRequest"], "pageSize" | "pageIndex">;
 
-export interface SearchDtoInterface extends SearchBody {
+interface SearchDtoInterface extends SearchBody {
   toBody(): SearchBody;
 }
 

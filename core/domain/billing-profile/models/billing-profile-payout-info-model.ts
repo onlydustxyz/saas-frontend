@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type BillingProfilePayoutInfoResponse = components["schemas"]["BillingProfilePayoutInfoResponse"];
+type BillingProfilePayoutInfoResponse = components["schemas"]["BillingProfilePayoutInfoResponse"];
 
 export interface BillingProfilePayoutInfoInterface extends BillingProfilePayoutInfoResponse {}
 

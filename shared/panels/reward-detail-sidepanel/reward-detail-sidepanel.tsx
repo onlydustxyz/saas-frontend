@@ -19,7 +19,7 @@ import { RewardTimeline } from "@/shared/panels/reward-detail-sidepanel/_feature
 import { useRewardDetailSidepanel } from "@/shared/panels/reward-detail-sidepanel/reward-detail-sidepanel.hooks";
 import { RewardDetailSidepanelData } from "@/shared/panels/reward-detail-sidepanel/reward-detail-sidepanel.types";
 
-export function Content() {
+function Content() {
   const { name } = useRewardDetailSidepanel();
   const { rewardId } = useSinglePanelData<RewardDetailSidepanelData>(name) ?? {};
 
@@ -68,7 +68,7 @@ export function Content() {
   );
 }
 
-export function Header() {
+function Header() {
   const { name } = useRewardDetailSidepanel();
   const idKernelPort = bootstrap.getIdKernelPort();
   const { rewardId } = useSinglePanelData<RewardDetailSidepanelData>(name) ?? {

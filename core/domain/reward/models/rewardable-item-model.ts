@@ -1,7 +1,7 @@
 import { ContributionItemDto } from "@/core/domain/contribution/dto/contribution-item-dto";
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type RewardableItemResponse = components["schemas"]["RewardableItemResponse"];
+type RewardableItemResponse = components["schemas"]["RewardableItemResponse"];
 
 export interface RewardableItemInterface extends RewardableItemResponse {
   toItemDto(): ContributionItemDto;

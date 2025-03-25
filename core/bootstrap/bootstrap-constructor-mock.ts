@@ -1,7 +1,5 @@
 import { BootstrapConstructor } from "@/core/bootstrap/index";
-import { ProjectBannerClientAdapterMock } from "@/core/infrastructure/json-storage-client-adapter/mock-adapters/project-banner-client-adapter-mock";
 import { ApplicationClientAdapterMock } from "@/core/infrastructure/marketplace-api-client-adapter/mock-adapters/application-client-adapter-mock";
-import { BannerClientAdapterMock } from "@/core/infrastructure/marketplace-api-client-adapter/mock-adapters/banner-client-adapter-mock";
 import { BiClientAdapterMock } from "@/core/infrastructure/marketplace-api-client-adapter/mock-adapters/bi-client-adapter-mock";
 import { BillingProfileClientAdapterMock } from "@/core/infrastructure/marketplace-api-client-adapter/mock-adapters/billing-profile-client-adapter-mock";
 import { ContributionClientAdapterMock } from "@/core/infrastructure/marketplace-api-client-adapter/mock-adapters/contribution-client-adapter-mock";
@@ -25,7 +23,7 @@ import { UserClientAdapterMock } from "@/core/infrastructure/marketplace-api-cli
 import { DateAdapterMock } from "@/core/kernel/date/date-adapter-mock";
 import { FileAdapterMock } from "@/core/kernel/file/file-adapter-mock";
 import { IdAdapterMock } from "@/core/kernel/id/id-adapter-mock";
-import { LegalAdapter } from "@/core/kernel/legal/legal-adapter";
+import { LegalAdapterMock } from "@/core/kernel/legal/legal-adapter-mock";
 import { MoneyAdapterMock } from "@/core/kernel/money/money-adapter-mock";
 import { SocialAdapterMock } from "@/core/kernel/social/social-adapter-mock";
 import { StyleAdapterMock } from "@/core/kernel/style/style-adapter-mock";
@@ -44,8 +42,6 @@ export const bootstrapConstructorMock: BootstrapConstructor = {
   meStoragePortForServer: new MeClientAdapterMock(),
   userStoragePortForClient: new UserClientAdapterMock(),
   userStoragePortForServer: new UserClientAdapterMock(),
-  bannerStoragePortForClient: new BannerClientAdapterMock(),
-  bannerStoragePortForServer: new BannerClientAdapterMock(),
   programStoragePortForClient: new ProgramClientAdapterMock(),
   programStoragePortForServer: new ProgramClientAdapterMock(),
   projectStoragePortForClient: new ProjectClientAdapterMock(),
@@ -94,14 +90,12 @@ export const bootstrapConstructorMock: BootstrapConstructor = {
   fileKernelPort: new FileAdapterMock(),
   urlKernelPort: UrlAdapterMock,
   idKernelPort: IdAdapterMock,
-  legalKernelPort: new LegalAdapter(),
+  legalKernelPort: new LegalAdapterMock(),
   markdownKernelPort: new MarkdownAdapterMock(),
   validationKernelPort: new ValidationAdapterMock(),
   styleKernelPort: StyleAdapterMock,
   searchStoragePortForClient: new SearchClientAdapterMock(),
   searchStoragePortForServer: new SearchClientAdapterMock(),
-  projectBannerStoragePortForClient: new ProjectBannerClientAdapterMock(),
-  projectBannerStoragePortForServer: new ProjectBannerClientAdapterMock(),
   questStoragePortForClient: new QuestClientAdapterMock(),
   questStoragePortForServer: new QuestClientAdapterMock(),
   leaderboardStoragePortForClient: new LeaderboardClientAdapterMock(),

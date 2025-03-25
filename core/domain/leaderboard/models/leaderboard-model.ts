@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type LeaderboardResponse = components["schemas"]["LeaderboardRowResponse"];
+type LeaderboardResponse = components["schemas"]["LeaderboardRowResponse"];
 
 export interface LeaderboardInterface extends LeaderboardResponse {}
 

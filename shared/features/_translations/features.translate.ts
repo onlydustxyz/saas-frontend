@@ -14,7 +14,6 @@ import { enGlobalSearchTranslation } from "@/shared/features/global-search/_tran
 import enInvoices from "@/shared/features/invoice/_translations/invoice.en.json";
 import enPayoutStatus from "@/shared/features/payout-status/_translations/payout-status.en.json";
 import { enPopoversTranslations } from "@/shared/features/popovers/_translations/popovers.translate";
-import enSocialLinkTranslate from "@/shared/features/social/social-translate/social-translate.en.json";
 import { enCellTranslation } from "@/shared/features/table/cell/_translations/cell.translate";
 import { enTransactionsTranslation } from "@/shared/features/transactions/_translations/transactions.translate";
 
@@ -26,7 +25,6 @@ export const enFeaturesTranslations = {
     githubMissingPermissionsAlert: enGithubMissingPermissionsAlert,
     repoIndexingAlert: enRepoIndexingAlert,
     payoutStatus: enPayoutStatus,
-    socialLink: enSocialLinkTranslate,
     cardContributionKanban: enCardContributionKanban,
     cardProjectCategory: enCardProjectCategory,
     cardProjectOverview: enCardProjectOverview,

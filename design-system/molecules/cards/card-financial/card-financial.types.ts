@@ -5,7 +5,7 @@ import { AvatarGroupPort } from "@/design-system/molecules/avatar-group";
 
 import { TranslateProps } from "@/shared/translation/components/translate/translate.types";
 
-export type CardFinancialColors = "gradient" | "grey";
+type CardFinancialColors = "gradient" | "grey";
 
 interface Variants {
   color: CardFinancialColors;

@@ -5,7 +5,6 @@ import { NEXT_ROUTER } from "@/shared/constants/router";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Badge, badgeVariants } from "@/shared/ui/badge";
 import { Card } from "@/shared/ui/card";
-import { Skeleton } from "@/shared/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/tooltip";
 import { TypographyH4, TypographyMuted, TypographySmall } from "@/shared/ui/typography";
 
@@ -133,8 +132,4 @@ export function ProjectCard({ name, description, slug, logoUrl, categories, lang
       </Card>
     </Link>
   );
-}
-
-export function ProjectCardSkeleton() {
-  return <Skeleton className="h-[120px] w-full rounded-xl" />;
 }

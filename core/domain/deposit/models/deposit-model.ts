@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type DepositResponse = components["schemas"]["DepositResponse"];
+type DepositResponse = components["schemas"]["DepositResponse"];
 
 export interface DepositInterface extends DepositResponse {}
 

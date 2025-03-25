@@ -2,7 +2,7 @@ import { components } from "@/core/infrastructure/marketplace-api-client-adapter
 
 import { UserRank, UserRankInterface } from "../../user/models/user-rank-model";
 
-export type ProjectContributorsResponseV2 = components["schemas"]["ContributorPageItemResponseV2"];
+type ProjectContributorsResponseV2 = components["schemas"]["ContributorPageItemResponseV2"];
 
 export interface ProjectContributorsInterfaceV2 extends ProjectContributorsResponseV2 {
   rank: UserRankInterface;

@@ -1,25 +1,29 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
+import { PropsWithChildren, ReactNode, createContext, useContext, useEffect, useState } from "react";
 
-import { BreadcrumbsPort } from "@/design-system/atoms/breadcrumbs";
+type Breadcrumb = {
+  id?: string;
+  label: ReactNode;
+  href?: string;
+};
 
 interface NavigationContextInterface {
-  setBreadcrumb: (breadcrumb: BreadcrumbsPort["items"] | undefined) => void;
-  breadcrumb: BreadcrumbsPort["items"] | undefined;
+  setBreadcrumb: (breadcrumb: Breadcrumb[] | undefined) => void;
+  breadcrumb: Breadcrumb[] | undefined;
 }
 
-export const NavigationContext = createContext<NavigationContextInterface>({
+const NavigationContext = createContext<NavigationContextInterface>({
   setBreadcrumb: () => {},
   breadcrumb: [],
 });
 
 export function NavigationProvider({ children }: PropsWithChildren) {
-  const [breadcrumb, setBreadcrumb] = useState<BreadcrumbsPort["items"] | undefined>();
+  const [breadcrumb, setBreadcrumb] = useState<Breadcrumb[] | undefined>();
   const pathname = usePathname();
 
-  function handleSetBreadcrumb(breadcrumb: BreadcrumbsPort["items"] | undefined) {
+  function handleSetBreadcrumb(breadcrumb: Breadcrumb[] | undefined) {
     setBreadcrumb(breadcrumb);
   }
 
@@ -40,7 +44,7 @@ export function useNavigation() {
   return useContext(NavigationContext);
 }
 
-export function NavigationBreadcrumb({ breadcrumb }: { breadcrumb: BreadcrumbsPort["items"] | undefined }) {
+export function NavigationBreadcrumb({ breadcrumb }: { breadcrumb: Breadcrumb[] | undefined }) {
   const { setBreadcrumb } = useNavigation();
 
   useEffect(() => {

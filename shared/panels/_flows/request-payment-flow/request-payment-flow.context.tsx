@@ -12,7 +12,7 @@ import { AcceptInvoicingMandate } from "./_panels/accept-invoicing-mandate/accep
 import { InvoicingMandate } from "./_panels/invoicing-mandate/invoicing-mandate";
 import { OpenProps, RequestPaymentFlowContextInterface, SelectedState } from "./request-payment-flow.types";
 
-export const RequestPaymentFlowContext = createContext<RequestPaymentFlowContextInterface>({
+const RequestPaymentFlowContext = createContext<RequestPaymentFlowContextInterface>({
   billingProfileId: undefined,
   rewardIds: [],
   open: () => null,

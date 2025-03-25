@@ -27,7 +27,7 @@ import { useIsTablet } from "@/shared/hooks/ui/use-media-query";
 
 import { SidePanelProps, SidePanelRef, UseSidePanel } from "./side-panel.types";
 
-export const SidePanel = forwardRef(function SidePanel<T extends AnyType>(
+const SidePanel = forwardRef(function SidePanel<T extends AnyType>(
   { children, name, classNames }: SidePanelProps,
   ref: ForwardedRef<SidePanelRef>
 ) {

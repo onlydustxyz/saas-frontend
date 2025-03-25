@@ -9,7 +9,7 @@ import {
 
 export type GetCountriesResponse = components["schemas"]["CountriesResponse"];
 
-export type GetCountriesModel = Omit<GetCountriesResponse, "countries"> & {
+type GetCountriesModel = Omit<GetCountriesResponse, "countries"> & {
   countries: CountryInterface[];
 };
 

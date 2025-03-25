@@ -23,7 +23,7 @@ const defaultConfig: SidePanelConfig = {
 
 export const SIDE_PANEL_ANIMATION_DURATION = 0.25;
 
-export const SidePanelsContext = createContext<SidePanelsContextInterface>({
+const SidePanelsContext = createContext<SidePanelsContextInterface>({
   isOpen: () => false,
   open: () => {},
   close: () => {},

@@ -11,7 +11,7 @@ import { usePosthog } from "@/shared/tracking/posthog/use-posthog";
 
 import { Author, ChatMessage } from "./_features/message/message.types";
 
-export const assistant = {
+const assistant = {
   login: "OD-Say",
   avatarUrl: odSayAvatar.src,
 };

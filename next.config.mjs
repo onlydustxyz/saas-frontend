@@ -37,8 +37,23 @@ const nextConfig = {
       },
       // PROJECTS
       {
-        source: "/projects/:projectSlug",
-        destination: "/projects/:projectSlug/overview",
+        source: "/projects/:projectSlug/overview",
+        destination: "/projects/:projectSlug",
+        permanent: true,
+      },
+      {
+        source: "/projects/:projectSlug/issues",
+        destination: "/projects/:projectSlug",
+        permanent: true,
+      },
+      {
+        source: "/projects/:projectSlug/contributors",
+        destination: "/projects/:projectSlug",
+        permanent: true,
+      },
+      {
+        source: "/projects/:projectSlug/rewards",
+        destination: "/projects/:projectSlug",
         permanent: true,
       },
       // OPEN-SOURCE WEEK

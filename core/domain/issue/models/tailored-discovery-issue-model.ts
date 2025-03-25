@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type TailoredDiscoveriesIssueResponse = components["schemas"]["TailoredDiscoveriesIssueResponse"];
+type TailoredDiscoveriesIssueResponse = components["schemas"]["TailoredDiscoveriesIssueResponse"];
 
 export interface TailoredDiscoveriesIssueInterface extends TailoredDiscoveriesIssueResponse {}
 

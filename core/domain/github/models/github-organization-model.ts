@@ -1,7 +1,7 @@
 import { GithubRepo, GithubRepoInterface } from "@/core/domain/github/models/github-repo-model";
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type GithubOrganizationResponse = components["schemas"]["GithubOrganizationResponse"];
+type GithubOrganizationResponse = components["schemas"]["GithubOrganizationResponse"];
 
 export interface GithubOrganizationInterface
   extends Omit<components["schemas"]["GithubOrganizationResponse"], "repos"> {

@@ -4,7 +4,7 @@ import { GetBillingProfileInvoicePreviewByIdResponse } from "@/core/domain/billi
 import { MarketplaceApiVersion } from "@/core/infrastructure/marketplace-api-client-adapter/config/api-version";
 import { MARKETPLACE_API_BASE_URL } from "@/core/infrastructure/marketplace-api-client-adapter/config/base-url";
 
-export async function retrieveInvoicePreviewByBillingProfileId(billingProfileId: string, options?: BaseQueriesOptions) {
+async function retrieveInvoicePreviewByBillingProfileId(billingProfileId: string, options?: BaseQueriesOptions) {
   "use server";
   return BaseQueries<GetBillingProfileInvoicePreviewByIdResponse>(
     `${MARKETPLACE_API_BASE_URL}/api/${MarketplaceApiVersion.v1}/billing-profiles/${billingProfileId}/invoice-preview`,

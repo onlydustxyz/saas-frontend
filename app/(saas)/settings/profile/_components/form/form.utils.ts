@@ -14,7 +14,7 @@ export const REGEX = {
   linkedin: /^[a-zA-Z0-9-]{3,100}$/,
 };
 
-export enum ALLOCATED_TIME {
+enum ALLOCATED_TIME {
   NONE = "NONE",
   LESS_THAN_ONE_DAY = "LESS_THAN_ONE_DAY",
   ONE_TO_THREE_DAYS = "ONE_TO_THREE_DAYS",
@@ -51,7 +51,7 @@ export function formatData(data: MeProfileInterface) {
   };
 }
 
-export function createContact({
+function createContact({
   channel,
   contact,
   isPublic,

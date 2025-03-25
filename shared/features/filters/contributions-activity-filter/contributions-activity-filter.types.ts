@@ -4,7 +4,7 @@ import { QuantityFilterProps } from "@/shared/features/filters/quantity-filter/q
 
 type QuantityFilterValue = NonNullable<QuantityFilterProps["value"]>;
 
-export interface ContributionsActivityFilterValue extends QuantityFilterValue {
+interface ContributionsActivityFilterValue extends QuantityFilterValue {
   contributionType: ContributionTypeUnion[];
 }
 

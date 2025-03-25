@@ -1,7 +1,5 @@
 "use client";
 
-import { Target } from "lucide-react";
-
 import { withClientOnly } from "@/shared/components/client-only/client-only";
 import { NEXT_ROUTER } from "@/shared/constants/router";
 import { NavigationBreadcrumb } from "@/shared/features/navigation/navigation.context";
@@ -23,9 +21,6 @@ function QuestPage({ params }: { params: { questId: string } }) {
             {
               id: "root",
               label: "Quests",
-              iconProps: {
-                component: Target,
-              },
               href: NEXT_ROUTER.quests.root,
             },
             {

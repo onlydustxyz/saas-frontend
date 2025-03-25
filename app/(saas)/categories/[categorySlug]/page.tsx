@@ -1,6 +1,5 @@
 "use client";
 
-import { FolderOpen } from "lucide-react";
 import { useMemo } from "react";
 
 import NotFound from "@/app/not-found";
@@ -72,9 +71,6 @@ function CategoryPage({ params }: { params: { categorySlug: string } }) {
             {
               id: category.slug,
               label: category.name,
-              iconProps: {
-                component: FolderOpen,
-              },
             },
           ]}
         />

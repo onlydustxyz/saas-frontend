@@ -26,7 +26,7 @@ export interface AccordionItemProps {
   endContent?: ReactNode;
 }
 
-export interface AccordionBasePort {
+interface AccordionBasePort {
   classNames?: ClassNames;
   defaultSelected?: string[];
   inline?: boolean;

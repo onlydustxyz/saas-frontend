@@ -46,7 +46,7 @@ export type GetEcosystemsPortParams = HttpClientParameters<{ QueryParams: GetEco
 
 export type GetEcosystemBySlugResponse = components["schemas"]["EcosystemResponseV2"];
 
-type GetEcosystemBySlugPathParams = operations["getEcosystemBySlug"]["parameters"]["path"];
+type GetEcosystemBySlugPathParams = operations["getEcosystemV2"]["parameters"]["path"];
 
 export type GetEcosystemBySlugPortResponse = HttpStorageResponse<EcosystemInterface>;
 

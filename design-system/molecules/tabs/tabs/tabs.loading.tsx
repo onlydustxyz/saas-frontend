@@ -1,3 +1,3 @@
-export function TabsLoading() {
+function TabsLoading() {
   return <div />;
 }

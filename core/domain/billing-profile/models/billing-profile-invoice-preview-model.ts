@@ -1,7 +1,7 @@
 import { BillingProfileType } from "@/core/domain/billing-profile/billing-profile.types";
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type BillingProfileInvoicePreviewResponse = components["schemas"]["InvoicePreviewResponse"];
+type BillingProfileInvoicePreviewResponse = components["schemas"]["InvoicePreviewResponse"];
 
 export interface BillingProfileInvoicePreviewInterface extends BillingProfileInvoicePreviewResponse {
   isBillingProfileIndividual(): boolean;

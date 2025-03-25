@@ -87,7 +87,7 @@ export function PageHeader({ projectSlug }: PageHeaderProps) {
           </Button>
         ) : null}
         <Button variant="outline" asChild>
-          <Link href={NEXT_ROUTER.projects.details.overview.root(projectSlug)}>
+          <Link href={NEXT_ROUTER.projects.details.root(projectSlug)} target="_blank">
             <ExternalLink className="h-4 w-4" />
             Public Page
           </Link>

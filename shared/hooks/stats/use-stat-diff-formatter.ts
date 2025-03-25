@@ -10,8 +10,14 @@ export function useStatDiffFormatter() {
     return diff < 0 ? "error" : "success";
   }
 
+  function getBadgeShadcnColor(diff?: number) {
+    if (diff === undefined || diff === 0) return "default";
+    return diff < 0 ? "destructive" : "success";
+  }
+
   return {
     formatDiff,
     getBadgeColor,
+    getBadgeShadcnColor,
   };
 }

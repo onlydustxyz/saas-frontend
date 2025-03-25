@@ -74,7 +74,7 @@ export type GetMyProjectsAsMaintainerModel = Omit<GetMyProjectsAsMaintainerRespo
   projects: MeMaintainerProjectsInterface[];
 };
 
-export type GetMyProjectsAsMaintainerQueryParams = operations["getMyProjectsAsMaintainer"]["parameters"]["query"];
+type GetMyProjectsAsMaintainerQueryParams = operations["getMyProjectsAsMaintainer"]["parameters"]["query"];
 
 export type GetMyProjectsAsMaintainerPortParams = HttpClientParameters<{
   QueryParams: GetMyProjectsAsMaintainerQueryParams;
@@ -90,7 +90,7 @@ export type GetMyProjectsAsContributorModel = Omit<GetMyProjectsAsContributorRes
   projects: MeContributorProjectsInterface[];
 };
 
-export type GetMyProjectsAsContributorQueryParams = operations["getMyProjectsAsContributor"]["parameters"]["query"];
+type GetMyProjectsAsContributorQueryParams = operations["getMyProjectsAsContributor"]["parameters"]["query"];
 
 export type GetMyProjectsAsContributorPortParams = HttpClientParameters<{
   QueryParams: GetMyProjectsAsContributorQueryParams;
@@ -134,9 +134,9 @@ export type PostMyApplicationPortResponse = HttpStorageResponse<never, PostMyApp
 
 export type GetMyHackathonRegistrationResponse = MeHackathonRegistrationResponse;
 
-export type GetMyHackathonRegistrationModel = MeHackathonRegistrationInterface;
+type GetMyHackathonRegistrationModel = MeHackathonRegistrationInterface;
 
-export type GetMyHackathonRegistrationPathParams = operations["getHackathonRegistration"]["parameters"]["path"];
+type GetMyHackathonRegistrationPathParams = operations["getHackathonRegistration"]["parameters"]["path"];
 
 export type GetMyHackathonRegistrationPortParams = HttpClientParameters<{
   PathParams: GetMyHackathonRegistrationPathParams;
@@ -146,7 +146,7 @@ export type GetMyHackathonRegistrationPortResponse = HttpStorageResponse<GetMyHa
 
 /* --------------------------------- Register to hackathon -------------------------------- */
 
-export type RegisterToHackathonPathParams = operations["registerToHackathon"]["parameters"]["path"];
+type RegisterToHackathonPathParams = operations["registerToHackathon"]["parameters"]["path"];
 
 export type RegisterToHackathonPortParams = HttpClientParameters<{
   PathParams: RegisterToHackathonPathParams;
@@ -191,7 +191,7 @@ export type SetMyNotificationSettingsPortResponse = HttpStorageResponse<never, S
 export type GetMyNotificationSettingsForProjectResponse =
   components["schemas"]["NotificationSettingsForProjectResponse"];
 
-export type GetMyNotificationSettingsForProjectPathParams =
+type GetMyNotificationSettingsForProjectPathParams =
   operations["getMyNotificationSettingsForProject"]["parameters"]["path"];
 
 export type GetMyNotificationSettingsForProjectPortParams = HttpClientParameters<{
@@ -206,7 +206,7 @@ export type GetMyNotificationSettingsForProjectPortResponse =
 export type SetMyNotificationSettingsForProjectBody =
   components["schemas"]["NotificationSettingsForProjectPatchRequest"];
 
-export type SetMyNotificationSettingsForProjectPathParams =
+type SetMyNotificationSettingsForProjectPathParams =
   operations["getMyNotificationSettingsForProject"]["parameters"]["path"];
 
 export type SetMyNotificationSettingsForProjectPortParams = HttpClientParameters<{
@@ -232,7 +232,7 @@ export type ContinueChatBody = components["schemas"]["ContinueChatRequest"];
 
 export type ContinueChatResponse = components["schemas"]["ContinueChatResponse"];
 
-export type ContinueChatPathParams = operations["continueChat"]["parameters"]["path"];
+type ContinueChatPathParams = operations["continueChat"]["parameters"]["path"];
 
 export type ContinueChatPortParams = HttpClientParameters<{
   PathParams: ContinueChatPathParams;
@@ -244,7 +244,7 @@ export type ContinueChatPortResponse = HttpStorageResponse<ContinueChatResponse>
 
 export type GetMyApplicationsResponse = components["schemas"]["ApplicationsInfoResponse"];
 
-export type GetMyApplicationsPathParams = operations["getApplicationsInfo"]["parameters"]["path"];
+type GetMyApplicationsPathParams = operations["getApplicationsInfo"]["parameters"]["path"];
 
 export type GetMyApplicationsPortParams = HttpClientParameters<{
   PathParams: GetMyApplicationsPathParams;

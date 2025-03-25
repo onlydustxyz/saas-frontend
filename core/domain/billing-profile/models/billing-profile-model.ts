@@ -1,7 +1,7 @@
 import { BillingProfileRole, BillingProfileType } from "@/core/domain/billing-profile/billing-profile.types";
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type BillingProfileResponse = components["schemas"]["BillingProfileResponse"];
+type BillingProfileResponse = components["schemas"]["BillingProfileResponse"];
 
 export interface BillingProfileInterface extends BillingProfileResponse {
   isIndividualLimitReached(): boolean;

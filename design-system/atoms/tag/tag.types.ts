@@ -6,7 +6,7 @@ import { TypoPort } from "@/design-system/atoms/typo";
 
 import { TranslateProps } from "@/shared/translation/components/translate/translate.types";
 
-export type TagSize = "xxs" | "xs" | "sm" | "md";
+type TagSize = "xxs" | "xs" | "sm" | "md";
 interface Variants {
   size: TagSize;
 }
@@ -19,7 +19,7 @@ interface ClassNames {
   closeIcon: string;
 }
 
-export interface TagBasePort<C extends ElementType> extends Partial<Variants>, PropsWithChildren {
+interface TagBasePort<C extends ElementType> extends Partial<Variants>, PropsWithChildren {
   as?: C;
   htmlProps?: ComponentPropsWithoutRef<C>;
   classNames?: Partial<ClassNames>;

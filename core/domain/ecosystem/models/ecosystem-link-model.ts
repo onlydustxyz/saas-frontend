@@ -1,8 +1,8 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type EcosystemLinkResponse = components["schemas"]["EcosystemLinkResponse"];
+type EcosystemLinkResponse = components["schemas"]["EcosystemLinkResponse"];
 
-export interface EcosystemLinkInterface extends EcosystemLinkResponse {}
+interface EcosystemLinkInterface extends EcosystemLinkResponse {}
 
 export class EcosystemLink implements EcosystemLinkInterface {
   id!: EcosystemLinkInterface["id"];

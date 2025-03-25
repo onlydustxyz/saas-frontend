@@ -8,7 +8,7 @@ export const OdNewsQuestionsNames = {
   telegram: "Telegram Contact",
 } as const;
 
-export type OdNewsParameters =
+type OdNewsParameters =
   | "projectId"
   | "githubUserId"
   | "createdByAvatar"
@@ -17,7 +17,7 @@ export type OdNewsParameters =
   | "projectName"
   | "projectSlug";
 
-export interface OdNewsInterface extends Submission {
+interface OdNewsInterface extends Submission {
   paramaters: Record<OdNewsParameters, string | null>;
   response: Record<keyof typeof OdNewsQuestionsNames, string | null>;
   display: {

@@ -55,5 +55,3 @@ export const MultiStepsForm: FC<MultiStepsFormProps> = ({
     </div>
   );
 };
-
-export default MultiStepsForm;

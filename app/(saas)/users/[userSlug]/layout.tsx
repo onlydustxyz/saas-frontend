@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { ReactNode } from "react";
 
 import { UserNavigation } from "@/app/(saas)/users/[userSlug]/_features/user-navigation/user-navigation";
+import { sharedMetadata } from "@/app/shared-metadata";
+
+import { BiContributorInterface } from "@/core/domain/bi/models/bi-contributor-model";
 
 import { Paper } from "@/design-system/atoms/paper/variants/paper-default";
 
@@ -10,13 +13,25 @@ import { PageContainer } from "@/shared/features/page/page-container/page-contai
 import { UserSummary } from "./_features/user-summary/user-summary";
 
 export async function generateMetadata({ params }: { params: { userSlug: string } }): Promise<Metadata> {
-  const userSlug = params.userSlug;
+  try {
+    const userData = await fetch(
+      `https://${process.env.NEXT_PUBLIC_ONLYDUST_API_BASEPATH}/api/v1/bi/contributors/${params.userSlug}`
+    ).then((res): Promise<BiContributorInterface> => res.json());
 
-  return {
-    openGraph: {
-      images: [`https://previous.onlydust.com/u/${userSlug}/opengraph-image`],
-    },
-  };
+    return {
+      ...sharedMetadata,
+      title: `${userData.contributor.login} - OnlyDust`,
+      openGraph: {
+        ...sharedMetadata.openGraph,
+        title: `${userData.contributor.login} - OnlyDust`,
+      },
+      twitter: {
+        ...sharedMetadata.twitter,
+      },
+    };
+  } catch {
+    return sharedMetadata;
+  }
 }
 
 export default function UsersLayout({ params, children }: { params: { userSlug: string }; children: ReactNode }) {

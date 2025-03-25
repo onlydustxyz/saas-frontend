@@ -1,6 +1,6 @@
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type MyProjectsAsMaintainerPageItemResponse = components["schemas"]["MyProjectsAsMaintainerPageItemResponse"];
+type MyProjectsAsMaintainerPageItemResponse = components["schemas"]["MyProjectsAsMaintainerPageItemResponse"];
 
 export interface MeMaintainerProjectsInterface extends MyProjectsAsMaintainerPageItemResponse {}
 

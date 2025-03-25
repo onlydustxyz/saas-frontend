@@ -1,3 +1,3 @@
-export function TabItemLoading() {
+function TabItemLoading() {
   return <div />;
 }

@@ -1,11 +1,11 @@
 import { GithubOrganization, GithubOrganizationInterface } from "@/core/domain/github/models/github-organization-model";
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type GithubOrganizationResponse = {
+type GithubOrganizationResponse = {
   organizations: components["schemas"]["GithubOrganizationResponse"][];
 };
 
-export interface GithubOrganizationListInterface {
+interface GithubOrganizationListInterface {
   organizations: GithubOrganizationInterface[];
   getInstalledOrganizations(): GithubOrganizationInterface[];
   getNotInstalledOrganizations(): GithubOrganizationInterface[];

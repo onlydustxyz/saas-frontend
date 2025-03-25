@@ -97,6 +97,10 @@ export class DateFnsAdapter implements DateFacadePort {
     return DateFns.addYears(date, years);
   }
 
+  addWeeks(date: Date, weeks: number): Date {
+    return DateFns.addWeeks(date, weeks);
+  }
+
   subYears(date: Date, years: number): Date {
     return DateFns.subYears(date, years);
   }
@@ -225,5 +229,13 @@ export class DateFnsAdapter implements DateFacadePort {
 
   subHours(date: Date, hours: number): Date {
     return DateFns.subHours(date, hours);
+  }
+
+  eachWeekOfInterval(start: Date, end: Date): Date[] {
+    return DateFns.eachWeekOfInterval({ start, end });
+  }
+
+  endOfWeek(date: Date): Date {
+    return DateFns.endOfWeek(date, { weekStartsOn: 1 });
   }
 }

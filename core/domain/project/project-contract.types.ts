@@ -276,7 +276,7 @@ export type GetProjectGoodFirstIssuesModel = Omit<GetProjectGoodFirstIssuesRespo
 };
 
 type GetProjectGoodFirstIssuesPathParams = operations["getProjectGoodFirstIssues"]["parameters"]["path"];
-export type GetProjectGoodFirstIssuesQueryParams = operations["getProjectGoodFirstIssues"]["parameters"]["query"];
+type GetProjectGoodFirstIssuesQueryParams = operations["getProjectGoodFirstIssues"]["parameters"]["query"];
 
 export type GetProjectGoodFirstIssuesPortResponse = HttpStorageResponse<GetProjectGoodFirstIssuesModel>;
 
@@ -312,7 +312,7 @@ export type GetProjectRewardsV2Model = Omit<GetProjectRewardsV2Response, "reward
 };
 
 type GetProjectRewardsV2PathParams = operations["getProjectRewardsV2"]["parameters"]["path"];
-export type GetProjectRewardsV2QueryParams = operations["getProjectRewardsV2"]["parameters"]["query"];
+type GetProjectRewardsV2QueryParams = operations["getProjectRewardsV2"]["parameters"]["query"];
 
 export type GetProjectRewardsV2PortResponse = HttpStorageResponse<GetProjectRewardsV2Model>;
 

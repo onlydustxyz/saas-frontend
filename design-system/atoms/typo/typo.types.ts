@@ -4,9 +4,9 @@ import { COLORS } from "@/shared/theme/colors";
 import { Translate } from "@/shared/translation/components/translate/translate";
 
 export type TypoSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
-export type TypoAlign = "left" | "center" | "right";
-export type TypoVariant = "text" | "heading";
-export type TypoWeight = "regular" | "medium" | "semibold" | "bold";
+type TypoAlign = "left" | "center" | "right";
+type TypoVariant = "text" | "heading";
+type TypoWeight = "regular" | "medium" | "semibold" | "bold";
 
 interface Variants {
   weight: TypoWeight;

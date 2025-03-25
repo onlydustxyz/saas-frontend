@@ -1,3 +1,3 @@
-export function CardGithubRepoLoading() {
+function CardGithubRepoLoading() {
   return <div />;
 }

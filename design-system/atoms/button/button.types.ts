@@ -8,11 +8,10 @@ import { TranslateProps } from "@/shared/translation/components/translate/transl
 
 import { TooltipPort } from "../tooltip";
 
-export type ButtonSize = "xs" | "sm" | "md" | "lg";
+type ButtonSize = "xs" | "sm" | "md" | "lg";
 export type ButtonSolidVariant = "primary" | "secondary" | "tertiary";
-export type ButtonSolidTheme = "primary" | "destructive";
-export type ButtonTextSize = "xs" | "md" | "lg";
-export type ButtonTextVariant = "primary" | "secondary";
+type ButtonSolidTheme = "primary" | "destructive";
+type ButtonTextVariant = "primary" | "secondary";
 
 interface Variants {
   isDisabled: boolean;
@@ -47,7 +46,7 @@ export interface ButtonDefaultPort<C extends ElementType> extends Partial<Varian
   isLoading?: boolean;
 }
 
-export interface ButtonBaseDefaultPort<C extends ElementType> extends ButtonDefaultPort<C> {
+interface ButtonBaseDefaultPort<C extends ElementType> extends ButtonDefaultPort<C> {
   theme?: ButtonSolidTheme;
 }
 

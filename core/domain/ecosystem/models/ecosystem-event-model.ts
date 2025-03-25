@@ -1,7 +1,7 @@
 import { bootstrap } from "@/core/bootstrap";
 import { components } from "@/core/infrastructure/marketplace-api-client-adapter/__generated/api";
 
-export type EcosystemEventResponse = components["schemas"]["EcosystemEventResponse"];
+type EcosystemEventResponse = components["schemas"]["EcosystemEventResponse"];
 
 export interface EcosystemEventInterface extends EcosystemEventResponse {
   isComingSoon(): boolean;

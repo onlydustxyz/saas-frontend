@@ -16,7 +16,7 @@ import { BillingProfileInvoiceInterface } from "./models/billing-profile-invoice
 
 export type GetBillingProfileByIdResponse = components["schemas"]["BillingProfileResponse"];
 
-export type GetBillingProfileByIdModel = BillingProfileInterface;
+type GetBillingProfileByIdModel = BillingProfileInterface;
 
 type GetBillingProfileByIdPathParams = operations["getBillingProfile"]["parameters"]["path"];
 
@@ -30,7 +30,7 @@ export type GetBillingProfileByIdPortResponse = HttpStorageResponse<GetBillingPr
 
 export type GetBillingProfilePayoutInfoByIdResponse = components["schemas"]["BillingProfilePayoutInfoResponse"];
 
-export type GetBillingProfilePayoutInfoByIdModel = BillingProfilePayoutInfoInterface;
+type GetBillingProfilePayoutInfoByIdModel = BillingProfilePayoutInfoInterface;
 
 type GetBillingProfilePayoutInfoByIdPathParams = operations["getPayoutInfo"]["parameters"]["path"];
 
@@ -44,7 +44,7 @@ export type GetBillingProfilePayoutInfoByIdPortResponse = HttpStorageResponse<Ge
 
 export type GetBillingProfileInvoicePreviewByIdResponse = components["schemas"]["InvoicePreviewResponse"];
 
-export type GetBillingProfileInvoicePreviewByIdModel = BillingProfileInvoicePreviewInterface;
+type GetBillingProfileInvoicePreviewByIdModel = BillingProfileInvoicePreviewInterface;
 
 type GetBillingProfileInvoicePreviewByIdPathParams = operations["previewNewInvoiceForRewardIds"]["parameters"]["path"];
 type GetBillingProfileInvoicePreviewByIdQueryParams =

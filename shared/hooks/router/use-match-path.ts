@@ -2,7 +2,7 @@
 
 import { useParams, usePathname } from "next/navigation";
 
-export type MatchPathOptions = {
+type MatchPathOptions = {
   exact?: boolean;
 };
 

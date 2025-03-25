@@ -19,7 +19,7 @@ interface GlobalDataFilterContextInterface {
   params: string;
 }
 
-export const GlobalDataFilterContext = createContext<GlobalDataFilterContextInterface>({
+const GlobalDataFilterContext = createContext<GlobalDataFilterContextInterface>({
   selectedProgramAndEcosystem: [],
   setSelectedProgramAndEcosystem: () => {},
   period: { from: "", to: "", rangeType: DateRangeType.LAST_SEMESTER },

@@ -45,7 +45,7 @@ const queries: Record<
   },
 };
 
-export function useMediaQuery({
+function useMediaQuery({
   from,
   threshold = "min",
   to,
@@ -64,45 +64,10 @@ export function useMediaQuery({
 }
 
 /**
- * @greater: > 320px
- * @lower: < 320px
- * @exact: > 320px and < 800px
- */
-export function useIsMobile(type?: breakpointType) {
-  return useMediaQuery(queries.mobile[type || "greater"]);
-}
-
-/**
  * @greater: > 800px
  * @lower: < 800px
  * @exact: > 800px and < 1280px
  */
 export function useIsTablet(type?: breakpointType) {
   return useMediaQuery(queries.tablet[type || "greater"]);
-}
-
-/**
- * @greater: > 1280px
- * @lower: < 1280px
- * @exact: > 1280px and < 1440px
- */
-export function useIsLaptop(type?: breakpointType) {
-  return useMediaQuery(queries.laptop[type || "greater"]);
-}
-
-/**
- * @greater: > 1440px
- * @lower: < 1440px
- * @exact: > 1440px and < 2560px
- */
-export function useIsDesktop(type?: breakpointType) {
-  return useMediaQuery(queries.desktop[type || "greater"]);
-}
-
-/**
- * @greater: > 2560px
- * @lower: < 2560px
- */
-export function useIsWide(type?: breakpointType) {
-  return useMediaQuery(queries.wide[type || "greater"]);
 }

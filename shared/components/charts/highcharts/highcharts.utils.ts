@@ -7,7 +7,7 @@ export function isPieDataType(data: HighchartsSerieData[0]): data is PieDataType
   return (data as PieDataType).y !== undefined;
 }
 
-export function getPlotPeriodRange(currentDate: Date, timeGroupingType: TimeGroupingType) {
+function getPlotPeriodRange(currentDate: Date, timeGroupingType: TimeGroupingType) {
   const dateKernelPort = bootstrap.getDateKernelPort();
   switch (timeGroupingType) {
     case "DAY":

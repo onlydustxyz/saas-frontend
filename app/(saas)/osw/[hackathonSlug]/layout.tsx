@@ -5,6 +5,7 @@ import { HackathonEvents } from "@/app/(saas)/osw/[hackathonSlug]/_features/hack
 import { HackathonNavigation } from "@/app/(saas)/osw/[hackathonSlug]/_features/hackathon-navigation/hackathon-navigation";
 import { HackathonSummary } from "@/app/(saas)/osw/[hackathonSlug]/_features/hackathon-summary/hackathon-summary";
 import { AuthenticatedRegisterHackathon } from "@/app/(saas)/osw/_features/register-hackathon/register-hackathon";
+import { sharedMetadata } from "@/app/shared-metadata";
 
 import { Paper } from "@/design-system/atoms/paper/variants/paper-default";
 
@@ -12,13 +13,25 @@ import { GithubPermissionsProvider } from "@/shared/features/github-permissions/
 import { PageContainer } from "@/shared/features/page/page-container/page-container";
 
 export async function generateMetadata({ params }: { params: { hackathonSlug: string } }): Promise<Metadata> {
-  const hackathonSlug = params.hackathonSlug;
+  try {
+    const hackathonData = await fetch(
+      `https://${process.env.NEXT_PUBLIC_ONLYDUST_API_BASEPATH}/api/v2/hackathons/slug/${params.hackathonSlug}`
+    ).then(res => res.json());
 
-  return {
-    openGraph: {
-      images: [`https://previous.onlydust.com/hackathons/${hackathonSlug}/opengraph-image`],
-    },
-  };
+    return {
+      ...sharedMetadata,
+      title: `${hackathonData?.title} - OnlyDust`,
+      openGraph: {
+        ...sharedMetadata.openGraph,
+        title: `${hackathonData?.title} - OnlyDust`,
+      },
+      twitter: {
+        ...sharedMetadata.twitter,
+      },
+    };
+  } catch {
+    return sharedMetadata;
+  }
 }
 
 export default function HackathonsLayout({

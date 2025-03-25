@@ -14,7 +14,7 @@ export interface PayoutStatusContent {
   icon: IconPort;
 }
 
-export enum PayoutStatusEnum {
+enum PayoutStatusEnum {
   PENDING_SIGNUP = "PENDING_SIGNUP",
   PENDING_CONTRIBUTOR = "PENDING_CONTRIBUTOR",
   PENDING_BILLING_PROFILE = "PENDING_BILLING_PROFILE",
@@ -29,65 +29,63 @@ export enum PayoutStatusEnum {
   COMPLETE = "COMPLETE",
 }
 
-export type PayoutStatusUnion = `${PayoutStatusEnum}`;
-
-export const PayoutStatusMapping: Record<PayoutStatus, PayoutStatusContent> = {
-  PENDING_SIGNUP: {
+export const PayoutStatusMapping: Record<PayoutStatusEnum, PayoutStatusContent> = {
+  [PayoutStatusEnum.PENDING_SIGNUP]: {
     icon: { component: LogIn },
     label: "features:payoutStatus.statuses.pendingSignup",
     type: "error",
   },
-  PENDING_CONTRIBUTOR: {
+  [PayoutStatusEnum.PENDING_CONTRIBUTOR]: {
     icon: { component: Users },
     label: "features:payoutStatus.statuses.pendingContributor",
     type: "info",
   },
-  PENDING_BILLING_PROFILE: {
+  [PayoutStatusEnum.PENDING_BILLING_PROFILE]: {
     icon: { component: TriangleAlert },
     label: "features:payoutStatus.statuses.pendingBillingProfile",
     type: "warning",
   },
-  PENDING_COMPANY: {
+  [PayoutStatusEnum.PENDING_COMPANY]: {
     icon: { component: Building2 },
     label: "features:payoutStatus.statuses.pendingCompany",
     type: "warning",
   },
-  PENDING_VERIFICATION: {
+  [PayoutStatusEnum.PENDING_VERIFICATION]: {
     icon: { component: TriangleAlert },
     label: "features:payoutStatus.statuses.pendingVerification",
     type: "warning",
   },
-  GEO_BLOCKED: {
+  [PayoutStatusEnum.GEO_BLOCKED]: {
     icon: { component: TriangleAlert },
     label: "features:payoutStatus.statuses.geoBlocked",
     type: "error",
   },
-  INDIVIDUAL_LIMIT_REACHED: {
+  [PayoutStatusEnum.INDIVIDUAL_LIMIT_REACHED]: {
     icon: { component: TriangleAlert },
     label: "features:payoutStatus.statuses.individualLimitReached",
     type: "error",
   },
-  PAYOUT_INFO_MISSING: {
+  [PayoutStatusEnum.PAYOUT_INFO_MISSING]: {
     icon: { component: Wallet },
     label: "features:payoutStatus.statuses.payoutInfoMissing",
     type: "warning",
   },
-  LOCKED: {
+  [PayoutStatusEnum.LOCKED]: {
     icon: { component: Lock },
     label: "features:payoutStatus.statuses.locked",
     type: "info",
   },
-  PENDING_REQUEST: {
+  [PayoutStatusEnum.PENDING_REQUEST]: {
     icon: { component: Hourglass },
     label: "features:payoutStatus.statuses.pendingRequest",
     type: "info",
   },
-  PROCESSING: {
+  [PayoutStatusEnum.PROCESSING]: {
     icon: { component: Hourglass },
     label: "features:payoutStatus.statuses.processing",
     type: "info",
   },
-  COMPLETE: {
+  [PayoutStatusEnum.COMPLETE]: {
     icon: { component: Check },
     label: "features:payoutStatus.statuses.complete",
     type: "success",

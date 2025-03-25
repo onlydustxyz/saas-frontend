@@ -5,8 +5,8 @@ import { IconPort } from "@/design-system/atoms/icon";
 
 interface Variants {}
 
-export type TabVariant = "underline" | "solid" | "flat" | "brand";
-export type TabsSize = "sm" | "md";
+type TabVariant = "underline" | "solid" | "flat" | "brand";
+type TabsSize = "sm" | "md";
 
 interface DataAttributes {
   "data-hover"?: boolean;

@@ -7,7 +7,7 @@ import { AnyType } from "@/core/kernel/types";
 
 import { FilterDataContextInterface, FilterDataProviderProps } from "./filter-data.types";
 
-export const FilterDataContext = createContext<FilterDataContextInterface<AnyType>>({
+const FilterDataContext = createContext<FilterDataContextInterface<AnyType>>({
   filters: {},
   filterCount: 0,
   setFilters: () => {},

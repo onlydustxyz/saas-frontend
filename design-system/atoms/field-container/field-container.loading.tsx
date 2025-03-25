@@ -1,3 +1,3 @@
-export function FieldContainerLoading() {
+function FieldContainerLoading() {
   return <div />;
 }

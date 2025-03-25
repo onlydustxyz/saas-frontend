@@ -12,20 +12,12 @@ export const useClientOnly = () => {
   return mounted;
 };
 
-export function ClientOnly({ children }: PropsWithChildren) {
+function ClientOnly({ children }: PropsWithChildren) {
   const isClient = useClientOnly();
 
   if (!isClient) return null;
 
   return <>{children}</>;
-}
-
-export function PreRenderOnServer({ children }: PropsWithChildren) {
-  const isClient = useClientOnly();
-
-  if (!isClient) return <div className="hidden">{children}</div>;
-
-  return null;
 }
 
 export function withClientOnly<P extends object>(Component: ComponentType<P>) {

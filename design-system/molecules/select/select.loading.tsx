@@ -1,3 +1,3 @@
-export function SelectLoading() {
+function SelectLoading() {
   return <div />;
 }

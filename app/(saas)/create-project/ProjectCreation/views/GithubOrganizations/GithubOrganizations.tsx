@@ -60,5 +60,3 @@ export const GithubOrganizationPage = () => {
     </MultiStepsForm>
   );
 };
-
-export default GithubOrganizationPage;

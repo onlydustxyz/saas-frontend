@@ -1,3 +1,3 @@
-export function CardGithubOrganizationLoading() {
+function CardGithubOrganizationLoading() {
   return <div />;
 }
