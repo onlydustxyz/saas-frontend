@@ -62,7 +62,7 @@ export default function DiscoverPage() {
                   {projects.map(project => (
                     <Link
                       key={project.id}
-                      href={NEXT_ROUTER.projects.details.root(project.id)}
+                      href={NEXT_ROUTER.projects.details.root(project.slug)}
                       onClick={() =>
                         setRecommendedData({
                           for: project.slug,
