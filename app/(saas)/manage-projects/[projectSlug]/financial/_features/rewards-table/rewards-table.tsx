@@ -11,12 +11,10 @@ import { ProjectReactQueryAdapter } from "@/core/application/react-query-adapter
 import { RewardReactQueryAdapter } from "@/core/application/react-query-adapter/reward";
 import { GetProjectRewardsPortParams, GetProjectRewardsQueryParams } from "@/core/domain/reward/reward-contract.types";
 
-import { Typo } from "@/design-system/atoms/typo";
 import { Table, TableLoading } from "@/design-system/molecules/table";
 import { TableSearch } from "@/design-system/molecules/table-search";
 
 import { ErrorState } from "@/shared/components/error-state/error-state";
-import { ScrollView } from "@/shared/components/scroll-view/scroll-view";
 import { ShowMore } from "@/shared/components/show-more/show-more";
 import { TABLE_DEFAULT_COLUMN } from "@/shared/constants/table";
 import { FilterButton } from "@/shared/features/filters/_components/filter-button/filter-button";
@@ -77,7 +75,6 @@ export function RewardsTable() {
   const isError = isErrorProjectData || isErrorProjectRewardsData;
 
   const rewards = useMemo(() => projectRewardsData?.pages.flatMap(page => page.rewards) ?? [], [projectRewardsData]);
-  const totalItemNumber = useMemo(() => projectRewardsData?.pages[0].totalItemNumber, [projectRewardsData]);
 
   const table = useReactTable({
     data: rewards,
@@ -103,13 +100,14 @@ export function RewardsTable() {
 
   return (
     <FilterDataProvider filters={filters} setFilters={setFilters}>
-      <div className={"flex h-full flex-col gap-lg overflow-hidden"}>
+      <div className={"flex h-full flex-col gap-lg"}>
         <nav className={"flex gap-md"}>
           <FilterButton onClick={openFilterPanel} />
           <TableSearch value={search} onChange={setSearch} onDebouncedChange={setDebouncedSearch} />
           <FilterColumns selectedIds={selectedIds} setSelectedIds={setSelectedIds} />
         </nav>
-        <ScrollView direction={"all"}>
+
+        <div className={"overflow-x-auto"}>
           <Table
             table={table}
             header={{
@@ -118,18 +116,9 @@ export function RewardsTable() {
             rows={table.getRowModel().rows}
           />
           {hasNextPage ? <ShowMore onNext={fetchNextPage} loading={isFetchingNextPage} /> : null}
-        </ScrollView>
-        <div className="flex gap-2">
-          <Typo
-            size={"sm"}
-            color={"secondary"}
-            translate={{ token: "manageProjects:detail.rewardsTable.rewardsCount" }}
-          />
-          <Typo size={"sm"} color={"primary"}>
-            {totalItemNumber}
-          </Typo>
         </div>
       </div>
+
       <FilterData />
     </FilterDataProvider>
   );

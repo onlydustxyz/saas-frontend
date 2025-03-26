@@ -29,7 +29,16 @@ export function AccordionIgnoredContributors({
       options: { enabled: !!contributionId },
     });
 
-  const applicants = useMemo(() => data?.pages.flatMap(page => page.applicants) ?? [], [data]);
+  const applicants = useMemo(
+    () =>
+      data?.pages.flatMap(page =>
+        page.applicants.map(applicant => ({
+          ...applicant,
+          isIgnored: true,
+        }))
+      ) ?? [],
+    [data]
+  );
   const totalItemNumber = useMemo(() => data?.pages[0].totalItemNumber ?? 0, [data]);
 
   const table = useReactTable({

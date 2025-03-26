@@ -28,7 +28,7 @@ function MyDashboardRewardsPage() {
           },
         ]}
       />
-      <div className="flex h-full flex-col gap-lg overflow-hidden">
+      <div className="flex h-full flex-col gap-lg">
         <BudgetAvailableCards />
         <RewardsTable />
       </div>

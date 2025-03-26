@@ -14,7 +14,6 @@ export * from "./use-get-project-rewards-v2";
 export * from "./use-get-project-stats";
 export * from "./use-get-project-transactions";
 export * from "./use-get-project-transactions-csv";
-export * from "./use-get-projects";
 export * from "./use-get-projects-v2";
 export * from "./use-get-similar-projects";
 export * from "./use-unassign-contributor-from-project-contribution";

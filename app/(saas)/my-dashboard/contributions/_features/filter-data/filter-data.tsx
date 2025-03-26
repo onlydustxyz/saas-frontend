@@ -44,11 +44,7 @@ export function FilterData() {
       />
 
       <SidePanelBody>
-        <ProjectFilter
-          selectedProjects={filters.projectIds}
-          onSelect={projectIds => setFilters({ projectIds })}
-          mine={false}
-        />
+        <ProjectFilter selectedProjects={filters.projectIds} onSelect={projectIds => setFilters({ projectIds })} />
         <RewardedFilter
           selectedRewardedType={getSelectedRewardedType(filters.hasBeenRewarded)}
           onSelect={(rewardedType: string[]) => handleSelect(rewardedType, setFilters)}

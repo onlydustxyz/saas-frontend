@@ -7,7 +7,7 @@ import { BiStatsFinancialsResponse } from "@/core/domain/bi/models/bi-stats-fina
 export function useBudgetInTimeChart(stats?: GetBiStatsFinancialsModel["stats"]) {
   const dateKernelPort = bootstrap.getDateKernelPort();
 
-  const categories = stats?.map(stat => dateKernelPort.format(new Date(stat.date), "MMMM yyyy")) ?? [];
+  const categories = stats?.map(stat => dateKernelPort.format(new Date(`${stat.date}T00:00:00`), "MMMM yyyy")) ?? [];
 
   const calculateSeries = (key: keyof BiStatsFinancialsResponse) => {
     return stats?.map(stat => stat?.getStatTotalUsdEquivalent(key)) ?? [];

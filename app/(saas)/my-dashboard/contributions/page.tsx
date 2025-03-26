@@ -36,6 +36,7 @@ function MyDashboardContributionsPage() {
     types: ["ISSUE", "PULL_REQUEST"],
     sort: "UPDATED_AT",
     sortDirection: "DESC",
+    dataSource: "ONLYDUST",
     ...filters,
   };
 

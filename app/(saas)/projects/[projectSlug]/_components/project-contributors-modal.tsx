@@ -54,7 +54,11 @@ export function ProjectAsideContributorsModal({
       <>
         {contributors.map(contributor => (
           <li key={contributor.login}>
-            <Link href={NEXT_ROUTER.users.details.root(contributor.login)} className="flex w-fit items-center gap-2">
+            <Link
+              href={NEXT_ROUTER.users.details.root(contributor.login)}
+              className="flex w-fit items-center gap-2"
+              prefetch
+            >
               <Avatar>
                 <AvatarImage src={contributor.avatarUrl} alt={contributor.login} />
                 <AvatarFallback>{contributor.login.charAt(0)}</AvatarFallback>

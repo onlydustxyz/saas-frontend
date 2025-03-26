@@ -1,7 +1,6 @@
 import { ProjectContributorLabelsInterface } from "@/core/domain/project/models/project-contributor-labels-model";
 import { ProjectFinancialInterface } from "@/core/domain/project/models/project-financial-model";
 import { ProjectGoodFirstIssuesInterface } from "@/core/domain/project/models/project-good-first-issues-model";
-import { ProjectListItemInterface } from "@/core/domain/project/models/project-list-item-model";
 import { ProjectInterface } from "@/core/domain/project/models/project-model";
 import { ProjectProgramListItemInterface } from "@/core/domain/project/models/project-program-list-item";
 import { ProjectTransactionInterface } from "@/core/domain/project/models/project-transaction-model";
@@ -47,18 +46,6 @@ export type GetProjectStatsPortParams = HttpClientParameters<{
   QueryParams: GetProjectStatsQueryParams;
   PathParams: GetProjectStatsPathParams;
 }>;
-
-/* ------------------------------ Get Projects ------------------------------ */
-export type GetProjectsResponse = components["schemas"]["ProjectPageResponse"];
-export type GetProjectsModel = Omit<GetProjectsResponse, "projects"> & {
-  projects: ProjectListItemInterface[];
-};
-
-type GetProjectsQueryParams = operations["getProjects"]["parameters"]["query"];
-
-export type GetProjectsPortResponse = HttpStorageResponse<GetProjectsModel>;
-
-export type GetProjectsPortParams = HttpClientParameters<{ QueryParams: GetProjectsQueryParams }>;
 
 /* --------------------- Upload project logo --------------------- */
 

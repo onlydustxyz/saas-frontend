@@ -11,7 +11,6 @@ import { Table, TableLoading } from "@/design-system/molecules/table";
 
 import { withClientOnly } from "@/shared/components/client-only/client-only";
 import { ErrorState } from "@/shared/components/error-state/error-state";
-import { ScrollView } from "@/shared/components/scroll-view/scroll-view";
 import { ShowMore } from "@/shared/components/show-more/show-more";
 import { NEXT_ROUTER } from "@/shared/constants/router";
 import { TABLE_DEFAULT_COLUMN } from "@/shared/constants/table";
@@ -44,7 +43,7 @@ function MyDashboardProjectsPage() {
   }
 
   return (
-    <div>
+    <div className={"overflow-x-auto"}>
       <NavigationBreadcrumb
         breadcrumb={[
           {
@@ -58,19 +57,18 @@ function MyDashboardProjectsPage() {
           },
         ]}
       />
-      <ScrollView direction={"all"}>
-        <Table
-          table={table}
-          header={{
-            headerGroups: table.getHeaderGroups(),
-          }}
-          rows={table.getRowModel().rows}
-          // onRowClick={row => {
-          //   router.push(NEXT_ROUTER.manageProjects.details.root(row.original.slug));
-          // }}
-        />
-        {hasNextPage ? <ShowMore onNext={fetchNextPage} loading={isFetchingNextPage} /> : null}
-      </ScrollView>
+
+      <Table
+        table={table}
+        header={{
+          headerGroups: table.getHeaderGroups(),
+        }}
+        rows={table.getRowModel().rows}
+        // onRowClick={row => {
+        //   router.push(NEXT_ROUTER.manageProjects.details.root(row.original.slug));
+        // }}
+      />
+      {hasNextPage ? <ShowMore onNext={fetchNextPage} loading={isFetchingNextPage} /> : null}
     </div>
   );
 }

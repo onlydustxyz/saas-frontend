@@ -11,7 +11,7 @@ import { CategoryFilter } from "@/shared/features/filters/category-filter/catego
 import { ContributionsActivityFilter } from "@/shared/features/filters/contributions-activity-filter/contributions-activity-filter";
 import { EngagementStatusesFilter } from "@/shared/features/filters/engagement-statuses-filter/engagement-statuses-filter";
 import { LanguageFilter } from "@/shared/features/filters/language-filter/language-filter";
-import { ProjectFilter } from "@/shared/features/filters/project-filter/project-filter";
+import { MaintainedProjectFilter } from "@/shared/features/filters/maintained-project-filter/maintained-project-filter";
 import {
   getQuantityFilterAmount,
   getQuantityFilterType,
@@ -40,7 +40,10 @@ export function FilterData() {
         canClose={true}
       />
       <SidePanelBody>
-        <ProjectFilter selectedProjects={filters.projectIds} onSelect={projectIds => setFilters({ projectIds })} />
+        <MaintainedProjectFilter
+          selectedProjects={filters.projectIds}
+          onSelect={projectIds => setFilters({ projectIds })}
+        />
         <CategoryFilter
           selectedCategories={filters.categoryIds}
           onSelect={categories => setFilters({ categoryIds: categories })}

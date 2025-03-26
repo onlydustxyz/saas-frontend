@@ -13,14 +13,26 @@ export function buildCategories({
 }) {
   const dateKernelPort = bootstrap.getDateKernelPort();
   if (timeGroupingType === TimeGroupingType.DAY || timeGroupingType === TimeGroupingType.WEEK) {
-    return stats?.map(stat => dateKernelPort.format(new Date(stat.timestamp), "yyyy-MM-dd")) ?? [];
+    return (
+      stats?.map(stat =>
+        dateKernelPort.format(new Date(stat.timestamp.substring(0, stat.timestamp.length - 1)), "yyyy-MM-dd")
+      ) ?? []
+    );
   }
 
   if (timeGroupingType === TimeGroupingType.YEAR) {
-    return stats?.map(stat => dateKernelPort.format(new Date(stat.timestamp), "yyyy")) ?? [];
+    return (
+      stats?.map(stat =>
+        dateKernelPort.format(new Date(stat.timestamp.substring(0, stat.timestamp.length - 1)), "yyyy")
+      ) ?? []
+    );
   }
 
-  return stats?.map(stat => dateKernelPort.format(new Date(stat.timestamp), "MMMM yyyy")) ?? [];
+  return (
+    stats?.map(stat =>
+      dateKernelPort.format(new Date(stat.timestamp.substring(0, stat.timestamp.length - 1)), "MMMM yyyy")
+    ) ?? []
+  );
 }
 
 export function isSplineType(value: string): value is SplineType {

@@ -25,7 +25,7 @@ export function AccordionNewContributors({
   const { data, isLoading, isError, hasNextPage, fetchNextPage, isFetchingNextPage } =
     IssueReactQueryAdapter.client.useGetIssueApplicants({
       pathParams: { contributionUuid: contributionId },
-      queryParams: { ...queryParams, isApplicantProjectMember: false },
+      queryParams: { ...queryParams, isApplicantProjectMember: false, isIgnored: false },
       options: { enabled: !!contributionId },
     });
 

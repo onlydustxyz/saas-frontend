@@ -1,5 +1,5 @@
 import { ColumnDef, SortingState, createColumnHelper } from "@tanstack/react-table";
-import { CircleCheck, CircleX } from "lucide-react";
+import { CircleCheck, CircleX, Undo2 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import Flag from "react-flagpack";
 import { useTranslation } from "react-i18next";
@@ -28,11 +28,15 @@ import {
 } from "@/shared/modals/manage-applicants-modal/_components/applicants-table/_components/filter-columns/filter-columns.types";
 import { Translate } from "@/shared/translation/components/translate/translate";
 
+interface IssueApplicantInterfaceWithIgnored extends IssueApplicantInterface {
+  isIgnored: boolean;
+}
+
 export function useFilterColumns({ projectId, onAssign, repoId }: FilterColumnsHookProps) {
   const { t } = useTranslation();
 
   const moneyKernelPort = bootstrap.getMoneyKernelPort();
-  const columnHelper = createColumnHelper<IssueApplicantInterface>();
+  const columnHelper = createColumnHelper<IssueApplicantInterfaceWithIgnored>();
 
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -260,7 +264,7 @@ export function useFilterColumns({ projectId, onAssign, repoId }: FilterColumnsH
       enableResizing: false,
       header: () => <Translate token={"programs:list.content.table.columns.actions"} />,
       cell: info => {
-        const { applicationId } = info.row.original;
+        const { applicationId, isIgnored = false } = info.row.original;
 
         if (!applicationId) return null;
 
@@ -275,18 +279,31 @@ export function useFilterColumns({ projectId, onAssign, repoId }: FilterColumnsH
                 },
               }}
             >
-              {({ accept, ignore, isUpdating, isDisabled }) => (
+              {({ accept, ignore, unignore, isUpdating, isDisabled }) => (
                 <>
-                  <Button
-                    startIcon={{ component: CircleX }}
-                    variant={"secondary"}
-                    size={"sm"}
-                    onClick={ignore}
-                    isLoading={isUpdating}
-                    isDisabled={isDisabled}
-                  >
-                    <Translate token={"modals:manageApplicants.table.rows.ignore"} />
-                  </Button>
+                  {!isIgnored ? (
+                    <Button
+                      startIcon={{ component: CircleX }}
+                      variant="secondary"
+                      size="sm"
+                      onClick={ignore}
+                      isLoading={isUpdating}
+                      isDisabled={isDisabled}
+                    >
+                      <Translate token={"modals:manageApplicants.table.rows.ignore"} />
+                    </Button>
+                  ) : (
+                    <Button
+                      startIcon={{ component: Undo2 }}
+                      variant="secondary"
+                      size="sm"
+                      onClick={unignore}
+                      isLoading={isUpdating}
+                      isDisabled={isDisabled}
+                    >
+                      Unignore
+                    </Button>
+                  )}
 
                   <Button
                     startIcon={{ component: CircleCheck }}

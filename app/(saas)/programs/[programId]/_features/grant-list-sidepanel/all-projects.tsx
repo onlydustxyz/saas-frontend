@@ -16,10 +16,10 @@ export function AllProjects({
   queryParams,
 }: {
   programId: string;
-  queryParams: FirstParameter<typeof ProjectReactQueryAdapter.client.useGetProjects>["queryParams"];
+  queryParams: FirstParameter<typeof ProjectReactQueryAdapter.client.useGetProjectsV2>["queryParams"];
 }) {
   const { data, isLoading, isError, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    ProjectReactQueryAdapter.client.useGetProjects({
+    ProjectReactQueryAdapter.client.useGetProjectsV2({
       queryParams,
     });
   const allProjects = useMemo(() => data?.pages.flatMap(page => page.projects) ?? [], [data]);

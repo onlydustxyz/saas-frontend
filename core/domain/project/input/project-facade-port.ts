@@ -34,8 +34,6 @@ import {
   GetProjectTransactionsCsvPortResponse,
   GetProjectTransactionsPortParams,
   GetProjectTransactionsPortResponse,
-  GetProjectsPortParams,
-  GetProjectsPortResponse,
   GetProjectsV2PortParams,
   GetProjectsV2PortResponse,
   GetSimilarProjectsLeaderboardPortParams,
@@ -61,7 +59,6 @@ import {
 export interface ProjectFacadePort {
   getProjectById(p: GetProjectByIdPortParams): GetProjectByIdPortResponse;
   getProjectStats(p: GetProjectStatsPortParams): GetProjectStatsPortResponse;
-  getProjects(p: GetProjectsPortParams): GetProjectsPortResponse;
   createProject(p: CreateProjectPortParams): CreateProjectPortResponse;
   editProject(p: EditProjectPortParams): EditProjectPortResponse;
   uploadProjectLogo(p: UploadProjectLogoPortParams): UploadProjectLogoPortResponse;

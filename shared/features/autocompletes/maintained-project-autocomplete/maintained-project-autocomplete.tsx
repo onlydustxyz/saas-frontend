@@ -1,15 +1,19 @@
 import { useMemo, useState } from "react";
 
-import { ProjectReactQueryAdapter } from "@/core/application/react-query-adapter/project";
+import { MeReactQueryAdapter } from "@/core/application/react-query-adapter/me";
 
 import { MenuItemId, MenuItemPort } from "@/design-system/molecules/menu-item";
 import { Select } from "@/design-system/molecules/select";
 
-import { ProjectAutocompleteProps } from "./project-autocomplete.types";
+import { MaintainedProjectAutocompleteProps } from "./maintained-project-autocomplete.types";
 
-export function ProjectAutocomplete({ onSelect, selectedProjects, ...selectProps }: ProjectAutocompleteProps) {
+export function MaintainedProjectAutocomplete({
+  onSelect,
+  selectedProjects,
+  ...selectProps
+}: MaintainedProjectAutocompleteProps) {
   const [search, setSearch] = useState("");
-  const { data, hasNextPage, fetchNextPage } = ProjectReactQueryAdapter.client.useGetProjectsV2({
+  const { data, hasNextPage, fetchNextPage } = MeReactQueryAdapter.client.useGetMyProjectsAsMaintainer({
     queryParams: {
       search: search || undefined,
     },

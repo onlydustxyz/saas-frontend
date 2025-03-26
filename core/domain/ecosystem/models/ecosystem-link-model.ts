@@ -9,9 +9,7 @@ export class EcosystemLink implements EcosystemLinkInterface {
   name!: EcosystemLinkInterface["name"];
   url!: EcosystemLinkInterface["url"];
   logoUrl!: EcosystemLinkInterface["logoUrl"];
-  bannerUrl!: EcosystemLinkInterface["bannerUrl"];
   slug!: EcosystemLinkInterface["slug"];
-  hidden!: EcosystemLinkInterface["hidden"];
 
   constructor(props: EcosystemLinkResponse) {
     Object.assign(this, props);

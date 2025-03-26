@@ -1,5 +1,5 @@
 
-export interface ProjectFilterProps {
+export interface MaintainedProjectFilterProps {
   selectedProjects?: string[];
   onSelect?: (projects: string[]) => void;
 }

@@ -6,7 +6,6 @@ import { ProjectContributorsV2 } from "@/core/domain/project/models/project-cont
 import { ProjectFinancial } from "@/core/domain/project/models/project-financial-model";
 import { ProjectGoodFirstIssues } from "@/core/domain/project/models/project-good-first-issues-model";
 import { ProjectLinkV2 } from "@/core/domain/project/models/project-link-v2";
-import { ProjectListItem } from "@/core/domain/project/models/project-list-item-model";
 import { ProjectListItemV2 } from "@/core/domain/project/models/project-list-item-model-v2";
 import { Project } from "@/core/domain/project/models/project-model";
 import { ProjectV2 } from "@/core/domain/project/models/project-model-v2";
@@ -35,7 +34,6 @@ import {
   GetProjectRewardsV2Response,
   GetProjectStatsResponse,
   GetProjectTransactionsResponse,
-  GetProjectsResponse,
   GetProjectsV2Response,
   GetSimilarProjectsLeaderboardResponse,
   GetSimilarProjectsResponse,
@@ -123,30 +121,6 @@ export class ProjectClientAdapter implements ProjectStoragePort {
       });
 
       return new ProjectStats(data);
-    };
-
-    return {
-      request,
-      tag,
-    };
-  };
-
-  getProjects = ({ queryParams }: FirstParameter<ProjectStoragePort["getProjects"]>) => {
-    const path = this.routes["getProjects"];
-    const method = "GET";
-    const tag = HttpClient.buildTag({ path, queryParams });
-    const request = async () => {
-      const data = await this.client.request<GetProjectsResponse>({
-        path,
-        method,
-        tag,
-        queryParams,
-      });
-
-      return {
-        ...data,
-        projects: data.projects.map(project => new ProjectListItem(project)),
-      };
     };
 
     return {

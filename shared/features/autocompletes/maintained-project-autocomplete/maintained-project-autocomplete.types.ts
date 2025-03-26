@@ -1,6 +1,6 @@
 import { SelectExtendedProps } from "@/design-system/molecules/select";
 
-export interface ProjectAutocompleteProps extends SelectExtendedProps {
+export interface MaintainedProjectAutocompleteProps extends SelectExtendedProps {
   selectedProjects?: string[];
   onSelect?: (project: string[]) => void;
 }

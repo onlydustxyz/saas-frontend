@@ -175,7 +175,7 @@ function Safe({ children, projectSlug }: PropsWithChildren<{ projectSlug: string
 
       <RepoIndexingAlert indexingComplete={data?.isIndexingCompleted() ?? true} />
 
-      <PageContent classNames={{ base: "tablet:overflow-hidden tablet:max-h-[calc(100vh-64px)] h-full" }}>
+      <PageContent>
         <div className="flex h-full flex-col gap-lg">
           <header className="flex flex-col justify-between gap-8">
             <PageHeader projectSlug={projectSlug} />

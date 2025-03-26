@@ -40,7 +40,7 @@ function ManageProgramsFinancialPage({ params: { projectSlug } }: { params: { pr
           },
         ]}
       />
-      <div className="flex h-full flex-col gap-lg overflow-hidden">
+      <div className="flex h-full flex-col gap-lg">
         <BudgetAvailableCards />
         <RewardsTable />
       </div>

@@ -70,6 +70,14 @@ const GlobalSearchContext = createContext<GlobalSearchContextInterface>({
   },
 });
 
+export function escapeSearchQuery(query: string): string {
+  // List of special characters to escape
+  const specialChars = /[.*+?^${}()|[\]\\]/g;
+
+  // Replace special characters with their escaped versions
+  return query.replace(specialChars, "\\$&");
+}
+
 function useSearchRequest(queryParams: SearchBody, type: SearchRessourceType, enabled: boolean) {
   return SearchReactQueryAdapter.client.useSearch({
     queryParams: {
@@ -168,7 +176,7 @@ export function GlobalSearchProvider({ children }: PropsWithChildren) {
   const queryParams = useMemo(
     () =>
       new SearchDto({
-        keyword: inputValue ?? "",
+        keyword: inputValue ? escapeSearchQuery(inputValue) : "",
         languages: filters.languages,
         ecosystems: filters.ecosystems,
         categories: filters.categories,

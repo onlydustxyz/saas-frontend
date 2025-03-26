@@ -34,8 +34,6 @@ import {
   GetProjectTransactionsCsvPortResponse,
   GetProjectTransactionsPortParams,
   GetProjectTransactionsPortResponse,
-  GetProjectsPortParams,
-  GetProjectsPortResponse,
   GetProjectsV2PortParams,
   GetProjectsV2PortResponse,
   GetSimilarProjectsLeaderboardPortParams,
@@ -62,7 +60,6 @@ export interface ProjectStoragePort {
   routes: Record<string, string>;
   getProjectById(p: GetProjectByIdPortParams): GetProjectByIdPortResponse;
   getProjectStats(p: GetProjectStatsPortParams): GetProjectStatsPortResponse;
-  getProjects(p: GetProjectsPortParams): GetProjectsPortResponse;
   createProject(p: CreateProjectPortParams): CreateProjectPortResponse;
   editProject(p: EditProjectPortParams): EditProjectPortResponse;
   uploadProjectLogo(p: UploadProjectLogoPortParams): UploadProjectLogoPortResponse;

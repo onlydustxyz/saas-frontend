@@ -6,6 +6,8 @@ type ProjectListItemResponseV2 = components["schemas"]["ProjectShortResponseV2"]
 
 export interface ProjectListItemInterfaceV2 extends ProjectListItemResponseV2 {
   categories: ProjectCategoryInterface[];
+
+  truncateDescription(max: number): string;
 }
 
 export class ProjectListItemV2 implements ProjectListItemInterfaceV2 {
@@ -29,5 +31,9 @@ export class ProjectListItemV2 implements ProjectListItemInterfaceV2 {
   constructor(props: ProjectListItemResponseV2) {
     Object.assign(this, props);
     this.categories = (props.categories || []).map(category => new ProjectCategory(category));
+  }
+
+  truncateDescription(max: number) {
+    return this.shortDescription.length > max ? `${this.shortDescription.slice(0, max)}...` : this.shortDescription;
   }
 }

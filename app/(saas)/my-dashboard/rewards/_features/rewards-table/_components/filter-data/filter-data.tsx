@@ -27,11 +27,7 @@ export function FilterData() {
         canClose={true}
       />
       <SidePanelBody>
-        <ProjectFilter
-          selectedProjects={filters.projectIds}
-          onSelect={projectIds => setFilters({ projectIds })}
-          mine={false}
-        />
+        <ProjectFilter selectedProjects={filters.projectIds} onSelect={projectIds => setFilters({ projectIds })} />
         <CurrencyFilter
           selectedCurrencies={filters.currencyIds}
           onSelect={currencyIds => setFilters({ currencyIds })}

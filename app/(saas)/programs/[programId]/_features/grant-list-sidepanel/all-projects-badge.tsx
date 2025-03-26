@@ -6,9 +6,9 @@ import { FirstParameter } from "@/core/kernel/types";
 export function AllProjectsBadge({
   queryParams,
 }: {
-  queryParams: FirstParameter<typeof ProjectReactQueryAdapter.client.useGetProjects>["queryParams"];
+  queryParams: FirstParameter<typeof ProjectReactQueryAdapter.client.useGetProjectsV2>["queryParams"];
 }) {
-  const { data } = ProjectReactQueryAdapter.client.useGetProjects({
+  const { data } = ProjectReactQueryAdapter.client.useGetProjectsV2({
     queryParams,
   });
 
