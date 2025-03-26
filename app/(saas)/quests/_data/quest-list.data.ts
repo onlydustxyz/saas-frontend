@@ -264,14 +264,14 @@ export const QuestListData: QuestList[] = [
     },
     wantedProfiles: {
       senior: {
-        provided: [],
+        provided: [119618121, 124844156],
         wanted: 2,
       },
     },
     requiredSkills: ["Nestjs", "Postgres"],
     startDate: "2025-03-25",
     endDate: "2025-04-01",
-    status: "application-open",
+    status: "started",
     issues: [],
     maintainers: [51526246],
   },
