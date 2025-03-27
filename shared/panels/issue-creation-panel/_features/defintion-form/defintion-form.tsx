@@ -3,6 +3,7 @@ import { UseFormReturn, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { GithubReactQueryAdapter } from "@/core/application/react-query-adapter/github";
 import { ProjectReactQueryAdapter } from "@/core/application/react-query-adapter/project";
 
 import { useGithubPermissionsContext } from "@/shared/features/github-permissions/github-permissions.context";
@@ -55,7 +56,15 @@ function TypeField({ form }: { form: UseFormReturn<z.infer<typeof formSchema>> }
 
 function RepoField({ form }: { form: UseFormReturn<z.infer<typeof formSchema>> }) {
   const { project } = useIssueCreationPanel();
-  const repo = project?.repos.map(repo => ({
+  const { data: userOrganizations } = GithubReactQueryAdapter.client.useGetMyOrganizations({});
+  const { organizations } = userOrganizations ?? {};
+
+  const filteredRepos = project?.repos.filter(repo => {
+    const relatedOrganization = organizations?.find(org => org.repos.find(r => r.id === repo.id));
+    return relatedOrganization;
+  });
+
+  const repo = filteredRepos?.map(repo => ({
     label: repo.name,
     value: repo.id,
   }));
