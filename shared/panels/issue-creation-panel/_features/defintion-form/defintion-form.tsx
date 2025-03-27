@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMemo } from "react";
 import { UseFormReturn, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -59,15 +60,20 @@ function RepoField({ form }: { form: UseFormReturn<z.infer<typeof formSchema>> }
   const { data: userOrganizations } = GithubReactQueryAdapter.client.useGetMyOrganizations({});
   const { organizations } = userOrganizations ?? {};
 
-  const filteredRepos = project?.repos.filter(repo => {
-    const relatedOrganization = organizations?.find(org => org.repos.find(r => r.id === repo.id));
-    return relatedOrganization;
-  });
+  const repos = useMemo(() => {
+    if (!project?.repos || !organizations) return [];
 
-  const repo = filteredRepos?.map(repo => ({
-    label: repo.name,
-    value: repo.id,
-  }));
+    return project.repos.map(repo => {
+      // Find the organization that contains this repo
+      const organization = organizations.find(org => org.repos.some(orgRepo => orgRepo.id === repo.id));
+
+      return {
+        label: repo.name,
+        value: repo.id,
+        disabled: !organization || organization.isMissingPermissions(),
+      };
+    });
+  }, [project?.repos, organizations]);
 
   return (
     <FormField
@@ -77,7 +83,10 @@ function RepoField({ form }: { form: UseFormReturn<z.infer<typeof formSchema>> }
         <FormItem className="w-full">
           <div className="flex flex-col space-y-1">
             <FormLabel>Repositories</FormLabel>
-            <FormDescription>Select the related project or repository.</FormDescription>
+            <FormDescription>
+              Select the related project or repository. Some repositories may be disabled if additional GitHub
+              permissions are needed. You can update your GitHub permissions by editing your project settings.
+            </FormDescription>
           </div>
           <FormControl>
             <Select
@@ -89,8 +98,8 @@ function RepoField({ form }: { form: UseFormReturn<z.infer<typeof formSchema>> }
                 <SelectValue placeholder="Select the repository" />
               </SelectTrigger>
               <SelectContent className="z-[9999]">
-                {repo?.map(repo => (
-                  <SelectItem key={repo.value} value={repo.value.toString()}>
+                {repos.map(repo => (
+                  <SelectItem key={repo.value} value={repo.value.toString()} disabled={repo.disabled}>
                     {repo.label}
                   </SelectItem>
                 ))}
