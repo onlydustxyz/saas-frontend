@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Children, PropsWithChildren, ReactElement } from "react";
+import { Children, PropsWithChildren, ReactElement, useState } from "react";
+import { useDebounce } from "react-use";
 
 import { Skeleton } from "@/design-system/atoms/skeleton";
 
@@ -17,10 +18,19 @@ export function RenderComponent({
 }: PropsWithChildren<RenderComponentProps>) {
   const array = Children.toArray(children) as ReactElement[];
 
+  const [debouncedIsLoading, setDebouncedIsLoading] = useState<boolean>(isLoading ?? false);
   const findLoading = array.find(c => c.type === RenderComponent.Loading);
   const findError = array.find(c => c.type === RenderComponent.Error);
   const findEmpty = array.find(c => c.type === RenderComponent.Empty);
   const findDefault = array.find(c => c.type === RenderComponent.Default);
+
+  useDebounce(
+    () => {
+      setDebouncedIsLoading(isLoading ?? false);
+    },
+    800,
+    [isLoading]
+  );
 
   function renderEmpty() {
     if (isEmpty && findEmpty && !isLoading && !isError) {
@@ -59,15 +69,25 @@ export function RenderComponent({
   }
 
   function renderLoading() {
-    if (isLoading && findLoading) {
-      return findLoading?.props.children;
+    if (debouncedIsLoading && findLoading) {
+      return (
+        <motion.div
+          initial={{ opacity: 1 }}
+          animate={{ opacity: isLoading ? 1 : 0 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8 }}
+          className={cn(classNames?.loading)}
+        >
+          {findLoading?.props.children}
+        </motion.div>
+      );
     }
 
     return null;
   }
 
   function renderDefault() {
-    if (isLoading || isError || isEmpty) {
+    if (isLoading || debouncedIsLoading || isError || isEmpty) {
       return null;
     }
 
@@ -77,7 +97,7 @@ export function RenderComponent({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.8 }}
-        className={classNames?.default}
+        className={cn("relative", classNames?.default)}
       >
         {findDefault?.props.children}
       </motion.div>

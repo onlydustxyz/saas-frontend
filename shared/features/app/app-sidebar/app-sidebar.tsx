@@ -8,13 +8,15 @@ import { ExploreGroup } from "@/shared/features/app/app-sidebar/groups/explore-g
 import { MaintainerGroup } from "@/shared/features/app/app-sidebar/groups/maintainer-group";
 import { ProgramGroup } from "@/shared/features/app/app-sidebar/groups/program-group";
 import { SponsorGroup } from "@/shared/features/app/app-sidebar/groups/sponsor-group";
+import { useAuthUser } from "@/shared/hooks/auth/use-auth-user";
 import { Sidebar, SidebarContent, SidebarHeader, SidebarRail, useSidebar } from "@/shared/ui/sidebar";
 
+import { RenderComponent } from "../../render-component/render-component";
 import { BookmarksGroup } from "./groups/bookmarks-group";
 
 export function AppSidebar() {
   const { state } = useSidebar();
-
+  const { isLoading } = useAuthUser();
   const isCollapsed = state === "collapsed";
 
   return (
@@ -30,17 +32,21 @@ export function AppSidebar() {
       <SidebarContent>
         <ExploreGroup />
 
-        <ContributorGroup />
+        <RenderComponent isLoading={isLoading}>
+          <RenderComponent.Default>
+            <ContributorGroup />
 
-        <DataGroup />
+            <DataGroup />
 
-        <MaintainerGroup />
+            <MaintainerGroup />
 
-        <ProgramGroup />
+            <ProgramGroup />
 
-        <SponsorGroup />
+            <SponsorGroup />
 
-        <BookmarksGroup />
+            <BookmarksGroup />
+          </RenderComponent.Default>
+        </RenderComponent>
       </SidebarContent>
 
       <SidebarRail />
