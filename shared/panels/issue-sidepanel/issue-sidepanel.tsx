@@ -11,6 +11,9 @@ import { ApplicationReactQueryAdapter } from "@/core/application/react-query-ada
 import { ContributionReactQueryAdapter } from "@/core/application/react-query-adapter/contribution";
 import { IssueReactQueryAdapter } from "@/core/application/react-query-adapter/issue";
 import { MeReactQueryAdapter } from "@/core/application/react-query-adapter/me";
+import { ContributionActivityInterface } from "@/core/domain/contribution/models/contribution-activity-model";
+import { Issue } from "@/core/domain/issue/models/issue-model";
+import { Me } from "@/core/domain/me/models/me-model";
 
 import { useGithubPermissionsContext } from "@/shared/features/github-permissions/github-permissions.context";
 import { ApplyCounter } from "@/shared/features/issues/apply-counter/apply-counter";
@@ -41,40 +44,6 @@ export function IssueSidepanel({
 }: PropsWithChildren<{ projectId: string; issueId?: number; contributionUuid?: string }>) {
   const [open, setOpen] = useState(false);
 
-  return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>{children}</SheetTrigger>
-
-      <SheetContent className="h-full">
-        <AnimatePresence>
-          {open && (
-            <Content
-              projectId={projectId}
-              issueId={issueId}
-              contributionUuid={contributionUuid}
-              onClose={() => setOpen(false)}
-            />
-          )}
-        </AnimatePresence>
-      </SheetContent>
-    </Sheet>
-  );
-}
-
-function Content({
-  projectId,
-  issueId = 0,
-  contributionUuid = "",
-  onClose,
-}: {
-  projectId: string;
-  issueId?: number;
-  contributionUuid?: string;
-  onClose: () => void;
-}) {
-  const [canApply, setCanApply] = useState(false);
-  const [shouldDeleteComment, setShouldDeleteComment] = useState<CheckedState>(false);
-
   const {
     data: issueData,
     isLoading: isIssueLoading,
@@ -93,22 +62,75 @@ function Content({
     options: { enabled: Boolean(contributionUuid) },
   });
 
-  const { getForProject } = useRecommendedState();
-
   const isLoading = isIssueLoading || isContributionLoading;
-
   const isError = isIssueError || isContributionError;
+  const issue = issueData ? new Issue(issueData) : contribution ? new Issue(issueFromContribution(contribution)) : undefined;
 
-  const issue = issueData ? issueData : contribution ? issueFromContribution(contribution) : undefined;
+  if (isLoading) return <SheetLoading />;
+  if (!issue || isError) return <SheetError />;
 
-  const isHackathon = Boolean(issue?.hackathon?.id) || Boolean(contribution?.isIncludedInLiveHackathon);
+  return (
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>{children}</SheetTrigger>
+
+      <SheetContent 
+        className="h-full"
+        customHeader={
+          <Header 
+            issueNumber={issue.number} 
+            issueStatus={issue.status} 
+            issueTitle={issue.title} 
+            githubUrl={issue.htmlUrl}
+            createdAt={issue.createdAt}
+            author={issue.author}
+          />
+        }
+      >
+        <AnimatePresence>
+          {open && (
+            <Content
+              projectId={projectId}
+              issue={issue}
+              contribution={contribution}
+              onClose={() => setOpen(false)}
+            />
+          )}
+        </AnimatePresence>
+      </SheetContent>
+    </Sheet>
+  );
+}
+
+function Content({
+  projectId,
+  issue,
+  contribution,
+  onClose,
+}: {
+  projectId: string;
+  issue: Issue;
+  contribution?: ContributionActivityInterface;
+  onClose: () => void;
+}) {
+  const [canApply, setCanApply] = useState(false);
+  const [shouldDeleteComment, setShouldDeleteComment] = useState<CheckedState>(false);
+
+  const isHackathon = Boolean(contribution?.isIncludedInLiveHackathon);
 
   const { capture } = usePosthog();
   const { user } = useAuthUser();
+  const { getForProject } = useRecommendedState();
 
-  const isAssigned = issue?.assignees?.some(assignee => assignee.githubUserId === user?.githubUserId) ?? false;
+  type GithubUser = { githubUserId: string };
+  type Application = { id: string; issue: { id: string }; githubComment?: string };
 
-  const currentUserApplication = user?.pendingApplications?.find(application => application.issue?.id === issue?.id);
+  const isAssigned = issue.assignees?.some(
+    (assignee: GithubUser) => assignee.githubUserId === (user as unknown as GithubUser)?.githubUserId
+  ) ?? false;
+
+  const currentUserApplication = (user as unknown as { pendingApplications?: Application[] })?.pendingApplications?.find(
+    (application: Application) => application.issue?.id === issue.id
+  );
 
   const hasCurrentUserApplication = Boolean(currentUserApplication);
 
@@ -164,7 +186,7 @@ function Content({
 
   useEffect(() => {
     form.reset({
-      githubComment: currentUserApplication ? currentUserApplication?.githubComment : prefillLabel(),
+      githubComment: currentUserApplication?.githubComment ?? prefillLabel(),
     });
   }, [currentUserApplication]);
 
@@ -177,26 +199,21 @@ function Content({
   async function handleCreate(values: IssueSidepanelFormSchema) {
     if (isMaxApplicationsOnLiveHackathonReached) return;
 
-    const applicationProjectId = issue?.project?.id ?? projectId;
-    const applicationIssueId = issue?.id ?? issueId;
-
-    if (!applicationProjectId || !applicationIssueId) return;
-
     try {
-      const recommendedData = getForProject(issue?.project?.slug);
+      const recommendedData = getForProject(issue.repo?.name);
 
       await createApplication({
-        projectId: applicationProjectId,
-        issueId: applicationIssueId,
+        projectId,
+        issueId: issue.id,
         githubComment: values.githubComment,
       });
 
       capture("issue_apply_from_saas", {
-        project_slug: issue?.project?.slug,
-        issue_id: issue?.id,
-        issue_number: issue?.number,
-        issue_title: issue?.title,
-        issue_url: issue?.htmlUrl,
+        project_slug: issue.repo?.name,
+        issue_id: issue.id,
+        issue_number: issue.number,
+        issue_title: issue.title,
+        issue_url: issue.htmlUrl,
         is_recommended: Boolean(recommendedData),
         ...(recommendedData?.data ? { recommended_data: recommendedData.data } : {}),
       });
@@ -272,10 +289,6 @@ function Content({
     return null;
   };
 
-  if (isLoading) return <SheetLoading />;
-
-  if (!issue || isError) return <SheetError />;
-
   return (
     <Form {...form}>
       <motion.form
@@ -288,23 +301,17 @@ function Content({
         )}
         className="flex h-full flex-col gap-4"
       >
-        <Header 
-          issueNumber={issue.number} 
-          issueStatus={issue.status} 
-          issueTitle={issue.title} 
-          githubUrl={issue.htmlUrl}
-          createdAt={issue.createdAt}
-          author={issue.author}
-        />
-
         <div className="flex flex-1 flex-col gap-4 overflow-auto">
           <Metrics
             applicantsCount={issue.applicants.length}
             commentsCount={issue.commentCount}
-            createdAt={issue.createdAt}
           />
 
-          <Summary body={issue.body} labels={issue.labels.map(label => label.name)} author={issue.author} />
+          <Summary 
+            body={issue.body} 
+            labels={issue.labels.map((label: { name: string }) => label.name)} 
+            author={issue.author} 
+          />
 
           {isHackathon ? <ApplyIssueGuideline /> : null}
         </div>

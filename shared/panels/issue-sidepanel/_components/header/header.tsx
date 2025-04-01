@@ -38,7 +38,7 @@ export function Header({
   };
 
   return (
-    <SheetHeader>
+    <SheetHeader className="pr-8">
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
           {onBack ? (
