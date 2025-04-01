@@ -51,7 +51,10 @@ export function ApplyPanel({
           issueNumber={issueNumber}
           issueStatus={issueStatus}
           issueTitle={issueTitle}
+          githubUrl={issueUrl}
           onBack={() => setOpen(false)}
+          createdAt={new Date().toISOString()}
+          author={{ login: "Preview" }}
         />
 
         <div className="flex flex-1 flex-col gap-4 overflow-auto">

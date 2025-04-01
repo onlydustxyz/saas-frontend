@@ -288,7 +288,14 @@ function Content({
         )}
         className="flex h-full flex-col gap-4"
       >
-        <Header issueNumber={issue.number} issueStatus={issue.status} issueTitle={issue.title} />
+        <Header 
+          issueNumber={issue.number} 
+          issueStatus={issue.status} 
+          issueTitle={issue.title} 
+          githubUrl={issue.htmlUrl}
+          createdAt={issue.createdAt}
+          author={issue.author}
+        />
 
         <div className="flex flex-1 flex-col gap-4 overflow-auto">
           <Metrics
@@ -318,12 +325,6 @@ function Content({
         ) : null}
 
         <footer className="flex w-full items-center justify-between">
-          <Button type="button" variant="outline" size="icon" asChild>
-            <a href={issue.htmlUrl} target="_blank" rel="noopener noreferrer">
-              <Github />
-            </a>
-          </Button>
-
           {renderCta()}
         </footer>
       </motion.form>
