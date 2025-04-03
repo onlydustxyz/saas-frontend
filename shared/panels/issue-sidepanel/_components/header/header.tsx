@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp, Copy, Github, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Copy, Github, X, ChevronRight } from "lucide-react";
 import { toast } from "sonner";
 
 import { bootstrap } from "@/core/bootstrap";
@@ -45,15 +45,18 @@ export function Header({
 
   return (
     <SheetHeader>
-      <div className="flex flex-col gap-3">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col gap-3 pb-4">
+        <div className="flex items-center gap-2 border-b pb-4">
           <Button
             variant="ghost"
             size="icon"
             onClick={onClose}
             className="h-8 w-8 shrink-0"
           >
-            <X className="h-4 w-4" />
+              <div className="flex -space-x-2">
+              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="h-4 w-4" />
+            </div>
             <span className="sr-only">Close panel</span>
           </Button>
 
