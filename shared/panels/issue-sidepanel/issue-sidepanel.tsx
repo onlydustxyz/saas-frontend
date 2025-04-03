@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { AnimatePresence, motion } from "framer-motion";
-import { Github } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { PropsWithChildren, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -14,6 +14,7 @@ import { MeReactQueryAdapter } from "@/core/application/react-query-adapter/me";
 import { ContributionActivityInterface } from "@/core/domain/contribution/models/contribution-activity-model";
 import { Issue } from "@/core/domain/issue/models/issue-model";
 import { Me } from "@/core/domain/me/models/me-model";
+import { ProjectAvailableIssues } from "@/core/domain/project/models/project-available-issues-model";
 
 import { useGithubPermissionsContext } from "@/shared/features/github-permissions/github-permissions.context";
 import { ApplyCounter } from "@/shared/features/issues/apply-counter/apply-counter";
@@ -41,16 +42,48 @@ export function IssueSidepanel({
   projectId,
   issueId,
   contributionUuid,
-}: PropsWithChildren<{ projectId: string; issueId?: number; contributionUuid?: string }>) {
+  issues = [],
+}: PropsWithChildren<{ 
+  projectId: string; 
+  issueId?: number; 
+  contributionUuid?: string;
+  issues?: ProjectAvailableIssues[];
+}>) {
   const [open, setOpen] = useState(false);
+  const [currentIssueIndex, setCurrentIssueIndex] = useState<number>(-1);
+
+  useEffect(() => {
+    if (issueId && issues.length > 0) {
+      const index = issues.findIndex(issue => issue.id === issueId);
+      setCurrentIssueIndex(index);
+    }
+  }, [issueId, issues]);
+
+  const handlePrevious = () => {
+    if (currentIssueIndex > 0) {
+      const prevIndex = currentIssueIndex - 1;
+      setCurrentIssueIndex(prevIndex);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentIssueIndex < issues.length - 1) {
+      const nextIndex = currentIssueIndex + 1;
+      setCurrentIssueIndex(nextIndex);
+    }
+  };
 
   const {
     data: issueData,
     isLoading: isIssueLoading,
     isError: isIssueError,
   } = IssueReactQueryAdapter.client.useGetIssue({
-    pathParams: { issueId },
-    options: { enabled: Boolean(issueId) },
+    pathParams: { 
+      issueId: currentIssueIndex >= 0 ? issues[currentIssueIndex]?.id : issueId 
+    },
+    options: { 
+      enabled: Boolean(currentIssueIndex >= 0 ? issues[currentIssueIndex]?.id : issueId)
+    },
   });
 
   const {
@@ -75,6 +108,7 @@ export function IssueSidepanel({
 
       <SheetContent 
         className="h-full"
+        hideCloseButton={true}
         customHeader={
           <Header 
             issueNumber={issue.number} 
@@ -83,6 +117,11 @@ export function IssueSidepanel({
             githubUrl={issue.htmlUrl}
             createdAt={issue.createdAt}
             author={issue.author}
+            onClose={() => setOpen(false)}
+            onPrevious={handlePrevious}
+            onNext={handleNext}
+            hasPrevious={currentIssueIndex > 0}
+            hasNext={currentIssueIndex < issues.length - 1}
           />
         }
       >

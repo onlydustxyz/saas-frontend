@@ -1,32 +1,38 @@
-import { ChevronLeft, Copy, Github } from "lucide-react";
-import { useState } from "react";
+import { ChevronDown, ChevronUp, Copy, Github, X } from "lucide-react";
+import { toast } from "sonner";
 
-import { ContributionGithubStatusUnion } from "@/core/domain/contribution/models/contribution.types";
 import { bootstrap } from "@/core/bootstrap";
+import { ContributionGithubStatusUnion } from "@/core/domain/contribution/models/contribution.types";
 
 import { ContributionBadge } from "@/design-system/molecules/contribution-badge";
-
 import { Button } from "@/shared/ui/button";
 import { SheetHeader } from "@/shared/ui/sheet";
 import { TypographyH4, TypographyMuted } from "@/shared/ui/typography";
-import { toast } from "sonner";
 
 export function Header({
   issueNumber,
   issueStatus,
   issueTitle,
-  onBack,
+  onClose,
   githubUrl,
   createdAt,
   author,
+  onPrevious,
+  onNext,
+  hasPrevious,
+  hasNext,
 }: {
   issueNumber: number;
   issueStatus: ContributionGithubStatusUnion;
   issueTitle: string;
-  onBack?: () => void;
+  onClose: () => void;
   githubUrl: string;
   createdAt: string;
   author: { login: string };
+  onPrevious?: () => void;
+  onNext?: () => void;
+  hasPrevious?: boolean;
+  hasNext?: boolean;
 }) {
   const handleCopyUrl = async () => {
     try {
@@ -38,29 +44,66 @@ export function Header({
   };
 
   return (
-    <SheetHeader className="pr-8">
+    <SheetHeader>
       <div className="flex flex-col gap-3">
-        <div className="flex items-center justify-between">
-          {onBack ? (
-            <Button variant="ghost" size="icon" className="shrink-0" onClick={onBack}>
-              <ChevronLeft />
-            </Button>
-          ) : (
-            <div /> // Empty div for spacing when no back button
-          )}
-          <div className="flex gap-2">
-            <Button type="button" variant="outline" onClick={handleCopyUrl} className="gap-2">
-              <Copy className="size-4" />
-              Copy URL
-            </Button>
-            <Button type="button" variant="outline" asChild className="gap-2">
-              <a href={githubUrl} target="_blank" rel="noopener noreferrer">
-                <Github className="size-4" />
-                Github issue
-              </a>
-            </Button>
-          </div>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onClose}
+            className="h-8 w-8 shrink-0"
+          >
+            <X className="h-4 w-4" />
+            <span className="sr-only">Close panel</span>
+          </Button>
+
+          <Button 
+            type="button" 
+            variant="outline" 
+            onClick={handleCopyUrl} 
+            className="gap-2"
+          >
+            <Copy className="size-4" />
+            Copy link
+          </Button>
+
+          <Button 
+            type="button" 
+            variant="outline" 
+            asChild 
+            className="gap-2"
+          >
+            <a href={githubUrl} target="_blank" rel="noopener noreferrer">
+              <Github className="size-4" />
+              Github issue
+            </a>
+          </Button>
+
+          <div className="flex-1" />
+
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onPrevious}
+            disabled={!hasPrevious}
+            className="h-8 w-8 shrink-0"
+          >
+            <ChevronUp className="h-4 w-4" />
+            <span className="sr-only">Previous issue</span>
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onNext}
+            disabled={!hasNext}
+            className="h-8 w-8 shrink-0"
+          >
+            <ChevronDown className="h-4 w-4" />
+            <span className="sr-only">Next issue</span>
+          </Button>
         </div>
+
         <div className="flex flex-col gap-2">
           <TypographyH4 className="line-clamp-1">{issueTitle}</TypographyH4>
           <div className="flex items-center gap-2">

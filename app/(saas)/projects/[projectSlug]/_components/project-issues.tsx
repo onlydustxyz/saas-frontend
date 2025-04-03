@@ -172,7 +172,7 @@ export function ProjectIssues({ projectSlug }: { projectSlug: string }) {
           />
         ) : (
           issues.map(issue => (
-            <IssueSidepanel key={issue.id} projectId={data?.id ?? ""} issueId={issue.id}>
+            <IssueSidepanel key={issue.id} projectId={data?.id ?? ""} issueId={issue.id} issues={issues}>
               <CardIssue
                 title={issue.title}
                 contribution={{
