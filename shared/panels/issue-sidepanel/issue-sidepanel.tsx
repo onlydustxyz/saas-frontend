@@ -39,7 +39,7 @@ export function IssueSidepanel({
   children,
   projectId,
   issueId,
-  contributionUuid,
+  contributionUuid = "",
   issues = [],
 }: PropsWithChildren<{
   projectId: string;
@@ -71,16 +71,18 @@ export function IssueSidepanel({
     }
   };
 
+  const queryIssueId = currentIssueIndex >= 0 ? issues[currentIssueIndex]?.id : issueId;
+
   const {
     data: issueData,
     isLoading: isIssueLoading,
     isError: isIssueError,
   } = IssueReactQueryAdapter.client.useGetIssue({
     pathParams: {
-      issueId: currentIssueIndex >= 0 ? issues[currentIssueIndex]?.id : issueId,
+      issueId: queryIssueId ?? 0,
     },
     options: {
-      enabled: Boolean(currentIssueIndex >= 0 ? issues[currentIssueIndex]?.id : issueId),
+      enabled: Boolean(queryIssueId),
     },
   });
 
