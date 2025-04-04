@@ -1,10 +1,11 @@
-import { ChevronDown, ChevronUp, Copy, Github, X, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight, ChevronUp, Copy, Github } from "lucide-react";
 import { toast } from "sonner";
 
 import { bootstrap } from "@/core/bootstrap";
 import { ContributionGithubStatusUnion } from "@/core/domain/contribution/models/contribution.types";
 
 import { ContributionBadge } from "@/design-system/molecules/contribution-badge";
+
 import { Button } from "@/shared/ui/button";
 import { SheetHeader } from "@/shared/ui/sheet";
 import { TypographyH4, TypographyMuted } from "@/shared/ui/typography";
@@ -47,35 +48,20 @@ export function Header({
     <SheetHeader>
       <div className="flex flex-col gap-3 pb-4">
         <div className="flex items-center gap-2 border-b pb-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onClose}
-            className="h-8 w-8 shrink-0"
-          >
-              <div className="flex -space-x-2">
+          <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8 shrink-0">
+            <div className="flex -space-x-2">
               <ChevronRight className="h-4 w-4" />
               <ChevronRight className="h-4 w-4" />
             </div>
             <span className="sr-only">Close panel</span>
           </Button>
 
-          <Button 
-            type="button" 
-            variant="outline" 
-            onClick={handleCopyUrl} 
-            className="gap-2"
-          >
+          <Button type="button" variant="outline" onClick={handleCopyUrl} className="gap-2">
             <Copy className="size-4" />
             Copy link
           </Button>
 
-          <Button 
-            type="button" 
-            variant="outline" 
-            asChild 
-            className="gap-2"
-          >
+          <Button type="button" variant="outline" asChild className="gap-2">
             <a href={githubUrl} target="_blank" rel="noopener noreferrer">
               <Github className="size-4" />
               Github issue
@@ -84,24 +70,12 @@ export function Header({
 
           <div className="flex-1" />
 
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onPrevious}
-            disabled={!hasPrevious}
-            className="h-8 w-8 shrink-0"
-          >
+          <Button variant="ghost" size="icon" onClick={onPrevious} disabled={!hasPrevious} className="h-8 w-8 shrink-0">
             <ChevronUp className="h-4 w-4" />
             <span className="sr-only">Previous issue</span>
           </Button>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onNext}
-            disabled={!hasNext}
-            className="h-8 w-8 shrink-0"
-          >
+          <Button variant="ghost" size="icon" onClick={onNext} disabled={!hasNext} className="h-8 w-8 shrink-0">
             <ChevronDown className="h-4 w-4" />
             <span className="sr-only">Next issue</span>
           </Button>

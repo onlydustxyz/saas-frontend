@@ -1,15 +1,7 @@
-import { bootstrap } from "@/core/bootstrap";
-
 import { Card } from "@/shared/ui/card";
 import { TypographyH4, TypographyMuted } from "@/shared/ui/typography";
 
-export function Metrics({
-  applicantsCount,
-  commentsCount,
-}: {
-  applicantsCount: number;
-  commentsCount: number;
-}) {
+export function Metrics({ applicantsCount, commentsCount }: { applicantsCount: number; commentsCount: number }) {
   return (
     <div className="grid grid-cols-2 gap-3">
       <Card className="flex flex-col gap-1 p-3">
