@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { PropsWithChildren, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -13,7 +12,6 @@ import { IssueReactQueryAdapter } from "@/core/application/react-query-adapter/i
 import { MeReactQueryAdapter } from "@/core/application/react-query-adapter/me";
 import { ContributionActivityInterface } from "@/core/domain/contribution/models/contribution-activity-model";
 import { Issue } from "@/core/domain/issue/models/issue-model";
-import { Me } from "@/core/domain/me/models/me-model";
 import { ProjectAvailableIssues } from "@/core/domain/project/models/project-available-issues-model";
 
 import { useGithubPermissionsContext } from "@/shared/features/github-permissions/github-permissions.context";
@@ -43,9 +41,9 @@ export function IssueSidepanel({
   issueId,
   contributionUuid,
   issues = [],
-}: PropsWithChildren<{ 
-  projectId: string; 
-  issueId?: number; 
+}: PropsWithChildren<{
+  projectId: string;
+  issueId?: number;
   contributionUuid?: string;
   issues?: ProjectAvailableIssues[];
 }>) {
@@ -78,11 +76,11 @@ export function IssueSidepanel({
     isLoading: isIssueLoading,
     isError: isIssueError,
   } = IssueReactQueryAdapter.client.useGetIssue({
-    pathParams: { 
-      issueId: currentIssueIndex >= 0 ? issues[currentIssueIndex]?.id : issueId 
+    pathParams: {
+      issueId: currentIssueIndex >= 0 ? issues[currentIssueIndex]?.id : issueId,
     },
-    options: { 
-      enabled: Boolean(currentIssueIndex >= 0 ? issues[currentIssueIndex]?.id : issueId)
+    options: {
+      enabled: Boolean(currentIssueIndex >= 0 ? issues[currentIssueIndex]?.id : issueId),
     },
   });
 
@@ -97,7 +95,11 @@ export function IssueSidepanel({
 
   const isLoading = isIssueLoading || isContributionLoading;
   const isError = isIssueError || isContributionError;
-  const issue = issueData ? new Issue(issueData) : contribution ? new Issue(issueFromContribution(contribution)) : undefined;
+  const issue = issueData
+    ? new Issue(issueData)
+    : contribution
+      ? new Issue(issueFromContribution(contribution))
+      : undefined;
 
   if (isLoading) return <SheetLoading />;
   if (!issue || isError) return <SheetError />;
@@ -106,33 +108,25 @@ export function IssueSidepanel({
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>{children}</SheetTrigger>
 
-      <SheetContent 
-        className="h-full"
-        hideCloseButton={true}
-        customHeader={
-          <Header 
-            issueNumber={issue.number} 
-            issueStatus={issue.status} 
-            issueTitle={issue.title} 
-            githubUrl={issue.htmlUrl}
-            createdAt={issue.createdAt}
-            author={issue.author}
-            onClose={() => setOpen(false)}
-            onPrevious={handlePrevious}
-            onNext={handleNext}
-            hasPrevious={currentIssueIndex > 0}
-            hasNext={currentIssueIndex < issues.length - 1}
-          />
-        }
-      >
+      <SheetContent className="h-full" showCloseButton={false}>
         <AnimatePresence>
           {open && (
-            <Content
-              projectId={projectId}
-              issue={issue}
-              contribution={contribution}
-              onClose={() => setOpen(false)}
-            />
+            <>
+              <Header
+                issueNumber={issue.number}
+                issueStatus={issue.status}
+                issueTitle={issue.title}
+                githubUrl={issue.htmlUrl}
+                createdAt={issue.createdAt}
+                author={issue.author}
+                onClose={() => setOpen(false)}
+                onPrevious={handlePrevious}
+                onNext={handleNext}
+                hasPrevious={currentIssueIndex > 0}
+                hasNext={currentIssueIndex < issues.length - 1}
+              />
+              <Content projectId={projectId} issue={issue} contribution={contribution} onClose={() => setOpen(false)} />
+            </>
           )}
         </AnimatePresence>
       </SheetContent>
@@ -163,13 +157,14 @@ function Content({
   type GithubUser = { githubUserId: string };
   type Application = { id: string; issue: { id: string }; githubComment?: string };
 
-  const isAssigned = issue.assignees?.some(
-    (assignee: GithubUser) => assignee.githubUserId === (user as unknown as GithubUser)?.githubUserId
-  ) ?? false;
+  const isAssigned =
+    issue.assignees?.some(
+      (assignee: GithubUser) => assignee.githubUserId === (user as unknown as GithubUser)?.githubUserId
+    ) ?? false;
 
-  const currentUserApplication = (user as unknown as { pendingApplications?: Application[] })?.pendingApplications?.find(
-    (application: Application) => application.issue?.id === issue.id
-  );
+  const currentUserApplication = (
+    user as unknown as { pendingApplications?: Application[] }
+  )?.pendingApplications?.find((application: Application) => application.issue?.id === issue.id);
 
   const hasCurrentUserApplication = Boolean(currentUserApplication);
 
@@ -341,15 +336,12 @@ function Content({
         className="flex h-full flex-col gap-4"
       >
         <div className="flex flex-1 flex-col gap-4 overflow-auto">
-          <Metrics
-            applicantsCount={issue.applicants.length}
-            commentsCount={issue.commentCount}
-          />
+          <Metrics applicantsCount={issue.applicants.length} commentsCount={issue.commentCount} />
 
-          <Summary 
-            body={issue.body} 
-            labels={issue.labels.map((label: { name: string }) => label.name)} 
-            author={issue.author} 
+          <Summary
+            body={issue.body}
+            labels={issue.labels.map((label: { name: string }) => label.name)}
+            author={issue.author}
           />
 
           {isHackathon ? <ApplyIssueGuideline /> : null}
@@ -370,9 +362,7 @@ function Content({
           </Card>
         ) : null}
 
-        <footer className="flex w-full items-center justify-between">
-          {renderCta()}
-        </footer>
+        <footer className="flex w-full items-center justify-between">{renderCta()}</footer>
       </motion.form>
     </Form>
   );
