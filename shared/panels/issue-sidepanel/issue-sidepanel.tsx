@@ -161,12 +161,12 @@ function Content({
 
   const isAssigned =
     issue.assignees?.some(
-      (assignee: GithubUser) => assignee.githubUserId === (user as unknown as GithubUser)?.githubUserId
+      assignee => assignee.githubUserId === Number((user as unknown as GithubUser)?.githubUserId)
     ) ?? false;
 
   const currentUserApplication = (
     user as unknown as { pendingApplications?: Application[] }
-  )?.pendingApplications?.find((application: Application) => application.issue?.id === issue.id);
+  )?.pendingApplications?.find((application: Application) => application.issue?.id === String(issue.id));
 
   const hasCurrentUserApplication = Boolean(currentUserApplication);
 
