@@ -1,14 +1,14 @@
+import { ChevronDown, ChevronUp } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
 
 import { Markdown } from "@/shared/features/markdown/markdown";
+import { cn } from "@/shared/helpers/cn";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import { Card } from "@/shared/ui/card";
 import { TypographyP } from "@/shared/ui/typography";
-import { cn } from "@/shared/helpers/cn";
 
 const Emoji = dynamic(() => import("react-emoji-render"));
 
@@ -36,26 +36,17 @@ export function Summary({
 
       {body ? (
         <div className="relative">
-          <div
-            className={cn(
-              "overflow-hidden transition-all duration-200",
-              !isExpanded && "max-h-[300px]"
-            )}
-          >
+          <div className={cn("overflow-hidden transition-all duration-200", !isExpanded && "max-h-[300px]")}>
             <Emoji>
               <Markdown content={body} />
             </Emoji>
           </div>
-          
+
           {!isExpanded && (
             <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-card to-transparent" />
           )}
 
-          <Button
-            variant="ghost"
-            className="mt-2 w-full"
-            onClick={() => setIsExpanded(!isExpanded)}
-          >
+          <Button type="button" variant="ghost" className="mt-2 w-full" onClick={() => setIsExpanded(!isExpanded)}>
             {isExpanded ? (
               <div className="flex items-center gap-2">
                 Show less <ChevronUp className="size-4" />
