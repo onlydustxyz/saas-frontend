@@ -52,7 +52,7 @@ export function ApplyPanel({
           issueStatus={issueStatus}
           issueTitle={issueTitle}
           githubUrl={issueUrl}
-          onBack={() => setOpen(false)}
+          onClose={() => setOpen(false)}
           createdAt={new Date().toISOString()}
           author={{ login: "Preview" }}
         />
