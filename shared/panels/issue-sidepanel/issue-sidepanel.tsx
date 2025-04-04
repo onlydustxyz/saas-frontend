@@ -12,7 +12,7 @@ import { IssueReactQueryAdapter } from "@/core/application/react-query-adapter/i
 import { MeReactQueryAdapter } from "@/core/application/react-query-adapter/me";
 import { ContributionActivityInterface } from "@/core/domain/contribution/models/contribution-activity-model";
 import { Issue } from "@/core/domain/issue/models/issue-model";
-import { ProjectAvailableIssues } from "@/core/domain/project/models/project-available-issues-model";
+import { ProjectAvailableIssuesInterface } from "@/core/domain/project/models/project-available-issues-model";
 
 import { useGithubPermissionsContext } from "@/shared/features/github-permissions/github-permissions.context";
 import { ApplyCounter } from "@/shared/features/issues/apply-counter/apply-counter";
@@ -45,7 +45,7 @@ export function IssueSidepanel({
   projectId: string;
   issueId?: number;
   contributionUuid?: string;
-  issues?: ProjectAvailableIssues[];
+  issues?: ProjectAvailableIssuesInterface[];
 }>) {
   const [open, setOpen] = useState(false);
   const [currentIssueIndex, setCurrentIssueIndex] = useState<number>(-1);
