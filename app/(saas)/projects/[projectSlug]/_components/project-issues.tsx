@@ -1,13 +1,8 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
-
-import { HackathonReactQueryAdapter } from "@/core/application/react-query-adapter/hackathon";
 import { ProjectReactQueryAdapter } from "@/core/application/react-query-adapter/project";
-import { GithubLabelWithCountInterface } from "@/core/domain/github/models/github-label-model";
-import { HackathonListItemInterface } from "@/core/domain/hackathon/models/hackathon-list-item-model";
-import { GetProjectAvailableIssuesQueryParams } from "@/core/domain/project/project-contract.types";
+import { ProjectInterfaceV2 } from "@/core/domain/project/models/project-model-v2";
+import { ProjectAvailableIssuesInterface } from "@/core/domain/project/models/project-available-issues-model";
 
 import { CardIssue } from "@/design-system/molecules/cards/card-issue";
 
@@ -19,108 +14,23 @@ import { ShowMore } from "@/shared/ui/show-more";
 import { Skeleton } from "@/shared/ui/skeleton";
 import { TypographyH3 } from "@/shared/ui/typography";
 
-export function ProjectIssues({ projectSlug }: { projectSlug: string }) {
-  const searchParams = useSearchParams();
+import { ProjectIssuesProvider, useProjectIssues } from "./project-issues-context";
 
-  const [selectedLabels, setSelectedLabels] = useState<GithubLabelWithCountInterface[]>(() => {
-    const labels = searchParams.get("l")?.split(",").filter(Boolean) || [];
-
-    return labels.map(name => ({ name })) as GithubLabelWithCountInterface[];
-  });
-
-  const [selectedHackathons, setSelectedHackathons] = useState<HackathonListItemInterface[]>(() => {
-    const hackathons = searchParams.get("h")?.split(",").filter(Boolean) || [];
-
-    return hackathons.map(id => ({ id })) as HackathonListItemInterface[];
-  });
-
-  const { data: hackathons } = HackathonReactQueryAdapter.client.useGetHackathons({});
-
-  const liveHackathons = useMemo(
-    () => hackathons?.hackathons.filter(hackathon => hackathon.isLive()) ?? [],
-    [hackathons]
-  );
-
-  const { data } = ProjectReactQueryAdapter.client.useGetProjectBySlugOrId({
-    pathParams: {
-      projectIdOrSlug: projectSlug,
-    },
-    options: {
-      enabled: Boolean(projectSlug),
-    },
-  });
-
-  const queryParams: Partial<GetProjectAvailableIssuesQueryParams> = {
-    githubLabels: selectedLabels.map(label => label.name),
-    hackathonId: selectedHackathons[0]?.id,
-    pageSize: 5,
-  };
-
+function ProjectIssuesContent({ projectSlug }: { projectSlug: string }) {
   const {
-    data: issuesData,
+    issues,
+    labels,
+    selectedLabels,
+    selectedHackathons,
+    liveHackathons,
     isLoading,
     isError,
     hasNextPage,
-    fetchNextPage,
     isFetchingNextPage,
-  } = ProjectReactQueryAdapter.client.useGetProjectAvailableIssues({
-    pathParams: {
-      projectIdOrSlug: projectSlug,
-    },
-    queryParams,
-    options: {
-      enabled: Boolean(projectSlug),
-    },
-  });
-
-  const issues = useMemo(() => issuesData?.pages.flatMap(page => page.issues) ?? [], [issuesData]);
-
-  const labels = useMemo(() => {
-    const allLabels = issuesData?.pages.flatMap(page => page.labels) ?? [];
-    return [...new Map(allLabels.map(label => [label.name, label])).values()] as GithubLabelWithCountInterface[];
-  }, [issuesData]);
-
-  function handleLabelClick(label: GithubLabelWithCountInterface) {
-    setSelectedLabels(prev => {
-      const next = prev.some(l => l.name === label.name) ? prev.filter(l => l.name !== label.name) : [...prev, label];
-
-      const params = new URLSearchParams(window.location.search);
-
-      const labels = next.map(l => l.name);
-
-      if (labels.length) {
-        params.set("l", labels.join(","));
-      } else {
-        params.delete("l");
-      }
-
-      window.history.replaceState(null, "", `?${params.toString()}`);
-
-      return next;
-    });
-  }
-
-  function handleHackathonClick(hackathon: HackathonListItemInterface) {
-    setSelectedHackathons(prev => {
-      const next = prev.some(h => h.id === hackathon.id)
-        ? prev.filter(h => h.id !== hackathon.id)
-        : [...prev, hackathon];
-
-      const params = new URLSearchParams(window.location.search);
-
-      const hackathons = next.map(h => h.id);
-
-      if (hackathons.length) {
-        params.set("h", hackathons.join(","));
-      } else {
-        params.delete("h");
-      }
-
-      window.history.replaceState(null, "", `?${params.toString()}`);
-
-      return next;
-    });
-  }
+    handleLabelClick,
+    handleHackathonClick,
+    fetchNextPage,
+  } = useProjectIssues();
 
   if (isLoading) {
     return <Skeleton className="h-[406px] w-full" />;
@@ -171,8 +81,8 @@ export function ProjectIssues({ projectSlug }: { projectSlug: string }) {
             descriptionTranslate={{ token: "project:details.issues.empty.description" }}
           />
         ) : (
-          issues.map(issue => (
-            <IssueSidepanel key={issue.id} projectId={data?.id ?? ""} issueId={issue.id}>
+          issues.map((issue: ProjectAvailableIssuesInterface) => (
+            <IssueSidepanel key={issue.id} projectId={projectSlug} issueId={issue.id} issues={issues}>
               <CardIssue
                 title={issue.title}
                 contribution={{
@@ -217,5 +127,13 @@ export function ProjectIssues({ projectSlug }: { projectSlug: string }) {
         />
       </div>
     </Card>
+  );
+}
+
+export function ProjectIssues({ projectSlug }: { projectSlug: string }) {
+  return (
+    <ProjectIssuesProvider projectSlug={projectSlug}>
+      <ProjectIssuesContent projectSlug={projectSlug} />
+    </ProjectIssuesProvider>
   );
 }
