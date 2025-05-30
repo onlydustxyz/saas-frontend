@@ -14,7 +14,7 @@ import { TypographyH2, TypographyP } from "@/shared/ui/typography";
 function HasSufficentData() {
   return (
     <Button>
-      You don't find your perfect fit ?
+      You don&apos;t find your perfect fit ?
       <ArrowRight />
     </Button>
   );
@@ -25,7 +25,7 @@ function NoSufficentData() {
 
   return (
     <div className="flex flex-col gap-4">
-      <TypographyP className="text-center">Didn't find what you're looking for?</TypographyP>
+      <TypographyP className="text-center">Didn&apos;t find what you&apos;re looking for?</TypographyP>
       <div className="flex flex-row gap-4">
         <Link
           href={NEXT_ROUTER.projects.root}
@@ -72,11 +72,7 @@ function NoSufficentData() {
 }
 
 function ForcedOnboardingFooter() {
-  return (
-    <div>
-      {/* Search functionality has been removed as part of app shutdown */}
-    </div>
-  );
+  return <div>{/* Search functionality has been removed as part of app shutdown */}</div>;
 }
 
 export function PageHeader({ hasSufficentData = false }: { hasSufficentData?: boolean }) {
